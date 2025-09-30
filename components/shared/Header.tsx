@@ -27,9 +27,7 @@ export function Header() {
               Get Started
             </button>
 
-            <p className="text-white font-gilroy-semibold">
-              hey papi how is it going man?{" "}
-            </p>
+          
           </div>
         </section>
       </div>
