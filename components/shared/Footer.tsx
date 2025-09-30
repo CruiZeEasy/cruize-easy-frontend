@@ -60,7 +60,7 @@ export function Footer() {
               quality={100}
             />
 
-            <p className="text-sm leading-relaxed text-neutral-400 max-w-full md:max-w-[20rem] mb-6">
+            <p className="text-sm text-pretty leading-relaxed text-neutral-400 max-w-full sm:max-w-[20rem] mb-6">
               Premium car rentals and ride services at affordable prices.
               Experience luxury without breaking the bank.
             </p>
@@ -96,7 +96,7 @@ export function Footer() {
             </div>
 
             {/* Support Links */}
-            <div>
+            <nav aria-label="Support">
               <h3 className="font-semibold text-white mb-6">Support</h3>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {supportLinks.map((link) => (
@@ -110,12 +110,12 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           </section>
 
           <section>
             {/* Quick Links */}
-            <div className="mb-10">
+            <nav aria-label="Quick Links" className="mb-10">
               <h3 className="font-semibold text-white mb-6">Quick Links</h3>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {quickLinks.map((link) => (
@@ -129,14 +129,14 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
             <div>
               <h3 className="font-semibold text-white mb-6">
                 Start your Journey Today
               </h3>
 
-              <p className="text-sm leading-relaxed text-neutral-400 mb-6 max-w-full md:max-w-[20rem]">
+              <p className="text-sm text-pretty leading-relaxed text-neutral-400 mb-6 max-w-full sm:max-w-[20rem]">
                 Ready to experience the best in car rentals? Sign up now and get
                 your first ride at a special discount.
               </p>
