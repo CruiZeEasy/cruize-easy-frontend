@@ -60,7 +60,7 @@ export function Footer() {
               quality={100}
             />
 
-            <p className="text-sm leading-relaxed text-neutral-400 max-w-[20rem] mb-6">
+            <p className="text-sm leading-relaxed text-neutral-400 max-w-full md:max-w-[20rem] mb-6">
               Premium car rentals and ride services at affordable prices.
               Experience luxury without breaking the bank.
             </p>
@@ -136,9 +136,9 @@ export function Footer() {
                 Start your Journey Today
               </h3>
 
-              <p className="text-sm leading-relaxed text-neutral-400 mb-6 max-w-[20rem]">
-                Ready to experience the best in car rentals? 
-                Sign up now and get your first ride at a special discount.
+              <p className="text-sm leading-relaxed text-neutral-400 mb-6 max-w-full md:max-w-[20rem]">
+                Ready to experience the best in car rentals? Sign up now and get
+                your first ride at a special discount.
               </p>
 
               <button
