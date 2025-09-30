@@ -23,7 +23,7 @@ xl:	1280px	Large desktops
   font-family: "Gilroy-Semibold";
   font-style: normal;
   font-display: swap;
-  src: url("/fonts/Gilroy/Gilroy-Semibold.ttf") format("truetype");
+  src: url("/fonts/Gilroy/Gilroy-SemiBold.ttf") format("truetype");
 }
 
 .container {
