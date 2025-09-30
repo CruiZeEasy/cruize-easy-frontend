@@ -9,6 +9,7 @@ xl:	1280px	Large desktops
 @theme {
   --color-primary: #ff3a3a;
   --color-primary-dark: #ff3535;
+  --color-red-accent: #f20000;
 
   --color-neutral-400: #9ca3af;
   --color-neutral-500: #6b7280;
@@ -16,7 +17,15 @@ xl:	1280px	Large desktops
   --color-neutral-900: #111827;
 
   --font-inter: var(--font-inter);
+  --font-gilroy-medium: "Gilroy-Medium";
   --font-gilroy-semibold: "Gilroy-Semibold";
+}
+
+@font-face {
+  font-family: "Gilroy-Medium";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Gilroy/Gilroy-Medium.ttf") format("truetype");
 }
 
 @font-face {
