@@ -7,7 +7,7 @@ export function Header() {
   return (
     <header className="bg-primary-dark rounded-b-[30px]">
       <div className="max-w-[1440px] mx-auto">
-        <section className="bg-[url('/images/hero/hero-bg-3.png')] bg-cover bg-center h-[500px] w-full px-4 sm:px-6 lg:px-8 pt-8 rounded-b-[30px]">
+        <section className="bg-[url('/images/hero/hero-bg-mobile.webp')] sm:bg-[url('/images/hero/hero-bg-desktop.webp')] bg-cover bg-center h-[500px] w-full px-4 sm:px-6 lg:px-8 pt-4 rounded-b-[30px]">
           <div className="flex items-center justify-between ">
             <Link href="/">
               <Image
