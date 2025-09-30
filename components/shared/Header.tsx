@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -8,7 +9,7 @@ export function Header() {
       <div className="max-w-[1440px] mx-auto">
         <section className="bg-[url('/images/hero/hero-bg-3.png')] bg-cover bg-center h-[600px] w-full px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between ">
-            <div className="">
+            <Link href="/">
               <Image
                 src="/images/logo/cruize-easy-logo.svg"
                 alt="Cruize Easy Logo"
@@ -17,7 +18,7 @@ export function Header() {
                 className="w-40 lg:w-48 h-auto"
                 quality={100}
               />
-            </div>
+            </Link>
 
             <button
               className="bg-primary hover:bg-primary-dark text-white text-sm px-6 py-3 rounded-lg cursor-pointer 
@@ -25,6 +26,10 @@ export function Header() {
             >
               Get Started
             </button>
+
+            <p className="text-white font-gilroy-semibold">
+              hey papi how is it going man?{" "}
+            </p>
           </div>
         </section>
       </div>
