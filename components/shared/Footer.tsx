@@ -142,7 +142,7 @@ export function Footer() {
               </p>
 
               <button
-                className="bg-primary hover:bg-primary/90 text-white text-sm p-4 w-full lg:w-[25rem] rounded-full cursor-pointer 
+                className="bg-primary hover:bg-primary-dark text-white text-sm p-4 w-full lg:w-[25rem] rounded-full cursor-pointer 
              hover:shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200"
               >
                 Sign Up Now

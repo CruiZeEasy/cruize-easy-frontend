@@ -8,12 +8,22 @@ xl:	1280px	Large desktops
 
 @theme {
   --color-primary: #ff3a3a;
+  --color-primary-dark: #ff3535;
+
   --color-neutral-400: #9ca3af;
   --color-neutral-500: #6b7280;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
 
   --font-inter: var(--font-inter);
+  --font-gilroy-semibold: "Gilroy-Semibold";
+}
+
+@font-face {
+  font-family: "Gilroy-Semibold";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Gilroy/Gilroy-Semibold.ttf") format("truetype");
 }
 
 .container {
