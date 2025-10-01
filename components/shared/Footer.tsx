@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/Buttons";
 
 interface SocialIconsProps {
   href: string;
@@ -60,7 +61,7 @@ export function Footer() {
               quality={100}
             />
 
-            <p className="text-sm text-pretty leading-relaxed text-neutral-400 max-w-full sm:max-w-[20rem] mb-6">
+            <p className="text-sm text-pretty text-neutral-400 max-w-full sm:max-w-[20rem] mb-6">
               Premium car rentals and ride services at affordable prices.
               Experience luxury without breaking the bank.
             </p>
@@ -97,7 +98,7 @@ export function Footer() {
 
             {/* Support Links */}
             <nav aria-label="Support">
-              <h3 className="font-semibold text-white mb-6">Support</h3>
+              <h4 className="font-semibold text-white mb-6">Support</h4>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {supportLinks.map((link) => (
                   <li key={link.label}>
@@ -116,7 +117,7 @@ export function Footer() {
           <section>
             {/* Quick Links */}
             <nav aria-label="Quick Links" className="mb-10">
-              <h3 className="font-semibold text-white mb-6">Quick Links</h3>
+              <h4 className="font-semibold text-white mb-6">Quick Links</h4>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
@@ -132,21 +133,23 @@ export function Footer() {
             </nav>
 
             <div>
-              <h3 className="font-semibold text-white mb-6">
+              <h4 className="font-semibold text-white mb-6">
                 Start your Journey Today
-              </h3>
+              </h4>
 
-              <p className="text-sm text-pretty leading-relaxed text-neutral-400 mb-6 max-w-full sm:max-w-[20rem]">
+              <p className="text-sm text-pretty text-neutral-400 mb-6 max-w-full sm:max-w-[20rem]">
                 Ready to experience the best in car rentals? Sign up now and get
                 your first ride at a special discount.
               </p>
 
-              <button
-                className="bg-primary hover:bg-primary-dark text-white text-sm p-4 w-full lg:w-[25rem] rounded-full cursor-pointer 
-             hover:shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200"
+              <Button
+                variant="primary"
+                fullWidth
+                rounded="full"
+                className="lg:w-[25rem] p-4"
               >
                 Sign Up Now
-              </button>
+              </Button>
             </div>
           </section>
         </div>

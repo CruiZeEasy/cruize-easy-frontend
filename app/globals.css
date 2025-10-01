@@ -11,14 +11,30 @@ xl:	1280px	Large desktops
   --color-primary-dark: #ff3535;
   --color-red-accent: #f20000;
 
+  ---color-neutral-50: #f8f8f8;
   --color-neutral-400: #9ca3af;
   --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
 
   --font-inter: var(--font-inter);
+
+  --font-gilroy-regular: "Gilroy-Regular";
   --font-gilroy-medium: "Gilroy-Medium";
   --font-gilroy-semibold: "Gilroy-Semibold";
+  --font-gilroy-bold: "Gilroy-Bold";
+
+  --font-modulus-semibold: "Modulus-Pro-Semibold";
+}
+
+/* Gilroy Font Face */
+
+@font-face {
+  font-family: "Gilroy-Regular";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Gilroy/Gilroy-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -35,6 +51,30 @@ xl:	1280px	Large desktops
   src: url("/fonts/Gilroy/Gilroy-SemiBold.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Gilroy-Bold";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Gilroy/Gilroy-Bold.ttf") format("truetype");
+}
+
+/* Modulus Font Face */
+
+@font-face {
+  font-family: "Modulus-Pro-Semibold";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Modulus/Modulus-Pro-SemiBold.otf") format("opentype");
+}
+
 .container {
   @apply max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-20 xl:px-24;
+}
+
+p {
+  @apply leading-relaxed;
+}
+
+body {
+  @apply bg-neutral-50;
 }

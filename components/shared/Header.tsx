@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/Buttons";
 
 export function Header() {
   return (
@@ -9,7 +10,7 @@ export function Header() {
       <div className="bg-primary-dark pb-8 rounded-b-[30px]">
         <div className="max-w-[1440px] mx-auto">
           <section className="bg-[url('/images/hero/hero-bg-mobile.webp')] sm:bg-[url('/images/hero/hero-bg-desktop.webp')] bg-cover bg-center h-[500px] w-full px-4 sm:px-6 lg:px-8 pt-4 rounded-b-[30px]">
-            <div className="flex items-center justify-between ">
+            <nav className="flex items-center justify-between ">
               <Link href="/">
                 <Image
                   src="/images/logo/cruize-easy-logo.svg"
@@ -21,13 +22,10 @@ export function Header() {
                 />
               </Link>
 
-              <button
-                className="bg-primary hover:bg-primary-dark text-white text-sm px-6 py-3 rounded-lg cursor-pointer 
-             hover:shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-gilroy-semibold"
-              >
+              <Button variant="primary" className="py-3">
                 Get Started
-              </button>
-            </div>
+              </Button>
+            </nav>
           </section>
 
           <section className="font-gilroy-semibold text-white flex flex-col items-center justify-center mt-10 space-y-6 text-center px-4">
@@ -39,42 +37,26 @@ export function Header() {
               Pay Less
             </h1>
 
-            <p className="font-gilroy-medium leading-relaxed text-base sm:text-[22px] ">
+            <p className="font-gilroy-medium text-base sm:text-[22px] ">
               Affordable rentals with premium service <br />
               for every journey.
             </p>
 
             <div className="space-x-8 hidden sm:block">
-              <button
-                className="bg-white text-red-accent text-sm px-6 py-4 rounded-lg cursor-pointer 
-             shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-gilroy-semibold"
-              >
-                Sign up as a user
-              </button>
-              <button
-                className="bg-primary text-white border border-white text-sm px-6 py-4 rounded-lg cursor-pointer 
-             shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-gilroy-semibold"
-              >
-                Sign up as a Host
-              </button>
+              <Button variant="secondary">Sign up as a user</Button>
+              <Button variant="outline">Sign up as a Host</Button>
             </div>
           </section>
         </div>
       </div>
 
       <div className="mt-6 sm:hidden flex items-center justify-between px-4 space-x-4">
-        <button
-          className="bg-primary hover:bg-primary-dark text-white text-sm flex-1 py-4 rounded-lg cursor-pointer 
-             hover:shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-gilroy-semibold"
-        >
+        <Button variant="primary" className="py-4" fullWidth>
           Sign up as a user
-        </button>
-        <button
-          className="bg-primary hover:bg-primary-dark text-white text-sm flex-1 py-4 rounded-lg cursor-pointer 
-             hover:shadow-lg hover:scale-[1.02] active:scale-95 transition duration-200 font-gilroy-semibold"
-        >
+        </Button>
+        <Button variant="primary" className="py-4" fullWidth>
           Sign up as a Host
-        </button>
+        </Button>
       </div>
     </header>
   );
