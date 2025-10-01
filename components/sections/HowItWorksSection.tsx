@@ -36,42 +36,38 @@ const steps: stepsProps[] = [
 
 export function HowItWorksSection() {
   return (
-    <section>
-      <div className="container">
-        <div className="flex flex-col items-center text-center space-y-6 mb-12">
-          <h2 className="text-3xl sm:text-4xl font-gilroy-bold">
-            How It Works
-          </h2>
-          <p className=" text-neutral-600 font-gilroy-medium max-w-[30rem]">
-            Getting on the road with Cruiseeasy is simple. Follow these easy
-            steps and start your journey today.
-          </p>
-        </div>
+    <section className="container mb-12 sm:mb-28">
+      <div className="flex flex-col items-center text-center space-y-6 mb-12">
+        <h2 className="text-3xl sm:text-4xl font-gilroy-bold">How It Works</h2>
+        <p className=" text-neutral-600 font-gilroy-medium max-w-[30rem]">
+          Getting on the road with Cruizeeasy is simple. Follow these easy steps
+          and start your journey today.
+        </p>
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {steps.map((step) => (
-            <div
-              key={step.title}
-              className="bg-white shadow-lg flex flex-col items-center text-center  p-8"
-            >
-              <Image
-                src={`/images/icons/${step.src}.svg`}
-                alt={`${step.title} icon`}
-                width={105}
-                height={105}
-                className="size-[70px] mb-6"
-              />
+      <div className="grid md:grid-cols-2 gap-8">
+        {steps.map((step) => (
+          <div
+            key={step.title}
+            className="bg-white shadow-xs flex flex-col items-center text-center  p-8"
+          >
+            <Image
+              src={`/images/icons/${step.src}.svg`}
+              alt={`${step.title} icon`}
+              width={105}
+              height={105}
+              className="size-[70px] mb-6"
+            />
 
-              <span className="font-modulus-semibold text-[20px] sm:text-[22px] mb-4">
-                {step.title}
-              </span>
+            <span className="font-modulus-semibold text-[20px] sm:text-[22px] mb-4">
+              {step.title}
+            </span>
 
-              <p className="font-gilroy-regular text-neutral-600 max-w-[18rem]">
-                {step.description}
-              </p>
-            </div>
-          ))}
-        </div>
+            <p className="font-gilroy-regular text-neutral-600 max-w-[18rem]">
+              {step.description}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );
