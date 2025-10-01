@@ -49,7 +49,7 @@ export function HowItWorksSection() {
         {steps.map((step) => (
           <div
             key={step.title}
-            className="bg-white shadow-xs flex flex-col items-center text-center  p-8"
+            className="bg-white shadow-xs flex flex-col items-center text-center p-8 rounded-lg"
           >
             <Image
               src={`/images/icons/${step.src}.svg`}

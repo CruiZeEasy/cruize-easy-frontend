@@ -43,7 +43,7 @@ const reasons: reasonsProps[] = [
 export function WhyChooseUsSection() {
   return (
     <section className="container mb-12 sm:mb-20">
-      <div className="bg-white p-8">
+      <div className="bg-white">
         <div className="flex flex-col items-center text-center space-y-6 mb-12">
           <h2 className="text-3xl sm:text-4xl font-gilroy-bold">
             Why Choose Cruizeeasy
@@ -54,25 +54,28 @@ export function WhyChooseUsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {reasons.map((result) => (
-            <div className="bg-white border border-[#F3F4F6] p-8">
+        <div className="grid sm:grid-cols-2 gap-8">
+          {reasons.map((reason) => (
+            <div
+              key={reason.title}
+              className="bg-white border border-[#F3F4F6] p-8"
+            >
               <div className="flex items-center space-x-4 mb-6">
                 <Image
-                  src={`/images/icons/${result.src}.svg`}
-                  alt={`${result.title} icon`}
+                  src={`/images/icons/${reason.src}.svg`}
+                  alt={`${reason.title} icon`}
                   width={50}
                   height={50}
                   className="size-[30px]"
                 />
 
                 <span className="font-inter font-semibold text-[20px] sm:text-[20px] ">
-                  {result.title}
+                  {reason.title}
                 </span>
               </div>
 
               <p className="font-gilroy-medium text-neutral-600 max-w-[18rem]">
-                {result.description}
+                {reason.description}
               </p>
             </div>
           ))}

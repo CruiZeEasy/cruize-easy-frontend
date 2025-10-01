@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline";
+  fontFamily?: "gilroy-semibold" | "gilroy-medium";
   fullWidth?: boolean;
   rounded?: "lg" | "full";
 }
@@ -10,6 +11,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export function Button({
   children,
   variant = "primary",
+  fontFamily = "gilroy-semibold",
   fullWidth = false,
   rounded = "lg",
   className,
@@ -18,7 +20,7 @@ export function Button({
   return (
     <button
       className={clsx(
-        "text-sm cursor-pointer font-gilroy-semibold transition duration-200",
+        `text-sm cursor-pointer font-${fontFamily} transition duration-200`,
         "shadow-xl hover:scale-[1.02] active:scale-95",
         fullWidth && "w-full",
         rounded === "lg" && "rounded-lg",
