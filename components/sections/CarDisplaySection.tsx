@@ -4,7 +4,7 @@ import React from "react";
 export function CarDisplaySection() {
   return (
     <section className="container">
-      <div className="relative h-[250px] sm:h-[450px] border border-red-500 bg-white flex items-center justify-center">
+      <div className="relative h-[250px] sm:h-[450px] bg-white flex items-center justify-center">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[30px] sm:w-[60px] h-[160px] sm:h-[282px] z-0 bg-gradient-to-b from-[#223766]  to-[#111827] to-50%"></div>
 
         {/* Car */}
