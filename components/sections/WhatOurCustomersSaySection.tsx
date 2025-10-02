@@ -62,7 +62,7 @@ const customers: CustomerProps[] = [
 
 export function WhatOurCustomersSaySection() {
   return (
-    <section className="container">
+    <section className="container mb-12 sm:mb-20">
       <div className="flex flex-col items-center text-center space-y-6 mb-12">
         <h2 className="text-3xl sm:text-4xl font-gilroy-bold">
           What Our Customers Say
@@ -73,11 +73,11 @@ export function WhatOurCustomersSaySection() {
         </p>
       </div>
 
-      <div className="bg-white p-4 md:p-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="bg-white p-4 md:p-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8 ">
         {customers.map((customer) => (
           <div
             key={customer.name}
-            className="bg-white border border-[#F3F4F6] p-8 font-inter"
+            className="bg-white border border-[#F3F4F6] p-8 font-inter rounded-lg"
           >
             <div className="flex space-x-2 mb-4 ">
               <div className="size-12 relative rounded-full overflow-hidden flex-shrink-0">

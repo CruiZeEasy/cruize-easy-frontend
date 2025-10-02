@@ -1,3 +1,4 @@
+import { CarDisplaySection } from "@/components/sections/CarDisplaySection";
 import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { PopularCarsSection } from "@/components/sections/PopularCarsSection";
 import { WhatOurCustomersSaySection } from "@/components/sections/WhatOurCustomersSaySection";
@@ -11,6 +12,7 @@ export default function LandingPage() {
       <WhyChooseUsSection />
       <PopularCarsSection />
       <WhatOurCustomersSaySection />
+      <CarDisplaySection />
     </main>
   );
 }

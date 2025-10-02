@@ -58,7 +58,7 @@ export function WhyChooseUsSection() {
           {reasons.map((reason) => (
             <div
               key={reason.title}
-              className="bg-white border border-[#F3F4F6] p-8"
+              className="bg-white border border-[#F3F4F6] p-8 rounded-lg"
             >
               <div className="flex items-center space-x-4 mb-6">
                 <Image
