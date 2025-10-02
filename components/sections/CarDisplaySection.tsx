@@ -10,7 +10,7 @@ export function CarDisplaySection() {
         {/* Car */}
         <div className="relative">
           <Image
-            src="/images/cars/featured.png"
+            src="/images/cars/featured.webp"
             alt="Car Display"
             width={600}
             height={407}
@@ -19,7 +19,7 @@ export function CarDisplaySection() {
           />
 
           <Image
-            src="/images/shapes/car-shadow.png"
+            src="/images/shapes/car-shadow.webp"
             alt="Background Shape Left"
             width={450}
             height={50}

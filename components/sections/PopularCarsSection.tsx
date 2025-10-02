@@ -17,7 +17,7 @@ interface CarProps {
 const cars: CarProps[] = [
   {
     id: 1,
-    src: "/images/cars/1.png",
+    src: "1",
     title: "GLE AMG 63S",
     price: "456k/",
     rating: 4.5,
@@ -27,7 +27,7 @@ const cars: CarProps[] = [
   },
   {
     id: 2,
-    src: "/images/cars/2.png",
+    src: "2",
     title: "GLE AMG 63S",
     price: "456k/",
     rating: 4.5,
@@ -37,7 +37,7 @@ const cars: CarProps[] = [
   },
   {
     id: 3,
-    src: "/images/cars/3.png",
+    src: "3",
     title: "GLE AMG 63S",
     price: "456k/",
     rating: 4.5,
@@ -47,7 +47,7 @@ const cars: CarProps[] = [
   },
   {
     id: 4,
-    src: "/images/cars/4.png",
+    src: "4",
     title: "GLE AMG 63S",
     price: "456k/",
     rating: 4.5,
@@ -93,7 +93,12 @@ export function PopularCarsSection() {
               </button>
             </span>
             <div className="flex justify-center mb-2">
-              <Image src={car.src} width={300} height={100} alt="Car Image" />
+              <Image
+                src={`/images/cars/${car.src}.webp`}
+                width={300}
+                height={100}
+                alt="Car Image"
+              />
             </div>
 
             <div className="pb-2">
