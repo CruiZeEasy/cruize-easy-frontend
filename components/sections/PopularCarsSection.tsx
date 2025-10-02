@@ -2,6 +2,8 @@
 import Image from "next/image";
 import React from "react";
 import { Button } from "../ui/Buttons";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 interface CarProps {
   id: number;
@@ -58,31 +60,44 @@ const cars: CarProps[] = [
 ];
 
 export function PopularCarsSection() {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
+
   return (
-    <section className="container mb-12 sm:mb-20">
-      <div className="flex flex-col lg:items-center lg:text-center space-y-6 lg:mb-12">
+    <section ref={ref} className="container mb-12 sm:mb-20">
+      {/* Section Title */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+        className="flex flex-col lg:items-center lg:text-center space-y-6 lg:mb-12"
+      >
         <h2 className="text-[18px] lg:text-4xl font-gilroy-bold text-neutral-900">
           Popular Cars
         </h2>
-        <p className=" text-neutral-600 font-gilroy-medium hidden lg:block">
+        <p className="text-neutral-600 font-gilroy-medium hidden lg:block">
           Choose from our selection of premium vehicles for your next adventure.
         </p>
-      </div>
+      </motion.div>
 
+      {/* Cars Grid */}
       <div
         className="
-    flex gap-4 overflow-x-auto pb-4 
-    scrollbar-hide 
-    lg:grid  lg:grid-cols-2
-  "
+          flex gap-4 overflow-x-auto pb-4 scrollbar-hide
+          lg:grid lg:grid-cols-2
+        "
       >
-        {cars.map((car) => (
-          <div
+        {cars.map((car, i) => (
+          <motion.div
             key={car.id}
-            className="bg-white border-[#e4e4e4] shadow-lg p-4 rounded-lg flex-shrink-0"
+            initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: i * 0.15 }}
+            className="bg-white border-[#e4e4e4] shadow-lg p-4 rounded-lg flex-shrink-0 
+              transition-transform duration-300 hover:scale-[1.02]"
           >
+            {/* Favorite button */}
             <span className="flex justify-end">
-              <button className="transition duration-20 hover:scale-[1.02] active:scale-95 cursor-pointer mb-4 sm:mb-0">
+              <button className="transition duration-20 hover:scale-[1.05] active:scale-95 cursor-pointer mb-4 sm:mb-0">
                 <Image
                   src="/images/icons/heart.svg"
                   width={50}
@@ -92,6 +107,8 @@ export function PopularCarsSection() {
                 />
               </button>
             </span>
+
+            {/* Car image */}
             <div className="flex justify-center mb-2">
               <Image
                 src={`/images/cars/${car.src}.webp`}
@@ -101,13 +118,14 @@ export function PopularCarsSection() {
               />
             </div>
 
+            {/* Details */}
             <div className="pb-2">
               <div className="hidden sm:flex justify-end text-[18px]">
                 <span className="font-gilroy-bold ">{car.price}</span>
                 <span className="font-gilroy-medium text-neutral-450">day</span>
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center justify-between sm:justify-start  w-full sm:w-auto space-x-4 sm:-mt-2">
+                <div className="flex items-center justify-between sm:justify-start w-full sm:w-auto space-x-4 sm:-mt-2">
                   <span className="font-gilroy-bold text-base sm:text-[22px]">
                     {car.title}
                   </span>
@@ -125,8 +143,8 @@ export function PopularCarsSection() {
                 </div>
               </div>
 
+              {/* Specs + Button */}
               <div className="flex items-stretch justify-between">
-                {/* Left side */}
                 <div className="flex flex-col justify-between flex-1">
                   <div className="flex items-center justify-between sm:justify-start space-x-4 mt-4 sm:mt-0">
                     <div className="flex items-center space-x-2">
@@ -167,6 +185,7 @@ export function PopularCarsSection() {
                   {/* Divider */}
                   <div className="h-[1px] mt-4 sm:mt-0 sm:w-[16rem] bg-[#D3D3D3]" />
 
+                  {/* Mobile price + button */}
                   <div className="flex items-stretch justify-between sm:hidden mt-4">
                     <div className="flex flex-col flex-1 justify-end">
                       <div className="text-[18px]">
@@ -186,7 +205,7 @@ export function PopularCarsSection() {
                   </div>
                 </div>
 
-                {/* Button */}
+                {/* Desktop button */}
                 <Button
                   variant="primary"
                   fontFamily="gilroy-medium"
@@ -196,15 +215,21 @@ export function PopularCarsSection() {
                 </Button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 
-      <div className="flex justify-center mt-12 sm:mt-20">
+      {/* View all cars button */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, delay: cars.length * 0.15 }}
+        className="flex justify-center mt-12 sm:mt-20"
+      >
         <Button variant="primary" className="py-4 w-48">
           View all Cars
         </Button>
-      </div>
+      </motion.div>
     </section>
   );
 }
