@@ -38,7 +38,9 @@ export function HowItWorksSection() {
   return (
     <section className="container mb-12 sm:mb-28">
       <div className="flex flex-col items-center text-center space-y-6 mb-12">
-        <h2 className="text-3xl sm:text-4xl font-gilroy-bold">How It Works</h2>
+        <h2 className="text-3xl sm:text-4xl font-gilroy-bold text-neutral-900">
+          How It Works
+        </h2>
         <p className=" text-neutral-600 font-gilroy-medium max-w-[30rem]">
           Getting on the road with Cruizeeasy is simple. Follow these easy steps
           and start your journey today.
@@ -59,7 +61,7 @@ export function HowItWorksSection() {
               className="size-[70px] mb-6"
             />
 
-            <span className="font-modulus-semibold text-[20px] sm:text-[22px] mb-4">
+            <span className="font-modulus-semibold text-[20px] sm:text-[22px] mb-4 text-neutral-900">
               {step.title}
             </span>
 

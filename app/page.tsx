@@ -1,5 +1,6 @@
 import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { PopularCarsSection } from "@/components/sections/PopularCarsSection";
+import { WhatOurCustomersSaySection } from "@/components/sections/WhatOurCustomersSaySection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
 import React from "react";
 
@@ -9,6 +10,7 @@ export default function LandingPage() {
       <HowItWorksSection />
       <WhyChooseUsSection />
       <PopularCarsSection />
+      <WhatOurCustomersSaySection />
     </main>
   );
 }

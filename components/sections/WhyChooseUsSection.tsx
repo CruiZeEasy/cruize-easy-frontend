@@ -43,9 +43,9 @@ const reasons: reasonsProps[] = [
 export function WhyChooseUsSection() {
   return (
     <section className="container mb-12 sm:mb-20">
-      <div className="bg-white">
+      <div className="bg-white p-4 md:p-8">
         <div className="flex flex-col items-center text-center space-y-6 mb-12">
-          <h2 className="text-3xl sm:text-4xl font-gilroy-bold">
+          <h2 className="text-3xl sm:text-4xl font-gilroy-bold text-neutral-900">
             Why Choose Cruizeeasy
           </h2>
           <p className=" text-neutral-600 font-gilroy-medium max-w-[35rem]">
@@ -69,7 +69,7 @@ export function WhyChooseUsSection() {
                   className="size-[30px]"
                 />
 
-                <span className="font-inter font-semibold text-[20px] sm:text-[20px] ">
+                <span className="font-inter font-semibold text-[20px] sm:text-[20px] text-neutral-900 ">
                   {reason.title}
                 </span>
               </div>
