@@ -23,13 +23,13 @@ export function CarDisplaySection() {
             alt="Background Shape Left"
             width={450}
             height={50}
-            className="absolute left-9 -bottom-2 hidden"
+            className="absolute left-3 sm:left-9 -bottom-[6.5px]  sm:-bottom-2 w-[240px] sm:w-[450px] h-auto "
           />
         </div>
 
         <div className="absolute bottom-4 border-[0.67px] sm:border-2 border-[#1C2E53] w-24 sm:w-44 py-3 sm:py-4 rounded-full z-10"></div>
 
-        <div className="absolute right-0 w-24 sm:w-38 md:w-72  h-full z-0 bg-gradient-to-b from-[#223766]  to-[#111827] to-50%"></div>
+        <div className="absolute right-0 w-24 sm:w-48 lg:w-72  h-full z-0 bg-gradient-to-b from-[#223766]  to-[#111827] to-50%"></div>
       </div>
     </section>
   );
