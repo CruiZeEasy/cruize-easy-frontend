@@ -23,7 +23,7 @@ export function CarDisplaySection() {
           initial={{ opacity: 0, y: 60 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative"
+          className="relative z-20"
         >
           <motion.div
             animate={inView ? { y: [0, -4, 0] } : {}}
@@ -54,7 +54,7 @@ export function CarDisplaySection() {
               alt="Background Shape Left"
               width={450}
               height={50}
-              className="absolute left-3 sm:left-9 -bottom-[6.5px] sm:-bottom-2 w-[240px] sm:w-[450px] h-auto"
+              className="hidden sm:block absolute left-3 sm:left-9 -bottom-[6.5px] sm:-bottom-2 w-[240px] sm:w-[450px] h-auto"
             />
           </motion.div>
         </motion.div>

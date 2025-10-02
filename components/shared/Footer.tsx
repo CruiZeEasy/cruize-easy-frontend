@@ -150,7 +150,7 @@ export function Footer() {
               >
                 Sign Up Now
               </Button>
-            </div>a
+            </div>
           </section>
         </div>
 
