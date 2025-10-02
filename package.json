@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
     "next": "15.5.4",

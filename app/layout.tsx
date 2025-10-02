@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import "./globals.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 // Load Inter font from Google
 const inter = Inter({

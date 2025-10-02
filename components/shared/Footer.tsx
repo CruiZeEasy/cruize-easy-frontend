@@ -19,10 +19,10 @@ interface FooterLinkProps {
 }
 
 const socialIcons: SocialIconsProps[] = [
-  { href: "#", title: "facebook" },
-  { href: "#", title: "twitter" },
-  { href: "#", title: "instagram" },
-  { href: "#", title: "youtube" },
+  { href: "#", title: "fa-facebook-f" },
+  { href: "#", title: "fa-x-twitter" },
+  { href: "#", title: "fa-instagram" },
+  { href: "#", title: "fa-tiktok" },
 ];
 
 const badgeIcons: BadgeIconsProps[] = [
@@ -59,6 +59,7 @@ export function Footer() {
               height={38}
               className="w-40 lg:w-48 h-auto mb-4"
               quality={100}
+              priority
             />
 
             <p className="text-sm text-pretty text-neutral-400 max-w-full sm:max-w-[20rem] mb-6">
@@ -68,15 +69,12 @@ export function Footer() {
 
             <div className="flex items-center space-x-4 mb-6">
               {socialIcons.map((item) => (
-                <Link key={item.title} href={item.href}>
-                  <Image
-                    src={`/images/social/${item.title}.svg`}
-                    width={100}
-                    height={100}
-                    alt={`${item.title} icon`}
-                    className="size-5"
-                    quality={100}
-                  />
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="text-neutral-400 hover:text-white transition-colors duration-200"
+                >
+                  <i className={`fa-brands ${item.title}`}></i>
                 </Link>
               ))}
             </div>
