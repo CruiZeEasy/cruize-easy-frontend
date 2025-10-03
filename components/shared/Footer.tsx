@@ -19,10 +19,19 @@ interface FooterLinkProps {
 }
 
 const socialIcons: SocialIconsProps[] = [
-  { href: "#", title: "fa-facebook-f" },
-  { href: "#", title: "fa-x-twitter" },
-  { href: "#", title: "fa-instagram" },
-  { href: "#", title: "fa-tiktok" },
+  {
+    href: "https://www.facebook.com/share/1b39zJ1VHg/?mibextid=wwXIfr",
+    title: "fa-facebook-f",
+  },
+  { href: "https://x.com/cruizeeasy?s=21", title: "fa-x-twitter" },
+  {
+    href: "https://www.instagram.com/cruizeeasy?igsh=MXZ5eTJvMXlreW0wOA%3D%3D&utm_source=qr",
+    title: "fa-instagram",
+  },
+  {
+    href: "https://www.tiktok.com/@cruize.easy?_t=ZN-90FEHsYsVi2&_r=1",
+    title: "fa-tiktok",
+  },
 ];
 
 const badgeIcons: BadgeIconsProps[] = [
@@ -72,6 +81,8 @@ export function Footer() {
                 <Link
                   key={item.title}
                   href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-neutral-400 hover:text-white transition-colors duration-200"
                 >
                   <i className={`fa-brands ${item.title}`}></i>
