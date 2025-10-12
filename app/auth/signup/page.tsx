@@ -48,14 +48,14 @@ export default function SignUpPage() {
           fontFamily="inter"
           fullWidth
           shadow="shadow-none"
-          className="p-4 text-xs mb-6 md:mb-12"
+          className="p-4 text-xs mb-10 md:mb-12"
           onClick={(e) => e.preventDefault()}
         >
           Sign Up
         </Button>
 
         {/* Divider Line */}
-        <div className="flex items-center justify-center mb-3 md:mb-6">
+        <div className="flex items-center justify-center mb-4 md:mb-6">
           <div className="h-px bg-primary-dark w-full md:w-[10rem]"></div>
           <span className="mx-2 text-primary-dark text-sm font-inter">or</span>
           <div className="h-px bg-primary-dark w-full md:w-[10rem]"></div>
@@ -66,7 +66,7 @@ export default function SignUpPage() {
           fontFamily="poppins"
           fullWidth
           shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
-          className="mb-3 md:mb-6"
+          className="mb-4 md:mb-6"
           onClick={(e) => e.preventDefault()}
         >
           <span>
