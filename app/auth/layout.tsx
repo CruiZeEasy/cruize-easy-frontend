@@ -21,10 +21,10 @@ export default function AuthLayout({
                 height={500}
                 className="h-full w-full object-cover rounded-[30px]"
               />
-              <BackButton href={PATHS.HOME} variant="desktop" />
+              <BackButton variant="desktop" />
             </div>
             <div className="flex flex-col justify-center">
-              <BackButton href={PATHS.HOME} variant="mobile" />
+              <BackButton variant="mobile" />
 
               {children}
             </div>
