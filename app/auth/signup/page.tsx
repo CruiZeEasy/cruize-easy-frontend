@@ -48,7 +48,7 @@ export default function SignUpPage() {
           fontFamily="inter"
           fullWidth
           shadow="shadow-none"
-          className="p-4 text-xs mb-6 md:mb-12"
+          className="p-4 text-xs mb-6 md:mb-12 bg-yellow-500"
           onClick={(e) => e.preventDefault()}
         >
           Sign Up
