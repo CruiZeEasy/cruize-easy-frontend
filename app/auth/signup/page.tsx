@@ -8,7 +8,7 @@ import { PATHS } from "@/utils/path";
 
 export default function SignUpPage() {
   return (
-    <div className="flex flex-col items-center md:pl-4 md:pr-12 py-12">
+    <div className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12">
       <Image
         src="/images/logo/cruize-easy-logo-icon.svg"
         alt="Cruize Easy Logo Icon"
