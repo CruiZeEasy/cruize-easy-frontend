@@ -21,7 +21,7 @@ export default function SignUpPage() {
       <h1 className="font-modulus-semibold text-[26px] mb-12">Sign Up</h1>
 
       <form className="w-full">
-        <div className="space-y-2 mb-6 md:mb-12">
+        <div className="space-y-2 mb-10 md:mb-12">
           <FormInput
             id="fullName"
             label="Full Name"
@@ -48,7 +48,7 @@ export default function SignUpPage() {
           fontFamily="inter"
           fullWidth
           shadow="shadow-none"
-          className="p-4 text-xs mb-6 md:mb-12 bg-yellow-500"
+          className="p-4 text-xs mb-6 md:mb-12"
           onClick={(e) => e.preventDefault()}
         >
           Sign Up
