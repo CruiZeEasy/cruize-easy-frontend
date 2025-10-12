@@ -11,7 +11,7 @@ export default function SignUpPage() {
     <div className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12">
       <Image
         src="/images/logo/cruize-easy-logo-icon.svg"
-        alt="Cruize Easy Logo Icon"
+        alt="Cruize Easy Logo Icon"  
         width={70}
         height={70}
         quality={100}
