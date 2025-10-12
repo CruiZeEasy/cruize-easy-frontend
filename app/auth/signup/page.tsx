@@ -11,7 +11,7 @@ export default function SignUpPage() {
     <div className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12">
       <Image
         src="/images/logo/cruize-easy-logo-icon.svg"
-        alt="Cruize Easy Logo Icon"  
+        alt="Cruize Easy Logo Icon"
         width={70}
         height={70}
         quality={100}
@@ -56,9 +56,9 @@ export default function SignUpPage() {
 
         {/* Divider Line */}
         <div className="flex items-center justify-center mb-6">
-          <div className="h-px bg-primary-dark md:w-[10rem]"></div>
+          <div className="h-px bg-primary-dark w-full md:w-[10rem]"></div>
           <span className="mx-2 text-primary-dark text-sm font-inter">or</span>
-          <div className="h-px bg-primary-dark md:w-[10rem]"></div>
+          <div className="h-px bg-primary-dark w-full md:w-[10rem]"></div>
         </div>
 
         <Button

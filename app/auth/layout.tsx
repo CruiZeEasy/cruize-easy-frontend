@@ -1,9 +1,7 @@
-"use client";
 import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
 import { PATHS } from "@/utils/path";
+import { BackButton } from "@/components/ui/BackButton";
 
 export default function AuthLayout({
   children,
@@ -23,43 +21,10 @@ export default function AuthLayout({
                 height={500}
                 className="h-full w-full object-cover rounded-[30px]"
               />
-
-              <Link href={PATHS.HOME}>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  className="absolute top-6 left-10 cursor-pointer"
-                >
-                  <Image
-                    src="/images/icons/arrow-left-desktop.svg"
-                    alt="Arrow Left"
-                    width={34}
-                    height={34}
-                    className="block"
-                    priority
-                  />
-                </motion.div>
-              </Link>
+              <BackButton href={PATHS.HOME} variant="desktop" />
             </div>
             <div className="flex flex-col justify-center">
-              <Link href={PATHS.HOME} className="md:hidden mb-6">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  className="w-fit"
-                >
-                  <Image
-                    src="/images/icons/arrow-left-mobile.svg"
-                    alt="Arrow Left"
-                    width={34}
-                    height={34}
-                    className="block"
-                    priority
-                  />
-                </motion.div>
-              </Link>
+              <BackButton href={PATHS.HOME} variant="mobile" />
 
               {children}
             </div>
