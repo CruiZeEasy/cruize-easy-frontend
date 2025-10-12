@@ -12,6 +12,7 @@ xl:	1280px	Large desktops
   --color-red-accent: #f20000;
 
   --color-neutral-50: #f8f8f8;
+  --color-neutral-100: #fbfbfb;
   --color-neutral-200: #cbd2e0;
   --color-neutral-300: #d8d8d8;
   --color-neutral-400: #9ca3af;
@@ -20,8 +21,10 @@ xl:	1280px	Large desktops
   --color-neutral-600: #4b5563;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
+  --color-neutral-950: #191d31;
 
   --font-inter: var(--font-inter);
+  --font-poppins: var(--font-poppins);
 
   --font-gilroy-regular: "Gilroy-Regular";
   --font-gilroy-medium: "Gilroy-Medium";

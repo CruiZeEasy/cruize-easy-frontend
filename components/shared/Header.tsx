@@ -1,11 +1,13 @@
 "use client";
 
+import { Button } from "../ui/Buttons";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/Buttons";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export function Header() {
+  const router = useRouter();
   return (
     <header>
       <div className="bg-primary-dark pb-8 rounded-b-[30px]">
@@ -36,7 +38,11 @@ export function Header() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <Button variant="primary" className="py-3">
+                <Button
+                  variant="primary"
+                  className="py-3"
+                  onClick={() => router.push("/auth/signup")}
+                >
                   Get Started
                 </Button>
               </motion.div>

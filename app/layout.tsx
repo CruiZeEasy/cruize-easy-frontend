@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Header } from "@/components/shared/Header";
-import { Footer } from "@/components/shared/Footer";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -11,6 +9,13 @@ const inter = Inter({
   display: "swap",
   weight: ["200", "400", "500", "600", "700"],
   variable: "--font-inter",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +30,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.variable}>{children}</body>
+      <body className={`${inter.variable} ${poppins.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }
