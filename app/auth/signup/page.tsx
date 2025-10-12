@@ -56,9 +56,9 @@ export default function SignUpPage() {
 
         {/* Divider Line */}
         <div className="flex items-center justify-center mb-6">
-          <div className="h-px bg-primary-dark w-[10rem]"></div>
+          <div className="h-px bg-primary-dark md:w-[10rem]"></div>
           <span className="mx-2 text-primary-dark text-sm font-inter">or</span>
-          <div className="h-px bg-primary-dark w-[10rem]"></div>
+          <div className="h-px bg-primary-dark md:w-[10rem]"></div>
         </div>
 
         <Button
