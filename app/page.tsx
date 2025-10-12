@@ -3,16 +3,22 @@ import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { PopularCarsSection } from "@/components/sections/PopularCarsSection";
 import { WhatOurCustomersSaySection } from "@/components/sections/WhatOurCustomersSaySection";
 import { WhyChooseUsSection } from "@/components/sections/WhyChooseUsSection";
+import { Footer } from "@/components/shared/Footer";
+import { Header } from "@/components/shared/Header";
 import React from "react";
 
 export default function LandingPage() {
   return (
-    <main className="py-12 sm:py-28">
-      <HowItWorksSection />
-      <WhyChooseUsSection />
-      <PopularCarsSection />
-      <WhatOurCustomersSaySection />
-      <CarDisplaySection />
-    </main>
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="py-12 sm:py-28 flex-1">
+        <HowItWorksSection />
+        <WhyChooseUsSection />
+        <PopularCarsSection />
+        <WhatOurCustomersSaySection />
+        <CarDisplaySection />
+      </main>
+      <Footer />
+    </div>
   );
 }

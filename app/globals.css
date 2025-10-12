@@ -11,7 +11,9 @@ xl:	1280px	Large desktops
   --color-primary-dark: #ff3535;
   --color-red-accent: #f20000;
 
-  ---color-neutral-50: #f8f8f8;
+  --color-neutral-50: #f8f8f8;
+  --color-neutral-200: #cbd2e0;
+  --color-neutral-300: #d8d8d8;
   --color-neutral-400: #9ca3af;
   --color-neutral-450: #6e6b6b;
   --color-neutral-500: #6b7280;
@@ -77,5 +79,5 @@ p {
 }
 
 body {
-  @apply bg-[#f8f8f8];
+  @apply bg-neutral-50;
 }
