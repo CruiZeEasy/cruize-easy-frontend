@@ -11,7 +11,7 @@ import { Toast } from "@/components/ui/Toast";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null); // state for API error
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +85,7 @@ export default function SignUpPage() {
             label="Email Address"
             type="email"
             placeholder="email@gmail.com"
+            // error="Email is required"
           />
           <FormInput
             id="password"
