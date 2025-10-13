@@ -138,7 +138,7 @@ export default function SignUpPage() {
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-medium text-sm text-center">
+          <p className="font-gilroy-mediumv text-sm text-center">
             If you have an account?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}

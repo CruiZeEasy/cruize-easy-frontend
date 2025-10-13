@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.3 }}
-          className="font-gilroy-medium text-xs md:text-sm text-neutral-550 md:w-[26rem]"
+          className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
           Enter the email address registered with your account.{" "}
           <span className="inline lg:hidden">
@@ -117,7 +117,7 @@ export default function ForgotPasswordPage() {
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-semibold text-xs md:text-sm text-neutral-550">
+          <p className="font-gilroy-semibold text-sm text-neutral-550">
             <Link
               href={PATHS.AUTH.LOGIN}
               className="text-primary-dark hover:underline transition-all"
