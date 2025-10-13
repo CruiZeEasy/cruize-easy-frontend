@@ -92,6 +92,7 @@ export default function SignUpPage() {
             label="Password"
             type="password"
             placeholder="Password"
+            showPasswordRules
           />
         </div>
 

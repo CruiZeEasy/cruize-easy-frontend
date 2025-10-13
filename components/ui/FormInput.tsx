@@ -11,6 +11,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   rounded?: "lg" | "full";
   fontFamily?: "gilroy-medium" | "gilroy-semibold";
   error?: string;
+  showPasswordRules?: boolean;
 }
 
 export const FormInput: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ export const FormInput: React.FC<InputProps> = ({
   rounded = "lg",
   fontFamily = "gilroy-medium",
   error,
+  showPasswordRules = false,
   className,
   ...props
 }) => {
@@ -35,13 +37,11 @@ export const FormInput: React.FC<InputProps> = ({
     const input = inputRef.current;
     if (!input) return;
 
-    // Save cursor position
     const start = input.selectionStart || 0;
     const end = input.selectionEnd || 0;
 
     setShowPassword((prev) => !prev);
 
-    // Wait for re-render, then restore cursor
     requestAnimationFrame(() => {
       if (inputRef.current) {
         inputRef.current.setSelectionRange(start, end);
@@ -125,8 +125,8 @@ export const FormInput: React.FC<InputProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Password rules */}
-      {type === "password" && (
+      {/* Password rules - show only when prop is true */}
+      {showPasswordRules && type === "password" && (
         <div className="mt-4 space-y-1">
           {passwordRules.map((rule) => {
             const isValid = rule.test(value);
