@@ -23,7 +23,14 @@ export default function AuthLayout({
               <BackButton variant="desktop" />
             </div>
             <div className="flex flex-col justify-center">
-              <BackButton variant="mobile" />
+              <div className="flex justify-between items-center mb-12 md:mb-0 md:hidden">
+                <BackButton variant="mobile" />
+
+                <span className="font-modulus-semibold">Forgot Password</span>
+
+                {/* This is here Just to make sure the span stays centered */}
+                <div />
+              </div>
 
               {children}
             </div>

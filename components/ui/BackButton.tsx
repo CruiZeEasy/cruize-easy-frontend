@@ -26,7 +26,7 @@ export function BackButton({
       className={clsx(
         isDesktop
           ? "absolute top-6 left-10 cursor-pointer"
-          : "md:hidden mb-6 w-fit cursor-pointer",
+          : "md:hidden  w-fit cursor-pointer",
         className
       )}
     >

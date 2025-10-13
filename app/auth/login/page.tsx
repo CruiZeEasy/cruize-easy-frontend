@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
+import Divider from "@/components/ui/Divider";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -72,75 +73,81 @@ export default function LoginPage() {
         transition={{ delay: 0.25, duration: 0.3 }}
         className="w-full"
       >
-        <div className="space-y-2 mb-10 md:mb-12">
-          <FormInput
-            id="email"
-            label="Email Address"
-            type="email"
-            placeholder="email@gmail.com"
-            // error="Email is required"
-          />
-          <FormInput
-            id="password"
-            label="Password"
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          variant="dark-primary"
-          fontFamily="inter"
-          fullWidth
-          shadow="shadow-none"
-          className="p-4 text-xs mb-10 md:mb-12"
-          disabled={loading}
-          loading={loading}
-          loadingText="Signing In..."
-        >
-          Login
-        </Button>
-
-        {/* Divider */}
-        <div className="flex items-center justify-center mb-4 md:mb-6">
-          <div className="h-px bg-primary-dark w-full md:w-[10rem]" />
-          <span className="mx-2 text-primary-dark text-sm font-inter">or</span>
-          <div className="h-px bg-primary-dark w-full md:w-[10rem]" />
-        </div>
-
-        {/* Google Button */}
-        <Button
-          variant="sign_up_with_google"
-          fontFamily="poppins"
-          fullWidth
-          shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
-          className="mb-4 md:mb-6 hover:bg-neutral-100 transition-colors duration-200"
-          onClick={(e) => e.preventDefault()}
-        >
-          <span>
-            <Image
-              src="/images/icons/google-icon.svg"
-              alt="Google Icon"
-              width={20}
-              height={20}
-              className="inline mr-2"
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <FormInput
+              id="email"
+              label="Email Address"
+              type="email"
+              placeholder="email@gmail.com"
             />
-            Sign Up with Google
-          </span>
-        </Button>
+            <div className="space-y-2">
+              <FormInput
+                id="password"
+                label="Password"
+                type="password"
+                placeholder="Password"
+              />
 
-        {/* Login Redirect */}
-        <p className="font-gilroy-medium text-sm text-center">
-          If you have an account?{" "}
-          <Link
-            href={PATHS.AUTH.SIGNUP}
-            className="text-primary-dark hover:underline transition-all"
+              <Link
+                href={PATHS.AUTH.FORGOT_PASSWORD}
+                className="font-gilroy-bold text-sm text-primary-dark w-fit flex justify-self-end mt-1 hover:underline transition-all"
+              >
+                Forgot Password
+              </Link>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            variant="dark-primary"
+            fontFamily="inter"
+            fullWidth
+            shadow="shadow-none"
+            className="p-4 text-xs"
+            disabled={loading}
+            loading={loading}
+            loadingText="Signing In..."
           >
-            Sign up here
-          </Link>
-        </p>
+            Login
+          </Button>
+
+          {/* Divider */}
+          <Divider />
+
+          {/* Google Button */}
+          <Button
+            variant="sign_up_with_google"
+            fontFamily="poppins"
+            fullWidth
+            shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
+            className="hover:bg-neutral-100 transition-colors duration-200"
+            onClick={(e) => e.preventDefault()}
+          >
+            <span>
+              <Image
+                src="/images/icons/google-icon.svg"
+                alt="Google Icon"
+                width={20}
+                height={20}
+                className="inline mr-2"
+              />
+              Sign Up with Google
+            </span>
+          </Button>
+
+          {/* Sign Up Redirect */}
+          <p className="font-gilroy-medium text-sm text-center">
+            If you have an account?{" "}
+            <Link
+              href={PATHS.AUTH.SIGNUP}
+              className="text-primary-dark hover:underline transition-all"
+            >
+              Sign up here
+            </Link>
+          </p>
+        </div>
       </motion.form>
 
       {/* Toast for error */}

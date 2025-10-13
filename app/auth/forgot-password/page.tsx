@@ -8,9 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
-import Divider from "@/components/ui/Divider";
 
-export default function SignUpPage() {
+export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -43,27 +42,48 @@ export default function SignUpPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.3 }}
+        className="mb-12 hidden md:block"
       >
         <Image
-          src="/images/logo/cruize-easy-logo-icon.svg"
+          src="/images/logo/cruize-easy-logo-dark.svg"
           alt="Cruize Easy Logo Icon"
-          width={70}
-          height={70}
+          width={192}
+          height={38}
+          className="w-40 lg:w-48 h-auto"
           quality={100}
-          className="w-12 h-auto"
           priority
         />
       </motion.div>
 
-      {/* Title */}
-      <motion.h1
+      <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.3 }}
-        className="font-modulus-semibold text-[26px] mb-12"
+        transition={{ delay: 0.2, duration: 0.3 }}
+        className="mb-12 flex flex-col items-center text-center space-y-6"
       >
-        Sign Up
-      </motion.h1>
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.3 }}
+          className="font-modulus-semibold text-[20px] hidden md:block"
+        >
+          Forgot Password
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.3 }}
+          className="font-gilroy-medium text-xs md:text-sm text-neutral-550 md:w-[26rem]"
+        >
+          Enter the email address registered with your account.{" "}
+          <span className="inline lg:hidden">
+            <br />
+          </span>
+          We&apos;ll send you a link to reset your password.
+        </motion.p>
+      </motion.div>
 
       {/* Form */}
       <motion.form
@@ -74,29 +94,12 @@ export default function SignUpPage() {
         className="w-full"
       >
         <div className="space-y-6">
-          <div className="space-y-2">
-            <FormInput
-              id="fullName"
-              label="Full Name"
-              type="text"
-              placeholder="Full Name"
-              // error="Full name is required"
-            />
-            <FormInput
-              id="email"
-              label="Email Address"
-              type="email"
-              placeholder="email@gmail.com"
-              // error="Email is required"
-            />
-            <FormInput
-              id="password"
-              label="Password"
-              type="password"
-              placeholder="Password"
-              showPasswordRules
-            />
-          </div>
+          <FormInput
+            id="email"
+            label="Email Address"
+            type="email"
+            placeholder="email@gmail.com"
+          />
 
           {/* Submit Button */}
           <Button
@@ -108,44 +111,20 @@ export default function SignUpPage() {
             className="p-4 text-xs"
             disabled={loading}
             loading={loading}
-            loadingText="Creating Account..."
+            loadingText="Verifying Account..."
           >
-            Sign Up
-          </Button>
-
-          {/* Divider */}
-          <Divider />
-
-          {/* Google Button */}
-          <Button
-            variant="sign_up_with_google"
-            fontFamily="poppins"
-            fullWidth
-            shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
-            className="hover:bg-neutral-100 transition-colors duration-200"
-            onClick={(e) => e.preventDefault()}
-          >
-            <span>
-              <Image
-                src="/images/icons/google-icon.svg"
-                alt="Google Icon"
-                width={20}
-                height={20}
-                className="inline mr-2"
-              />
-              Sign Up with Google
-            </span>
+            Find my account
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-medium text-sm text-center">
-            If you have an account?{" "}
+          <p className="font-gilroy-semibold text-xs md:text-sm text-neutral-550">
             <Link
               href={PATHS.AUTH.LOGIN}
               className="text-primary-dark hover:underline transition-all"
             >
-              Log in here
+              Remembered Password
             </Link>
+            ? Login to your account
           </p>
         </div>
       </motion.form>
