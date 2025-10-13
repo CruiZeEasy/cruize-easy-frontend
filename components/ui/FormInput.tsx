@@ -109,7 +109,7 @@ export const FormInput: React.FC<InputProps> = ({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           className={clsx(
-            "border border-neutral-200 py-4 px-4 pr-10 bg-white text-gray-900",
+            "border border-neutral-200 p-4 bg-white text-gray-900",
             "transition-all duration-200 ease-in-out focus:border-primary-dark focus:ring-0 outline-none w-full",
             fontFamily === "gilroy-medium" && "font-gilroy-medium",
             fontFamily === "gilroy-semibold" && "font-gilroy-semibold",

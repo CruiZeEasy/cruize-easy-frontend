@@ -143,7 +143,7 @@ export function Button({
         variant === "secondary" && "bg-white text-red-accent px-6 py-4",
         variant === "outline" &&
           "bg-primary text-white border border-white px-6 py-4",
-        variant === "dark-primary" && "bg-primary-dark text-white px-6 py-4",
+        variant === "dark-primary" && "bg-primary-dark text-white p-4",
         variant === "sign_up_with_google" && "bg-white text-neutral-950 p-4",
         isDisabled && "opacity-60 cursor-not-allowed",
         className

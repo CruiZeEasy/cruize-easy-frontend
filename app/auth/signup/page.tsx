@@ -7,6 +7,7 @@ import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 import Link from "next/link";
 import { PATHS } from "@/utils/path";
+import { Toast } from "@/components/ui/Toast";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
@@ -135,6 +136,8 @@ export default function SignUpPage() {
           </Link>
         </p>
       </motion.form>
+
+      <Toast />
     </motion.div>
   );
 }
