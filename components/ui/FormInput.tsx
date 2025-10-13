@@ -48,9 +48,9 @@ export const FormInput: React.FC<InputProps> = ({
       <motion.div
         animate={{
           scale: focused ? 1.005 : 1,
-          boxShadow: focused
-            ? "0px 1px 6px rgba(0,0,0,0.08)"
-            : "0px 0px 0px rgba(0,0,0,0)",
+          // boxShadow: focused
+          //   ? "0px 1px 6px rgba(0,0,0,0.08)"
+          //   : "0px 0px 0px rgba(0,0,0,0)",
         }}
         transition={{ type: "spring", stiffness: 250, damping: 20 }}
         className="relative"
@@ -116,7 +116,7 @@ export const FormInput: React.FC<InputProps> = ({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className={clsx(
-                    "text-xs flex items-center gap-2 font-source-sans",
+                    "text-sm flex items-center gap-2 font-source-sans",
                     isValid ? "text-green" : " text-gray-light"
                   )}
                 >
