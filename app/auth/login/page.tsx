@@ -61,7 +61,7 @@ export default function LoginPage() {
         transition={{ delay: 0.15, duration: 0.3 }}
         className="font-modulus-semibold text-[26px] mb-12"
       >
-        Sign Up
+        Welcome Back
       </motion.h1>
 
       {/* Form */}
@@ -73,13 +73,6 @@ export default function LoginPage() {
         className="w-full"
       >
         <div className="space-y-2 mb-10 md:mb-12">
-          <FormInput
-            id="fullName"
-            label="Full Name"
-            type="text"
-            placeholder="Full Name"
-            // error="Full name is required"
-          />
           <FormInput
             id="email"
             label="Email Address"
@@ -105,9 +98,9 @@ export default function LoginPage() {
           className="p-4 text-xs mb-10 md:mb-12"
           disabled={loading}
           loading={loading}
-          loadingText="Creating Account..."
+          loadingText="Signing In..."
         >
-          Sign Up
+          Login
         </Button>
 
         {/* Divider */}
@@ -142,10 +135,10 @@ export default function LoginPage() {
         <p className="font-gilroy-medium text-sm text-center">
           If you have an account?{" "}
           <Link
-            href={PATHS.AUTH.LOGIN}
+            href={PATHS.AUTH.SIGNUP}
             className="text-primary-dark hover:underline transition-all"
           >
-            Log in here
+            Sign up here
           </Link>
         </p>
       </motion.form>

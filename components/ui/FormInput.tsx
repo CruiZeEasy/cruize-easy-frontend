@@ -126,42 +126,32 @@ export const FormInput: React.FC<InputProps> = ({
       </AnimatePresence>
 
       {/* Password rules */}
-      <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{
-          height: type === "password" && value ? "auto" : 0,
-          opacity: type === "password" && value ? 1 : 0,
-        }}
-        transition={{ duration: 0.25 }}
-        className="overflow-hidden"
-      >
-        {type === "password" && (
-          <div className="mt-4 space-y-1">
-            {passwordRules.map((rule) => {
-              const isValid = rule.test(value);
-              return (
-                <motion.div
-                  key={rule.label}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+      {type === "password" && (
+        <div className="mt-4 space-y-1">
+          {passwordRules.map((rule) => {
+            const isValid = rule.test(value);
+            return (
+              <motion.div
+                key={rule.label}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className={clsx(
+                  "text-sm flex items-center gap-2 font-source-sans",
+                  isValid ? "text-green" : "text-gray-light"
+                )}
+              >
+                <span
                   className={clsx(
-                    "text-sm flex items-center gap-2 font-source-sans",
-                    isValid ? "text-green" : "text-gray-light"
+                    "size-3 rounded-full",
+                    isValid ? "bg-green" : "bg-gray-light"
                   )}
-                >
-                  <span
-                    className={clsx(
-                      "size-3 rounded-full",
-                      isValid ? "bg-green" : "bg-gray-light"
-                    )}
-                  ></span>
-                  {rule.label}
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </motion.div>
+                ></span>
+                {rule.label}
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
