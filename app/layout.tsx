@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -26,6 +26,13 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+const source_sans = Source_Sans_3({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-source-sans",
+});
+
 export const metadata: Metadata = {
   title: "Cruize Easy",
   description: "Cruize Easy car rental platform",
@@ -38,7 +45,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${poppins.variable}`}>
+      <body
+        className={`${inter.variable} ${poppins.variable} ${source_sans.variable}`}
+      >
         {children}
       </body>
     </html>

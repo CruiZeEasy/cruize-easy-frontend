@@ -11,12 +11,23 @@ import { Toast } from "@/components/ui/Toast";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null); // state for API error
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate signup action (for now just fake a delay)
-    setTimeout(() => setLoading(false), 5000);
+    setError(null);
+
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
+
+      // Example: simulate an error
+      const hasError = Math.random() > 0.5; // 50% chance
+      if (hasError) {
+        setError("Email already in use. Try another one!");
+      }
+    }, 2000);
   };
 
   return (
@@ -67,6 +78,7 @@ export default function SignUpPage() {
             label="Full Name"
             type="text"
             placeholder="Full Name"
+            // error="Full name is required"
           />
           <FormInput
             id="email"
@@ -137,7 +149,10 @@ export default function SignUpPage() {
         </p>
       </motion.form>
 
-      <Toast />
+      {/* Toast for error */}
+      {error && (
+        <Toast message={error} type="error" onClose={() => setError(null)} />
+      )}
     </motion.div>
   );
 }

@@ -9,8 +9,13 @@ xl:	1280px	Large desktops
 @theme {
   --color-primary: #ff3a3a;
   --color-primary-dark: #ff3535;
+
   --color-red: #ff0000;
   --color-red-accent: #f20000;
+
+  --color-green: #27c524;
+
+  --color-gray-light: #b4b6b4;
 
   --color-neutral-50: #f8f8f8;
   --color-neutral-100: #fbfbfb;
@@ -26,6 +31,7 @@ xl:	1280px	Large desktops
 
   --font-inter: var(--font-inter);
   --font-poppins: var(--font-poppins);
+  --font-source-sans: var(--font-source-sans);
 
   --font-gilroy-regular: "Gilroy-Regular";
   --font-gilroy-medium: "Gilroy-Medium";

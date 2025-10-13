@@ -1,6 +1,5 @@
 import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
-import { PATHS } from "@/utils/path";
 import { BackButton } from "@/components/ui/BackButton";
 
 export default function AuthLayout({

@@ -1,69 +1,8 @@
-// "use client";
-// import React, { useState } from "react";
-// import clsx from "clsx";
-
-// interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-//   label: string;
-//   id: string;
-//   fullWidth?: boolean;
-//   rounded?: "lg" | "full";
-//   fontFamily?: "gilroy-medium" | "gilroy-semibold";
-// }
-
-// export const FormInput: React.FC<InputProps> = ({
-//   label,
-//   id,
-//   type = "text",
-//   fullWidth = true,
-//   rounded = "lg",
-//   fontFamily = "gilroy-medium",
-//   className,
-//   ...props
-// }) => {
-//   const [showPassword, setShowPassword] = useState(false);
-//   const inputType = type === "password" && showPassword ? "text" : type;
-
-//   return (
-//     <div className={clsx("flex flex-col space-y-2", fullWidth && "w-full")}>
-//       <label htmlFor={id} className="font-gilroy-bold text-sm">
-//         {label}
-//       </label>
-
-//       <div className="relative">
-//         <input
-//           id={id}
-//           type={inputType}
-//           className={clsx(
-//             "border border-neutral-200 py-4 px-4 pr-10 transition-all duration-200 ease-in-out focus:ring-1 focus:ring-primary outline-none w-full",
-//             fontFamily === "gilroy-medium" && "font-gilroy-medium",
-//             fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
-//             rounded === "full" && "rounded-full",
-//             rounded === "lg" && "rounded-lg",
-//             className
-//           )}
-//           {...props}
-//         />
-
-//         {type === "password" && (
-//           <i
-//             className={clsx(
-//               "fa",
-//               showPassword ? "fa-eye-slash" : "fa-eye",
-//               "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 text-sm transition duration-200 hover:scale-[1.1] active:scale-90"
-//             )}
-//             onClick={() => setShowPassword((prev) => !prev)}
-//           ></i>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
 "use client";
 
 import React, { useState } from "react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -71,6 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   fullWidth?: boolean;
   rounded?: "lg" | "full";
   fontFamily?: "gilroy-medium" | "gilroy-semibold";
+  error?: string;
 }
 
 export const FormInput: React.FC<InputProps> = ({
@@ -80,12 +20,24 @@ export const FormInput: React.FC<InputProps> = ({
   fullWidth = true,
   rounded = "lg",
   fontFamily = "gilroy-medium",
+  error,
   className,
   ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [value, setValue] = useState("");
   const inputType = type === "password" && showPassword ? "text" : type;
+
+  // Password rules
+  const passwordRules = [
+    { label: "At least 8 characters", test: (val: string) => val.length >= 8 },
+    { label: "At least 1 number", test: (val: string) => /\d/.test(val) },
+    {
+      label: "Upper and lower case letters",
+      test: (val: string) => /[a-z]/.test(val) && /[A-Z]/.test(val),
+    },
+  ];
 
   return (
     <div className={clsx("flex flex-col space-y-2", fullWidth && "w-full")}>
@@ -103,35 +55,83 @@ export const FormInput: React.FC<InputProps> = ({
         transition={{ type: "spring", stiffness: 250, damping: 20 }}
         className="relative"
       >
-        <input
-          id={id}
-          type={inputType}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          className={clsx(
-            "border border-neutral-200 p-4 bg-white text-gray-900",
-            "transition-all duration-200 ease-in-out focus:border-primary-dark focus:ring-0 outline-none w-full",
-            fontFamily === "gilroy-medium" && "font-gilroy-medium",
-            fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
-            rounded === "full" && "rounded-full",
-            rounded === "lg" && "rounded-lg",
-            className
-          )}
-          {...props}
-        />
-
-        {type === "password" && (
-          <motion.i
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onMouseDown={(e) => e.preventDefault()} // Prevent input blur on click
+        {/* Input wrapper for eye icon */}
+        <div className="relative">
+          <input
+            id={id}
+            type={inputType}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
             className={clsx(
-              "fa",
-              showPassword ? "fa-eye-slash" : "fa-eye",
-              "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 text-sm transition-colors duration-200 hover:text-gray-700"
+              "border border-neutral-200 p-4 bg-white text-gray-900 w-full",
+              "transition-all duration-200 ease-in-out focus:border-primary-dark focus:ring-0 outline-none",
+              fontFamily === "gilroy-medium" && "font-gilroy-medium",
+              fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
+              rounded === "full" && "rounded-full",
+              rounded === "lg" && "rounded-lg",
+              className
             )}
-            onClick={() => setShowPassword((prev) => !prev)}
-          ></motion.i>
+            {...props}
+          />
+
+          {type === "password" && (
+            <motion.i
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onMouseDown={(e) => e.preventDefault()}
+              className={clsx(
+                "fa",
+                showPassword ? "fa-eye-slash" : "fa-eye",
+                "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 text-sm transition-colors duration-200 hover:text-gray-700"
+              )}
+              onClick={() => setShowPassword((prev) => !prev)}
+            />
+          )}
+        </div>
+
+        {/* Error message */}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -2 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -2 }}
+              className="text-xs text-red-500 font-medium mt-1"
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Password rules */}
+        {type === "password" && value && (
+          <div className="mt-6 space-y-1">
+            {passwordRules.map((rule) => {
+              const isValid = rule.test(value);
+              return (
+                <motion.div
+                  key={rule.label}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className={clsx(
+                    "text-xs flex items-center gap-2 font-source-sans",
+                    isValid ? "text-green" : " text-gray-light"
+                  )}
+                >
+                  <span
+                    className={clsx(
+                      "size-3 rounded-full",
+                      isValid ? "bg-green" : "bg-gray-light"
+                    )}
+                  ></span>
+
+                  {rule.label}
+                </motion.div>
+              );
+            })}
+          </div>
         )}
       </motion.div>
     </div>
