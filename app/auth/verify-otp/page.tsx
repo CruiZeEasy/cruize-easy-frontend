@@ -1,31 +1,38 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
-import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { OTPInput } from "@/components/ui/OTPInput";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 
-export default function ForgotPasswordPage() {
+export default function VerifyOtpPage() {
+  const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (code?: string, e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    const finalCode = code || otp;
+
+    if (finalCode.length !== 6) {
+      setError("Please enter all 6 digits");
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
-    // Simulate API call
     setTimeout(() => {
       setLoading(false);
 
-      // Example: simulate an error
-      const hasError = Math.random() > 0.5; // 50% chance
+      const hasError = Math.random() > 0.5;
       if (hasError) {
-        setError("Email already in use. Try another one!");
+        setError("Incorrect Code. Please try again!");
       }
     }, 2000);
   };
@@ -68,7 +75,7 @@ export default function ForgotPasswordPage() {
           transition={{ delay: 0.25, duration: 0.3 }}
           className="font-modulus-semibold text-[20px] hidden md:block"
         >
-          Forgot Password
+          Verify OTP
         </motion.h1>
 
         <motion.p
@@ -77,25 +84,28 @@ export default function ForgotPasswordPage() {
           transition={{ delay: 0.3, duration: 0.3 }}
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
-          Enter the email address registered with your account. We&apos;ll send
-          you a link to reset your password.
+          We&apos;ve sent an email to becca@gmail.com, please enter the code
+          below.
         </motion.p>
       </motion.div>
 
       {/* Form */}
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(undefined, e)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.3 }}
         className="w-full"
       >
         <div className="space-y-6">
-          <FormInput
-            id="email"
-            label="Email Address"
-            type="email"
-            placeholder="email@gmail.com"
+          <OTPInput
+            onChange={setOtp}
+            error={error}
+            onComplete={(code) => {
+              if (!loading) {
+                handleSubmit(code);
+              }
+            }}
           />
 
           {/* Submit Button */}
@@ -108,19 +118,19 @@ export default function ForgotPasswordPage() {
             className="p-4 text-xs"
             disabled={loading}
             loading={loading}
-            loadingText="Verifying Account..."
+            loadingText="Verifying Code..."
           >
-            Find my account
+            Verify
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-semibold text-sm text-neutral-550">
-            Remembered Password?{" "}
+          <p className="font-gilroy-semibold text-sm md:text-center text-neutral-550">
+            Didn&apos;t see your email?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}
-              className="text-primary-dark hover:underline transition-all"
+              className="text-blue-600 hover:underline transition-all"
             >
-              Login to your account
+              Resend
             </Link>
           </p>
         </div>

@@ -1,6 +1,7 @@
 import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
 import { BackButton } from "@/components/ui/BackButton";
+import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
 
 export default function AuthLayout({
   children,
@@ -22,15 +23,8 @@ export default function AuthLayout({
               />
               <BackButton variant="desktop" />
             </div>
-            <div className="flex flex-col justify-center">
-              <div className="flex justify-between items-center mb-6 md:mb-0 md:hidden">
-                <BackButton variant="mobile" />
-
-                <span className="font-modulus-semibold">Forgot Password</span>
-
-                {/* This is here Just to make sure the span stays centered */}
-                <div />
-              </div>
+            <div className="flex flex-col ">
+              <MobileAuthHeader />
 
               {children}
             </div>

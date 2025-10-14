@@ -7,15 +7,13 @@ xl:	1280px	Large desktops
 2xl:	1536px	Very large screens, wide monitors */
 
 @theme {
-  --color-primary: #ff3a3a;
-  --color-primary-dark: #ff3535;
+  --breakpoint-xs: 374px;
 
-  --color-red: #ff0000;
-  --color-red-accent: #f20000;
-
-  --color-green: #27c524;
+  --color-blue-600: #1443c3;
 
   --color-gray-light: #b4b6b4;
+
+  --color-green: #27c524;
 
   --color-neutral-50: #f8f8f8;
   --color-neutral-100: #fbfbfb;
@@ -29,6 +27,12 @@ xl:	1280px	Large desktops
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
   --color-neutral-950: #191d31;
+
+  --color-primary: #ff3a3a;
+  --color-primary-dark: #ff3535;
+
+  --color-red: #ff0000;
+  --color-red-accent: #f20000;
 
   --font-inter: var(--font-inter);
   --font-poppins: var(--font-poppins);
