@@ -8,24 +8,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  forgotPasswordSchema,
+  ForgotPasswordFormData,
+} from "@/schemas/auth/forgotPasswordSchema";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ForgotPasswordFormData>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
+
+  const onSubmit = (data: ForgotPasswordFormData) => {
     setLoading(true);
     setError(null);
+
+    const trimmedData = { email: data.email.trim() };
 
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
 
-      // Example: simulate an error
-      const hasError = Math.random() > 0.5; // 50% chance
+      // Example: simulate success or error
+      const hasError = Math.random() > 0.5;
       if (hasError) {
-        setError("Email already in use. Try another one!");
+        setError("No account found with this email address.");
+      } else {
+        reset();
+        console.log("✅ Password reset link sent to:", trimmedData.email);
       }
     }, 2000);
   };
@@ -84,7 +103,7 @@ export default function ForgotPasswordPage() {
 
       {/* Form */}
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.3 }}
@@ -96,6 +115,9 @@ export default function ForgotPasswordPage() {
             label="Email Address"
             type="email"
             placeholder="email@gmail.com"
+            autoComplete="email"
+            {...register("email")}
+            error={errors.email?.message}
           />
 
           {/* Submit Button */}
@@ -114,7 +136,7 @@ export default function ForgotPasswordPage() {
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-medium text-sm text-neutral-550">
+          <p className="font-gilroy-medium text-sm text-neutral-550 text-center">
             Remembered Password?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}

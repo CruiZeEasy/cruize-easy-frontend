@@ -1,32 +1,58 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
+import Divider from "@/components/ui/Divider";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { PATHS } from "@/utils/path";
+import { signupSchema, SignupFormData } from "@/schemas/auth/signupSchema";
 import { Toast } from "@/components/ui/Toast";
-import Divider from "@/components/ui/Divider";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch,
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
+  });
+
+  // const passwordValue = watch("password");
+
+  const normalize = (str: string) => str.trim().replace(/\s+/g, " ");
+
+  const onSubmit = (data: SignupFormData) => {
     setLoading(true);
     setError(null);
+
+    const trimmedData = {
+      ...data,
+      fullName: normalize(data.fullName),
+      email: data.email.trim(),
+      password: data.password,
+    };
 
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
 
       // Example: simulate an error
-      const hasError = Math.random() > 0.5; // 50% chance
+      const hasError = Math.random() > 0.5;
       if (hasError) {
         setError("Email already in use. Try another one!");
+      } else {
+        reset();
+        console.log("✅ Form submitted:", trimmedData);
       }
     }, 2000);
   };
@@ -67,7 +93,7 @@ export default function SignUpPage() {
 
       {/* Form */}
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.3 }}
@@ -79,22 +105,32 @@ export default function SignUpPage() {
               id="fullName"
               label="Full Name"
               type="text"
+              autoComplete="name"
               placeholder="Full Name"
-              // error="Full name is required"
+              {...register("fullName")}
+              error={errors.fullName?.message}
             />
+
             <FormInput
               id="email"
               label="Email Address"
               type="email"
+              autoComplete="email"
               placeholder="email@gmail.com"
-              // error="Email is required"
+              {...register("email")}
+              error={errors.email?.message}
             />
+
             <FormInput
               id="password"
               label="Password"
               type="password"
+              autoComplete="new-password"
               placeholder="Password"
-              showPasswordRules
+              // showPasswordRules
+              // watchValue={passwordValue} Might need later, basically used for showing password rules
+              {...register("password")}
+              error={errors.password?.message}
             />
           </div>
 

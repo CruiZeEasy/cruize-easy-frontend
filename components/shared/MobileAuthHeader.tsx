@@ -14,6 +14,8 @@ export function MobileAuthHeader() {
     pathname.includes(PATHS.AUTH.VERIFY_OTP) ||
     pathname.includes(PATHS.AUTH.RESET_PASSWORD);
 
+  const isResetPasswordPage = pathname.includes(PATHS.AUTH.RESET_PASSWORD);
+
   const pageTitle = pathname.includes("forgot-password")
     ? "Forgot Password"
     : pathname.includes("verify")
@@ -29,7 +31,8 @@ export function MobileAuthHeader() {
 
   return (
     <div className={containerClass}>
-      <BackButton variant="mobile" />
+      {/* Hide back button only on reset-password page */}
+      {isResetPasswordPage ? <div /> : <BackButton variant="mobile" />}
 
       {showCenteredTitle ? (
         <>

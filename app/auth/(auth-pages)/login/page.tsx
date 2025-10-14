@@ -9,24 +9,43 @@ import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 import Divider from "@/components/ui/Divider";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, LoginFormData } from "@/schemas/auth/loginSchema";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = (data: LoginFormData) => {
     setLoading(true);
     setError(null);
+
+    // Normalize inputs
+    const trimmedData = {
+      ...data,
+      email: data.email.trim(),
+      password: data.password,
+    };
 
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-
-      // Example: simulate an error
-      const hasError = Math.random() > 0.5; // 50% chance
+      const hasError = Math.random() > 0.5;
       if (hasError) {
-        setError("Email already in use. Try another one!");
+        setError("Invalid email or password!");
+      } else {
+        reset();
+        console.log("✅ Logged in:", trimmedData);
       }
     }, 2000);
   };
@@ -67,7 +86,7 @@ export default function LoginPage() {
 
       {/* Form */}
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.3 }}
@@ -80,13 +99,20 @@ export default function LoginPage() {
               label="Email Address"
               type="email"
               placeholder="email@gmail.com"
+              autoComplete="email"
+              {...register("email")}
+              error={errors.email?.message}
             />
+
             <div className="space-y-2">
               <FormInput
                 id="password"
                 label="Password"
                 type="password"
                 placeholder="Password"
+                autoComplete="current-password"
+                {...register("password")}
+                error={errors.password?.message}
               />
 
               <div className="flex justify-end">
@@ -141,7 +167,7 @@ export default function LoginPage() {
 
           {/* Sign Up Redirect */}
           <p className="font-gilroy-medium text-sm text-center">
-            If you have an account?{" "}
+            If you don’t have an account?{" "}
             <Link
               href={PATHS.AUTH.SIGNUP}
               className="text-primary-dark hover:underline transition-all"

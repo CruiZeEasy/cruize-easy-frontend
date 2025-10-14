@@ -5,24 +5,44 @@ import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import { motion } from "framer-motion";
 import { Toast } from "@/components/ui/Toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  resetPasswordSchema,
+  ResetPasswordFormData,
+} from "@/schemas/auth/resetPasswordSchema";
 
-export default function ChangePasswordPage() {
+export default function ResetPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ResetPasswordFormData>({
+    resolver: zodResolver(resetPasswordSchema),
+  });
+
+  const onSubmit = (data: ResetPasswordFormData) => {
     setLoading(true);
     setError(null);
+
+    const trimmedData = {
+      newPassword: data.newPassword.trim(),
+      confirmPassword: data.confirmPassword.trim(),
+    };
 
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-
-      // Example: simulate an error
-      const hasError = Math.random() > 0.5; // 50% chance
+      const hasError = Math.random() > 0.5;
       if (hasError) {
-        setError("Email already in use. Try another one!");
+        setError("Something went wrong, please try again!");
+      } else {
+        reset();
+        console.log("✅ Form submitted:", trimmedData);
       }
     }, 2000);
   };
@@ -34,74 +54,56 @@ export default function ChangePasswordPage() {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="flex flex-col items-center md:py-12"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.3 }}
-        className="mb-12 flex flex-col items-center text-center space-y-6"
-      >
-        {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.3 }}
-          className="font-modulus-semibold text-[20px] hidden md:block"
-        >
+      <div className="mb-12 flex flex-col items-center text-center space-y-6">
+        <h1 className="font-modulus-semibold text-[20px] hidden md:block">
           Reset Password
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-          className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
-        >
+        </h1>
+        <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]">
           Please enter your new password below to reset your account.
-        </motion.p>
-      </motion.div>
+        </p>
+      </div>
 
-      {/* Form */}
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.25, duration: 0.3 }}
-        className="w-full"
+        className="w-full space-y-6"
       >
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <FormInput
-              id="password"
-              label="New Password"
-              type="password"
-              placeholder="New Password"
-            />
-            <FormInput
-              id="password"
-              label="Confirm Password"
-              type="password"
-              placeholder="Confirm Password"
-              showPasswordRules
-            />
-          </div>
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            variant="dark-primary"
-            fontFamily="inter"
-            fullWidth
-            shadow="shadow-none"
-            className="p-4 text-xs"
-            disabled={loading}
-            loading={loading}
-            loadingText="Updating Password..."
-          >
-            Reset Password
-          </Button>
+        <div className="space-y-4">
+          <FormInput
+            id="newPassword"
+            label="New Password"
+            type="password"
+            placeholder="New Password"
+            {...register("newPassword")}
+            error={errors.newPassword?.message}
+          />
+          <FormInput
+            id="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            placeholder="Confirm Password"
+            {...register("confirmPassword")}
+            error={errors.confirmPassword?.message}
+          />
         </div>
+
+        <Button
+          type="submit"
+          variant="dark-primary"
+          fontFamily="inter"
+          fullWidth
+          shadow="shadow-none"
+          className="p-4 text-xs"
+          disabled={loading}
+          loading={loading}
+          loadingText="Updating Password..."
+        >
+          Reset Password
+        </Button>
       </motion.form>
 
-      {/* Toast for error */}
       {error && (
         <Toast message={error} type="error" onClose={() => setError(null)} />
       )}
