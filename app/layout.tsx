@@ -29,7 +29,7 @@ const poppins = Poppins({
 const source_sans = Source_Sans_3({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400"],
+  weight: ["400", "600"],
   variable: "--font-source-sans",
 });
 

@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
-import Image from "next/image";
-import Link from "next/link";
-import { PATHS } from "@/utils/path";
+import { motion } from "framer-motion";
 import { Toast } from "@/components/ui/Toast";
 
-export default function ForgotPasswordPage() {
+export default function ChangePasswordPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,26 +32,8 @@ export default function ForgotPasswordPage() {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
+      className="flex flex-col items-center md:py-12"
     >
-      {/* Logo */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
-        className="mb-12 hidden md:block"
-      >
-        <Image
-          src="/images/logo/cruize-easy-logo-dark.svg"
-          alt="Cruize Easy Logo Icon"
-          width={192}
-          height={38}
-          className="w-48 h-auto"
-          quality={100}
-          priority
-        />
-      </motion.div>
-
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -68,7 +47,7 @@ export default function ForgotPasswordPage() {
           transition={{ delay: 0.25, duration: 0.3 }}
           className="font-modulus-semibold text-[20px] hidden md:block"
         >
-          Forgot Password
+          Reset Password
         </motion.h1>
 
         <motion.p
@@ -77,8 +56,7 @@ export default function ForgotPasswordPage() {
           transition={{ delay: 0.3, duration: 0.3 }}
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
-          Enter the email address registered with your account. We&apos;ll send
-          you a link to reset your password.
+          Please enter your new password below to reset your account.
         </motion.p>
       </motion.div>
 
@@ -91,13 +69,21 @@ export default function ForgotPasswordPage() {
         className="w-full"
       >
         <div className="space-y-6">
-          <FormInput
-            id="email"
-            label="Email Address"
-            type="email"
-            placeholder="email@gmail.com"
-          />
-
+          <div className="space-y-2">
+            <FormInput
+              id="password"
+              label="New Password"
+              type="password"
+              placeholder="New Password"
+            />
+            <FormInput
+              id="password"
+              label="Confirm Password"
+              type="password"
+              placeholder="Confirm Password"
+              showPasswordRules
+            />
+          </div>
           {/* Submit Button */}
           <Button
             type="submit"
@@ -108,21 +94,10 @@ export default function ForgotPasswordPage() {
             className="p-4 text-xs"
             disabled={loading}
             loading={loading}
-            loadingText="Verifying Account..."
+            loadingText="Updating Password..."
           >
-            Find my account
+            Reset Password
           </Button>
-
-          {/* Login Redirect */}
-          <p className="font-gilroy-semibold text-sm text-neutral-550">
-            Remembered Password?{" "}
-            <Link
-              href={PATHS.AUTH.LOGIN}
-              className="text-primary-dark hover:underline transition-all"
-            >
-              Login to your account
-            </Link>
-          </p>
         </div>
       </motion.form>
 

@@ -1,18 +1,20 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
 import clsx from "clsx";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 interface BackButtonProps {
   variant?: "desktop" | "mobile";
   className?: string;
+  showOnDesktop?: boolean;
 }
 
 export function BackButton({
   variant = "desktop",
   className,
+  showOnDesktop = false,
 }: BackButtonProps) {
   const router = useRouter();
   const isDesktop = variant === "desktop";
@@ -26,7 +28,7 @@ export function BackButton({
       className={clsx(
         isDesktop
           ? "absolute top-6 left-10 cursor-pointer"
-          : "md:hidden  w-fit cursor-pointer",
+          : clsx("w-fit cursor-pointer", !showOnDesktop && "md:hidden"),
         className
       )}
     >

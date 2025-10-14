@@ -123,8 +123,8 @@ export default function VerifyOtpPage() {
             Verify
           </Button>
 
-          {/* Login Redirect */}
-          <p className="font-gilroy-semibold text-sm md:text-center text-neutral-550">
+          {/* Resend Code Redirect */}
+          <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
             Didn&apos;t see your email?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}

@@ -12,14 +12,14 @@ export function MobileAuthHeader() {
   const showCenteredTitle =
     pathname.includes(PATHS.AUTH.FORGOT_PASSWORD) ||
     pathname.includes(PATHS.AUTH.VERIFY_OTP) ||
-    pathname.includes("/auth/change-password");
+    pathname.includes(PATHS.AUTH.RESET_PASSWORD);
 
   const pageTitle = pathname.includes("forgot-password")
     ? "Forgot Password"
     : pathname.includes("verify")
     ? "Verify OTP"
-    : pathname.includes("change-password")
-    ? "Change Password"
+    : pathname.includes("reset-password")
+    ? "Reset Password"
     : "";
 
   const containerClass = clsx(
