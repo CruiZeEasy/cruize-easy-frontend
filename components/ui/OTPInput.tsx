@@ -102,7 +102,7 @@ export const OTPInput: React.FC<OTPInputProps> = ({
             onKeyDown={(e) => handleKeyDown(e, i)}
             onPaste={handlePaste}
             whileFocus={{
-              scale: 1.05,
+              // scale: 1.05,
               boxShadow: "0px 1px 6px rgba(0,0,0,0.08)",
             }}
             transition={{ type: "spring", stiffness: 250, damping: 20 }}
