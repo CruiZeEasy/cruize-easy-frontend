@@ -89,12 +89,14 @@ export default function LoginPage() {
                 placeholder="Password"
               />
 
-              <Link
-                href={PATHS.AUTH.FORGOT_PASSWORD}
-                className="font-gilroy-bold text-sm text-primary-dark w-fit flex justify-self-end mt-1 hover:underline transition-all"
-              >
-                Forgot Password
-              </Link>
+              <div className="flex justify-end">
+                <Link
+                  href={PATHS.AUTH.FORGOT_PASSWORD}
+                  className="font-gilroy-bold text-sm text-primary-dark hover:underline transition-all"
+                >
+                  Forgot Password
+                </Link>
+              </div>
             </div>
           </div>
 
