@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/Spinner";
 
+export const dynamic = "force-dynamic";
+
 export default function OAuthRedirect() {
   const router = useRouter();
   const params = useSearchParams();
