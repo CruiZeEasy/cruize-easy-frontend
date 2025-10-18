@@ -37,8 +37,6 @@ export default function ForgotPasswordPage() {
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-
-      // Example: simulate success or error
       const hasError = Math.random() > 0.5;
       if (hasError) {
         setError("No account found with this email address.");
@@ -49,18 +47,21 @@ export default function ForgotPasswordPage() {
     }, 2000);
   };
 
+  // Delay offsets to stagger internal animations after transition overlay
+  const DELAY_OFFSET = 0.5;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ delay: DELAY_OFFSET, duration: 0.4, ease: "easeOut" }}
       className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
     >
       {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
+        transition={{ delay: DELAY_OFFSET + 0.1, duration: 0.3 }}
         className="mb-12 hidden md:block"
       >
         <Image
@@ -74,17 +75,17 @@ export default function ForgotPasswordPage() {
         />
       </motion.div>
 
+      {/* Title + Description */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.3 }}
+        transition={{ delay: DELAY_OFFSET + 0.2, duration: 0.3 }}
         className="mb-12 flex flex-col items-center text-center space-y-6"
       >
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.3 }}
+          transition={{ delay: DELAY_OFFSET + 0.25, duration: 0.3 }}
           className="font-modulus-semibold text-[20px] hidden md:block"
         >
           Forgot Password
@@ -93,7 +94,7 @@ export default function ForgotPasswordPage() {
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
+          transition={{ delay: DELAY_OFFSET + 0.3, duration: 0.3 }}
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
           Enter the email address registered with your account. We&apos;ll send
@@ -106,7 +107,7 @@ export default function ForgotPasswordPage() {
         onSubmit={handleSubmit(onSubmit)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.3 }}
+        transition={{ delay: DELAY_OFFSET + 0.35, duration: 0.3 }}
         className="w-full"
       >
         <div className="space-y-6">
@@ -136,7 +137,7 @@ export default function ForgotPasswordPage() {
           </Button>
 
           {/* Login Redirect */}
-          <p className="font-gilroy-medium text-sm text-neutral-550 text-center">
+          <p className="font-gilroy-medium text-sm text-neutral-550">
             Remembered Password?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}

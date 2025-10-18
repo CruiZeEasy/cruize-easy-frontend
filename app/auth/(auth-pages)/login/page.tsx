@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { API_BASE_URL } from "@/utils/api";
+import { API_ROUTES } from "@/utils/apiRoutes";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
@@ -45,7 +47,7 @@ export default function LoginPage() {
         setError("Invalid email or password!");
       } else {
         reset();
-        console.log("✅ Logged in:", trimmedData);
+        console.log("Logged in:", trimmedData);
       }
     }, 2000);
   };
@@ -146,12 +148,15 @@ export default function LoginPage() {
 
           {/* Google Button */}
           <Button
+            type="button"
             variant="sign_up_with_google"
             fontFamily="poppins"
             fullWidth
             shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
             className="hover:bg-neutral-100 transition-colors duration-200"
-            onClick={(e) => e.preventDefault()}
+            onClick={() => {
+              window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}`;
+            }}
           >
             <span>
               <Image
@@ -161,7 +166,7 @@ export default function LoginPage() {
                 height={20}
                 className="inline mr-2"
               />
-              Sign Up with Google
+              Sign In with Google
             </span>
           </Button>
 

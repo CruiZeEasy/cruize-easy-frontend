@@ -76,6 +76,7 @@ export default function ResetPasswordPage() {
             label="New Password"
             type="password"
             placeholder="New Password"
+            autoComplete="new-password"
             {...register("newPassword")}
             error={errors.newPassword?.message}
           />
@@ -84,6 +85,7 @@ export default function ResetPasswordPage() {
             label="Confirm Password"
             type="password"
             placeholder="Confirm Password"
+            autoComplete="new-password"
             {...register("confirmPassword")}
             error={errors.confirmPassword?.message}
           />

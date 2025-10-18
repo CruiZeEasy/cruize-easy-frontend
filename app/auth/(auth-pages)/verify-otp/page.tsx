@@ -9,6 +9,8 @@ import { OTPInput } from "@/components/ui/OTPInput";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 
+const DELAY_OFFSET = 0.5; // starts after transition overlay disappears
+
 export default function VerifyOtpPage() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -16,7 +18,6 @@ export default function VerifyOtpPage() {
 
   const handleSubmit = async (code?: string, e?: React.FormEvent) => {
     e?.preventDefault();
-
     const finalCode = code || otp;
 
     if (finalCode.length !== 6) {
@@ -29,7 +30,6 @@ export default function VerifyOtpPage() {
 
     setTimeout(() => {
       setLoading(false);
-
       const hasError = Math.random() > 0.5;
       if (hasError) {
         setError("Incorrect Code. Please try again!");
@@ -41,14 +41,14 @@ export default function VerifyOtpPage() {
     <motion.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.4, ease: "easeOut", delay: DELAY_OFFSET }}
       className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
     >
       {/* Logo */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.3 }}
+        transition={{ delay: DELAY_OFFSET + 0.1, duration: 0.3 }}
         className="mb-12 hidden md:block"
       >
         <Image
@@ -62,17 +62,17 @@ export default function VerifyOtpPage() {
         />
       </motion.div>
 
+      {/* Title & description */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.3 }}
+        transition={{ delay: DELAY_OFFSET + 0.2, duration: 0.3 }}
         className="mb-12 flex flex-col items-center text-center space-y-6"
       >
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.3 }}
+          transition={{ delay: DELAY_OFFSET + 0.25, duration: 0.3 }}
           className="font-modulus-semibold text-[20px] hidden md:block"
         >
           Verify OTP
@@ -81,7 +81,7 @@ export default function VerifyOtpPage() {
         <motion.p
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
+          transition={{ delay: DELAY_OFFSET + 0.3, duration: 0.3 }}
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
           We&apos;ve sent an email to becca@gmail.com, please enter the code
@@ -94,49 +94,42 @@ export default function VerifyOtpPage() {
         onSubmit={(e) => handleSubmit(undefined, e)}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.3 }}
-        className="w-full"
+        transition={{ delay: DELAY_OFFSET + 0.35, duration: 0.3 }}
+        className="w-full space-y-6"
       >
-        <div className="space-y-6">
-          <OTPInput
-            onChange={setOtp}
-            error={error}
-            onComplete={(code) => {
-              if (!loading) {
-                handleSubmit(code);
-              }
-            }}
-          />
+        <OTPInput
+          onChange={setOtp}
+          error={error}
+          onComplete={(code) => {
+            if (!loading) handleSubmit(code);
+          }}
+        />
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            variant="dark-primary"
-            fontFamily="inter"
-            fullWidth
-            shadow="shadow-none"
-            className="p-4 text-xs"
-            disabled={loading}
-            loading={loading}
-            loadingText="Verifying Code..."
+        <Button
+          type="submit"
+          variant="dark-primary"
+          fontFamily="inter"
+          fullWidth
+          shadow="shadow-none"
+          className="p-4 text-xs"
+          disabled={loading}
+          loading={loading}
+          loadingText="Verifying Code..."
+        >
+          Verify
+        </Button>
+
+        <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
+          Didn&apos;t see your email?{" "}
+          <Link
+            href={PATHS.AUTH.LOGIN}
+            className="text-blue-600 hover:underline transition-all"
           >
-            Verify
-          </Button>
-
-          {/* Resend Code Redirect */}
-          <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
-            Didn&apos;t see your email?{" "}
-            <Link
-              href={PATHS.AUTH.LOGIN}
-              className="text-blue-600 hover:underline transition-all"
-            >
-              Resend
-            </Link>
-          </p>
-        </div>
+            Resend
+          </Link>
+        </p>
       </motion.form>
 
-      {/* Toast for error */}
       {error && (
         <Toast message={error} type="error" onClose={() => setError(null)} />
       )}
