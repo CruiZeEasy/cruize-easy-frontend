@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { OAuthRedirectClient } from "./OauthRedirectClient";
+import { OAuthRedirectClient } from "./_components/OAuthRedirectClient";
 
 export default function OAuthRedirectPage() {
   return (
