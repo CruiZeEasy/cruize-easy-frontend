@@ -1,40 +1,127 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Buttons";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { OTPInput } from "@/components/ui/OTPInput";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
+import { useRouter, useSearchParams } from "next/navigation";
+import { verifyOtp, resendOtp } from "@/services/authService";
 
-const DELAY_OFFSET = 0.5; // starts after transition overlay disappears
+const DELAY_OFFSET = 0.5;
+const RESEND_COOLDOWN = 60; // seconds
 
 export default function VerifyOtpPage() {
   const [otp, setOtp] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
+  const [cooldown, setCooldown] = useState(0);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const email = searchParams.get("email") || "";
+  const type = searchParams.get("type") || "signup";
+
+  // Toast close handler
+  const handleToastClose = useCallback(() => {
+    setToast(null);
+  }, []);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (cooldown === 0) return;
+    const interval = setInterval(() => setCooldown((prev) => prev - 1), 1000);
+    return () => clearInterval(interval);
+  }, [cooldown]);
 
   const handleSubmit = async (code?: string, e?: React.FormEvent) => {
     e?.preventDefault();
     const finalCode = code || otp;
 
     if (finalCode.length !== 6) {
-      setError("Please enter all 6 digits");
+      setToast({ message: "Please enter all 6 digits", type: "error" });
       return;
     }
 
-    setLoading(true);
-    setError(null);
+    setVerifyLoading(true);
+    setToast(null);
 
-    setTimeout(() => {
-      setLoading(false);
-      const hasError = Math.random() > 0.5;
-      if (hasError) {
-        setError("Incorrect Code. Please try again!");
+    try {
+      const res = await verifyOtp({
+        email,
+        otp: finalCode,
+        type: type === "signup" ? "REGISTRATION" : "PASSWORD_RESET",
+      });
+
+      if (res?.success) {
+        setToast({
+          message:
+            type === "signup"
+              ? "Account verified successfully!"
+              : "OTP verified! Proceed to reset password.",
+          type: "success",
+        });
+
+        setTimeout(() => {
+          if (type === "signup") {
+            router.push(PATHS.AUTH.LOGIN);
+          } else {
+            const { verificationToken } = res;
+            router.push(
+              `${PATHS.AUTH.RESET_PASSWORD}?email=${encodeURIComponent(
+                email
+              )}&token=${verificationToken}`
+            );
+          }
+        }, 1500);
+      } else {
+        throw new Error(res?.message || "Invalid or expired OTP");
       }
-    }, 2000);
+    } catch (error: any) {
+      setToast({
+        message: error.message || "Verification failed. Try again.",
+        type: "error",
+      });
+    } finally {
+      setVerifyLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (cooldown > 0) return;
+
+    setResendLoading(true);
+    setToast(null);
+
+    try {
+      const res = await resendOtp({
+        email,
+        type: type === "signup" ? "REGISTRATION" : "PASSWORD_RESET",
+      });
+
+      if (res?.success) {
+        setToast({
+          message: "OTP resent successfully! Check your email.",
+          type: "success",
+        });
+        setCooldown(RESEND_COOLDOWN);
+      } else {
+        throw new Error(res?.message || "Failed to resend OTP");
+      }
+    } catch (error: any) {
+      setToast({
+        message: error.message || "Could not resend OTP. Try again.",
+        type: "error",
+      });
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   return (
@@ -84,8 +171,8 @@ export default function VerifyOtpPage() {
           transition={{ delay: DELAY_OFFSET + 0.3, duration: 0.3 }}
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
-          We&apos;ve sent an email to becca@gmail.com, please enter the code
-          below.
+          We&apos;ve sent an email to <strong>{email}</strong>, please enter the
+          code below.
         </motion.p>
       </motion.div>
 
@@ -99,9 +186,9 @@ export default function VerifyOtpPage() {
       >
         <OTPInput
           onChange={setOtp}
-          error={error}
+          error={toast?.type === "error" ? toast.message : undefined}
           onComplete={(code) => {
-            if (!loading) handleSubmit(code);
+            if (!verifyLoading) handleSubmit(code);
           }}
         />
 
@@ -112,26 +199,41 @@ export default function VerifyOtpPage() {
           fullWidth
           shadow="shadow-none"
           className="p-4 text-xs"
-          disabled={loading}
-          loading={loading}
+          disabled={verifyLoading || resendLoading}
+          loading={verifyLoading}
           loadingText="Verifying Code..."
         >
           Verify
         </Button>
 
         <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
-          Didn&apos;t see your email?{" "}
-          <Link
-            href={PATHS.AUTH.LOGIN}
-            className="text-blue-600 hover:underline transition-all"
+          Didn’t see your email?{" "}
+          <button
+            type="button"
+            className={`text-blue-600 hover:underline transition-all ${
+              cooldown > 0 || resendLoading
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
+            onClick={handleResend}
+            disabled={cooldown > 0 || resendLoading}
           >
-            Resend
-          </Link>
+            {resendLoading
+              ? "Resending..."
+              : cooldown > 0
+              ? `Resend (${cooldown}s)`
+              : "Resend"}
+          </button>
         </p>
       </motion.form>
 
-      {error && (
-        <Toast message={error} type="error" onClose={() => setError(null)} />
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={handleToastClose}
+        />
       )}
     </motion.div>
   );

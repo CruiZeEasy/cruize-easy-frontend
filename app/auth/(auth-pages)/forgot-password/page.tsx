@@ -14,10 +14,17 @@ import {
   forgotPasswordSchema,
   ForgotPasswordFormData,
 } from "@/schemas/auth/forgotPasswordSchema";
+import { forgotPassword } from "@/services/authService";
+import { useRouter } from "next/navigation";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
+
+  const router = useRouter();
 
   const {
     register,
@@ -28,26 +35,45 @@ export default function ForgotPasswordPage() {
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = (data: ForgotPasswordFormData) => {
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     setLoading(true);
-    setError(null);
+    setToast(null);
 
-    const trimmedData = { email: data.email.trim() };
+    const payload = { email: data.email.trim() };
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      const hasError = Math.random() > 0.5;
-      if (hasError) {
-        setError("No account found with this email address.");
-      } else {
+    try {
+      const res = await forgotPassword(payload);
+      console.log("Forgot Password Response:", res);
+      if (res?.success) {
+        setToast({
+          message: "OTP has been sent to your email!",
+          type: "success",
+        });
         reset();
-        console.log("✅ Password reset link sent to:", trimmedData.email);
+
+        setTimeout(() => {
+          router.push(
+            `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
+              payload.email
+            )}&type=forgot-password`
+          );
+        }, 1500);
+      } else {
+        throw new Error(res?.message || "No account found with this email.");
       }
-    }, 2000);
+    } catch (error: any) {
+      setToast({
+        message:
+          error.message ||
+          "An error occurred while sending the password reset OTP.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Delay offsets to stagger internal animations after transition overlay
+  // Animation delay offset (for smoother entry)
   const DELAY_OFFSET = 0.5;
 
   return (
@@ -98,7 +124,7 @@ export default function ForgotPasswordPage() {
           className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
         >
           Enter the email address registered with your account. We&apos;ll send
-          you a link to reset your password.
+          you a one-time code to reset your password.
         </motion.p>
       </motion.div>
 
@@ -121,7 +147,6 @@ export default function ForgotPasswordPage() {
             error={errors.email?.message}
           />
 
-          {/* Submit Button */}
           <Button
             type="submit"
             variant="dark-primary"
@@ -131,27 +156,30 @@ export default function ForgotPasswordPage() {
             className="p-4 text-xs"
             disabled={loading}
             loading={loading}
-            loadingText="Verifying Account..."
+            loadingText="Sending OTP..."
           >
-            Find my account
+            Send OTP
           </Button>
 
-          {/* Login Redirect */}
-          <p className="font-gilroy-medium text-sm text-neutral-550">
-            Remembered Password?{" "}
+          <p className="font-gilroy-medium text-sm text-neutral-550 text-center">
+            Remembered your password?{" "}
             <Link
               href={PATHS.AUTH.LOGIN}
               className="text-primary-dark hover:underline transition-all"
             >
-              Login to your account
+              Log in here
             </Link>
           </p>
         </div>
       </motion.form>
 
-      {/* Toast for error */}
-      {error && (
-        <Toast message={error} type="error" onClose={() => setError(null)} />
+      {/* Toast */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
       )}
     </motion.div>
   );

@@ -5,16 +5,16 @@ import { AnimatePresence, motion } from "framer-motion";
 
 interface ToastProps {
   message: string;
-  type?: "error" | "success" | "info"; // future-proof for other toast types
+  type?: "error" | "success" | "info";
+  duration?: number;
   onClose: () => void;
-  duration?: number; // auto-dismiss duration in ms
 }
 
 export const Toast: React.FC<ToastProps> = ({
   message,
   type = "error",
-  onClose,
   duration = 3000,
+  onClose,
 }) => {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);

@@ -17,10 +17,10 @@ export async function apiClient(endpoint: string, options: RequestInit = {}) {
 
   if (!res.ok) {
     // Optionally handle 401 globally
-    if (res.status === 401) {
-      Cookies.remove("access_token");
-      window.location.href = "/auth/login";
-    }
+    // if (res.status === 401) {
+    //   Cookies.remove("access_token");
+    //   window.location.href = "/auth/login";
+    // }
   }
 
   return res.json();
