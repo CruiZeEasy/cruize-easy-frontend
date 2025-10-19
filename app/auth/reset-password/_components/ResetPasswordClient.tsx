@@ -18,7 +18,7 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
-export default function ResetPasswordClient() {
+export function ResetPasswordClient() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{
     message: string;

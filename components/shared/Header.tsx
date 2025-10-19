@@ -4,10 +4,20 @@ import { Button } from "../ui/Buttons";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { PATHS } from "@/utils/path";
+import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
+import { usePageTransition } from "@/hooks/usePageTransition";
 
 export function Header() {
-  const router = useRouter();
+  const { navigate, isNavigating } = usePageTransition();
+  const handleUserSignup = () => {
+    navigate(PATHS.AUTH.SIGNUP + "?role=user");
+  };
+
+  const handleHostSignup = () => {
+    navigate(PATHS.AUTH.SIGNUP + "?role=host");
+  };
+
   return (
     <header>
       <div className="bg-primary-dark pb-8 rounded-b-[30px]">
@@ -41,7 +51,7 @@ export function Header() {
                 <Button
                   variant="primary"
                   className="py-3"
-                  onClick={() => router.push("/auth/signup")}
+                  onClick={handleUserSignup}
                 >
                   Get Started
                 </Button>
@@ -80,8 +90,12 @@ export function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
             >
-              <Button variant="secondary">Sign up as a user</Button>
-              <Button variant="outline">Sign up as a Host</Button>
+              <Button variant="secondary" onClick={handleUserSignup}>
+                Sign up as a user
+              </Button>
+              <Button variant="outline" onClick={handleHostSignup}>
+                Sign up as a Host
+              </Button>
             </motion.div>
           </section>
         </div>
@@ -94,13 +108,26 @@ export function Header() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
       >
-        <Button variant="primary" className="py-4" fullWidth>
+        <Button
+          variant="primary"
+          className="py-4"
+          fullWidth
+          onClick={handleUserSignup}
+        >
           Sign up as a user
         </Button>
-        <Button variant="primary" className="py-4" fullWidth>
+        <Button
+          variant="primary"
+          className="py-4"
+          fullWidth
+          onClick={handleHostSignup}
+        >
           Sign up as a Host
         </Button>
       </motion.div>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
     </header>
   );
 }

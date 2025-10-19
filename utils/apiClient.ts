@@ -87,6 +87,8 @@
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "./api";
 import { API_ROUTES } from "./apiRoutes";
+import { tokenConfig } from "@/config/tokenConfig";
+import { PATHS } from "./path";
 
 export async function apiClient(endpoint: string, options: RequestInit = {}) {
   let token = Cookies.get("access_token");
@@ -123,9 +125,17 @@ export async function apiClient(endpoint: string, options: RequestInit = {}) {
 
       if (refreshRes.ok && refreshData.accessToken) {
         // Save new tokens
-        Cookies.set("access_token", refreshData.accessToken, { secure: true });
-        Cookies.set("refresh_token", refreshData.refreshToken, {
+        Cookies.set("access_token", refreshData.accessToken, {
+          expires: tokenConfig.accessTokenExpiryDays,
           secure: true,
+          sameSite: "Strict",
+          path: "/",
+        });
+        Cookies.set("refresh_token", refreshData.refreshToken, {
+          expires: tokenConfig.refreshTokenExpiryDays,
+          secure: true,
+          sameSite: "Strict",
+          path: "/",
         });
         token = refreshData.accessToken;
 
@@ -144,14 +154,14 @@ export async function apiClient(endpoint: string, options: RequestInit = {}) {
         // Refresh failed → force logout
         Cookies.remove("access_token");
         Cookies.remove("refresh_token");
-        window.location.href = "/auth/login";
+        window.location.href = PATHS.AUTH.LOGIN;
         return;
       }
     } else {
       // No refresh token → force logout
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
-      window.location.href = "/auth/login";
+      window.location.href = PATHS.AUTH.LOGIN;
       return;
     }
   }

@@ -1,16 +1,12 @@
+import { UserRoles } from "@/constants/roles";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
-
-enum UserRoles {
-  USER = "ROLE_USER",
-  HOST = "ROLE_HOST",
-  ADMIN = "ROLE_ADMIN",
-}
 
 export async function registerUser(data: {
   fullName: string;
   email: string;
   password: string;
+  role?: UserRoles;
 }) {
   return apiClient(API_ROUTES.AUTH.REGISTER, {
     method: "POST",

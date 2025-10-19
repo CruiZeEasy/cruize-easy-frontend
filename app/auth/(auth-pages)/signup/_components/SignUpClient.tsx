@@ -1,31 +1,37 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Buttons";
-import Cookies from "js-cookie";
-import { FormInput } from "@/components/ui/FormInput";
-import Image from "next/image";
-import { PATHS } from "@/utils/path";
-import { Toast } from "@/components/ui/Toast";
-import Divider from "@/components/ui/Divider";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, LoginFormData } from "@/schemas/auth/loginSchema";
-import { loginUser } from "@/services/authService";
 import { API_BASE_URL } from "@/utils/api";
 import { API_ROUTES } from "@/utils/apiRoutes";
-import { usePageTransition } from "@/hooks/usePageTransition";
+import { Button } from "@/components/ui/Buttons";
+import Divider from "@/components/ui/Divider";
+import { FormInput } from "@/components/ui/FormInput";
 import { fadeUp } from "@/config/animation";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { PATHS } from "@/utils/path";
+import { signupSchema, SignupFormData } from "@/schemas/auth/signupSchema";
+import { Toast } from "@/components/ui/Toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUser } from "@/services/authService";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { UserRoles } from "@/constants/roles";
+import { useSearchParams } from "next/navigation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
-import { tokenConfig } from "@/config/tokenConfig";
 
-export default function LoginPage() {
+export function SignUpClient() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
+  const searchParams = useSearchParams();
+  const roleFromQuery = searchParams.get("role");
+
+  const role = roleFromQuery === "host" ? UserRoles.HOST : UserRoles.USER;
+  const roleDisplay = role === UserRoles.HOST ? "Host" : "User";
+
   const { navigate, isNavigating } = usePageTransition();
 
   const {
@@ -33,54 +39,47 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const normalize = (str: string) => str.trim().replace(/\s+/g, " ");
+
+  const onSubmit = async (data: SignupFormData) => {
     setLoading(true);
     setToast(null);
 
     const payload = {
+      ...data,
+      fullName: normalize(data.fullName),
       email: data.email.trim(),
-      password: data.password,
+      role,
     };
 
     try {
-      const res = await loginUser(payload);
+      const res = await registerUser(payload);
 
       if (res?.success) {
-        const { accessToken, refreshToken } = res || {};
-
-        Cookies.set("access_token", accessToken, {
-          expires: tokenConfig.accessTokenExpiryDays,
-          secure: true,
-          sameSite: "Strict",
-          path: "/",
-        });
-        Cookies.set("refresh_token", refreshToken, {
-          expires: tokenConfig.refreshTokenExpiryDays,
-          secure: true,
-          sameSite: "Strict",
-          path: "/",
-        });
-
         setToast({
-          message: "Login successful! Redirecting...",
+          message:
+            "Registration successful! Check your email for OTP verification.",
           type: "success",
         });
-
         reset();
 
         setTimeout(() => {
-          navigate(PATHS.HOME);
+          navigate(
+            `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
+              payload.email
+            )}&type=signup`
+          );
         }, 1500);
       } else {
-        throw new Error(res?.message || "Invalid credentials");
+        throw new Error(res?.message || "An unexpected error occurred");
       }
     } catch (error: any) {
       setToast({
-        message: error.message || "Email or password is incorrect.",
+        message: error.message || "Email already in use or invalid input.",
         type: "error",
       });
     } finally {
@@ -116,7 +115,7 @@ export default function LoginPage() {
           transition={{ duration: 0.25 }}
           className="font-modulus-semibold text-[26px] mb-12"
         >
-          Welcome Back
+          Sign Up as a {roleDisplay}
         </motion.h1>
 
         {/* Form */}
@@ -126,36 +125,34 @@ export default function LoginPage() {
           transition={{ duration: 0.25 }}
           className="w-full space-y-6"
         >
-          <FormInput
-            id="email"
-            label="Email Address"
-            type="email"
-            placeholder="email@gmail.com"
-            autoComplete="email"
-            {...register("email")}
-            error={errors.email?.message}
-          />
-
           <div className="space-y-2">
+            <FormInput
+              id="fullName"
+              label="Full Name"
+              type="text"
+              autoComplete="name"
+              placeholder="Full Name"
+              {...register("fullName")}
+              error={errors.fullName?.message}
+            />
+            <FormInput
+              id="email"
+              label="Email Address"
+              type="email"
+              autoComplete="email"
+              placeholder="email@gmail.com"
+              {...register("email")}
+              error={errors.email?.message}
+            />
             <FormInput
               id="password"
               label="Password"
               type="password"
+              autoComplete="new-password"
               placeholder="Password"
-              autoComplete="current-password"
               {...register("password")}
               error={errors.password?.message}
             />
-
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => navigate(PATHS.AUTH.FORGOT_PASSWORD)}
-                className="font-gilroy-bold text-sm text-primary-dark hover:underline transition-all"
-              >
-                Forgot Password
-              </button>
-            </div>
           </div>
 
           {/* Submit Button */}
@@ -168,14 +165,14 @@ export default function LoginPage() {
             className="p-4 text-xs"
             disabled={loading}
             loading={loading}
-            loadingText="Signing In..."
+            loadingText="Creating Account..."
           >
-            Login
+            Sign Up
           </Button>
 
           <Divider />
 
-          {/* Google Login */}
+          {/* Google Button */}
           <Button
             type="button"
             variant="sign_up_with_google"
@@ -195,19 +192,19 @@ export default function LoginPage() {
                 height={20}
                 className="inline mr-2"
               />
-              Sign In with Google
+              Sign Up with Google
             </span>
           </Button>
 
-          {/* Sign Up Redirect */}
+          {/* Login Redirect */}
           <p className="font-gilroy-medium text-sm text-center">
-            If you don't have an account?{" "}
+            If you have an account?{" "}
             <button
               type="button"
-              onClick={() => navigate(PATHS.AUTH.SIGNUP)}
+              onClick={() => navigate(PATHS.AUTH.LOGIN)}
               className="text-primary-dark hover:underline transition-all"
             >
-              Sign up here
+              Log in here
             </button>
           </p>
         </motion.form>

@@ -6,25 +6,39 @@ import Cookies from "js-cookie";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Spinner } from "@/components/ui/Spinner";
+import { PATHS } from "@/utils/path";
+import { tokenConfig } from "@/config/tokenConfig";
 
 export function OAuthRedirectClient() {
   const router = useRouter();
   const params = useSearchParams();
-  const token = params.get("token");
+
+  const accessToken = params.get("accessToken");
+  const refreshToken = params.get("refreshToken");
 
   useEffect(() => {
-    if (token) {
-      Cookies.set("access_token", token, {
-        expires: 1,
-        secure: true,
-        sameSite: "Strict",
-        path: "/",
-      });
-      router.push("/");
-    } else {
-      router.push("/auth/login");
-    }
-  }, [token, router]);
+    setTimeout(() => {
+      if (accessToken && refreshToken) {
+        Cookies.set("access_token", accessToken, {
+          expires: tokenConfig.accessTokenExpiryDays,
+          secure: true,
+          sameSite: "Strict",
+          path: "/",
+        });
+
+        Cookies.set("refresh_token", accessToken, {
+          expires: tokenConfig.refreshTokenExpiryDays,
+          secure: true,
+          sameSite: "Strict",
+          path: "/",
+        });
+
+        router.push(PATHS.HOME);
+      } else {
+        router.push(PATHS.AUTH.LOGIN);
+      }
+    }, 1500);
+  }, [accessToken, refreshToken, router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[100dvh] text-center bg-white">

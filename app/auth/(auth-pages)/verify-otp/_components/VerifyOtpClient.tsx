@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Buttons";
+import Cookies from "js-cookie";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { OTPInput } from "@/components/ui/OTPInput";
@@ -12,10 +13,11 @@ import { verifyOtp, resendOtp } from "@/services/authService";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { tokenConfig } from "@/config/tokenConfig";
 
 const RESEND_COOLDOWN = 60; // seconds
 
-export default function VerifyOtpClient() {
+export function VerifyOtpClient() {
   const [otp, setOtp] = useState("");
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -72,7 +74,19 @@ export default function VerifyOtpClient() {
 
         setTimeout(() => {
           if (type === "signup") {
-            navigate(PATHS.AUTH.LOGIN);
+            Cookies.set("access_token", res.accessToken, {
+              expires: tokenConfig.accessTokenExpiryDays,
+              secure: true,
+              sameSite: "strict",
+              path: "/",
+            });
+            Cookies.set("refresh_token", res.refreshToken, {
+              expires: tokenConfig.refreshTokenExpiryDays,
+              secure: true,
+              sameSite: "strict",
+              path: "/",
+            });
+            navigate(PATHS.HOME);
           } else {
             const { verificationToken } = res;
             navigate(
