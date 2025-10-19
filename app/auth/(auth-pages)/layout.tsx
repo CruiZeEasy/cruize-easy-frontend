@@ -2,7 +2,6 @@ import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
 import { BackButton } from "@/components/ui/BackButton";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
-import AuthTransitionProvider from "@/components/providers/AuthTransitionProvider";
 
 export default function AuthLayout({
   children,
@@ -10,7 +9,6 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <AuthTransitionProvider>
     <div className="flex min-h-screen flex-col bg-white md:bg-neutral-100">
       <main className="max-w-[1440px] mx-auto w-full mb-28">
         <div className="bg-white mx-4 mt-4 md:pt-4 md:pb-12 md:border md:border-neutral-300 md:rounded-[30px]">
@@ -37,6 +35,5 @@ export default function AuthLayout({
         <Footer />
       </div>
     </div>
-    // </AuthTransitionProvider>
   );
 }

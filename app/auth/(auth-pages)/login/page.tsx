@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
+import Cookies from "js-cookie";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
-import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 import Divider from "@/components/ui/Divider";
@@ -15,8 +15,9 @@ import { loginSchema, LoginFormData } from "@/schemas/auth/loginSchema";
 import { loginUser } from "@/services/authService";
 import { API_BASE_URL } from "@/utils/api";
 import { API_ROUTES } from "@/utils/apiRoutes";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { fadeUp } from "@/config/animation";
+import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -24,8 +25,7 @@ export default function LoginPage() {
     message: string;
     type: "success" | "error";
   } | null>(null);
-
-  const router = useRouter();
+  const { navigate, isNavigating } = usePageTransition();
 
   const {
     register,
@@ -48,13 +48,8 @@ export default function LoginPage() {
     try {
       const res = await loginUser(payload);
 
-      console.log(res);
-
       if (res?.success) {
         const { accessToken, refreshToken } = res || {};
-
-        console.log("Access Token:", accessToken);
-        console.log("Refresh Token:", refreshToken);
 
         Cookies.set("access_token", accessToken, { secure: true });
         Cookies.set("refresh_token", refreshToken, { secure: true });
@@ -67,7 +62,7 @@ export default function LoginPage() {
         reset();
 
         setTimeout(() => {
-          router.push(PATHS.HOME);
+          navigate(PATHS.HOME);
         }, 1200);
       } else {
         throw new Error(res?.message || "Invalid credentials");
@@ -83,48 +78,43 @@ export default function LoginPage() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.4, ease: "easeOut" }}
-      className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
-    >
-      {/* Logo */}
+    <>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.3 }}
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
       >
-        <Image
-          src="/images/logo/cruize-easy-logo-icon.svg"
-          alt="Cruize Easy Logo Icon"
-          width={70}
-          height={70}
-          quality={100}
-          className="w-12 h-auto"
-          priority
-        />
-      </motion.div>
+        {/* Logo */}
+        <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
+          <Image
+            src="/images/logo/cruize-easy-logo-icon.svg"
+            alt="Cruize Easy Logo Icon"
+            width={70}
+            height={70}
+            className="w-12 h-auto"
+            quality={100}
+            priority
+          />
+        </motion.div>
 
-      {/* Title */}
-      <motion.h1
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7, duration: 0.3 }}
-        className="font-modulus-semibold text-[26px] mb-12"
-      >
-        Welcome Back
-      </motion.h1>
+        {/* Title */}
+        <motion.h1
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="font-modulus-semibold text-[26px] mb-12"
+        >
+          Welcome Back
+        </motion.h1>
 
-      {/* Form */}
-      <motion.form
-        onSubmit={handleSubmit(onSubmit)}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.3 }}
-        className="w-full"
-      >
-        <div className="space-y-6">
+        {/* Form */}
+        <motion.form
+          onSubmit={handleSubmit(onSubmit)}
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="w-full space-y-6"
+        >
           <FormInput
             id="email"
             label="Email Address"
@@ -147,12 +137,13 @@ export default function LoginPage() {
             />
 
             <div className="flex justify-end">
-              <Link
-                href={PATHS.AUTH.FORGOT_PASSWORD}
+              <button
+                type="button"
+                onClick={() => navigate(PATHS.AUTH.FORGOT_PASSWORD)}
                 className="font-gilroy-bold text-sm text-primary-dark hover:underline transition-all"
               >
                 Forgot Password
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -171,7 +162,6 @@ export default function LoginPage() {
             Login
           </Button>
 
-          {/* Divider */}
           <Divider />
 
           {/* Google Login */}
@@ -182,9 +172,9 @@ export default function LoginPage() {
             fullWidth
             shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
             className="hover:bg-neutral-100 transition-colors duration-200"
-            onClick={() => {
-              window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}`;
-            }}
+            onClick={() =>
+              (window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}`)
+            }
           >
             <span>
               <Image
@@ -200,25 +190,29 @@ export default function LoginPage() {
 
           {/* Sign Up Redirect */}
           <p className="font-gilroy-medium text-sm text-center">
-            If you don’t have an account?{" "}
-            <Link
-              href={PATHS.AUTH.SIGNUP}
+            If you don't have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate(PATHS.AUTH.SIGNUP)}
               className="text-primary-dark hover:underline transition-all"
             >
               Sign up here
-            </Link>
+            </button>
           </p>
-        </div>
-      </motion.form>
+        </motion.form>
 
-      {/* Toast Feedback */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
-    </motion.div>
+        {/* Toast */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
+      </motion.div>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
+    </>
   );
 }

@@ -7,10 +7,12 @@ import { motion } from "framer-motion";
 import { OTPInput } from "@/components/ui/OTPInput";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { verifyOtp, resendOtp } from "@/services/authService";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { fadeUp } from "@/config/animation";
+import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
-const DELAY_OFFSET = 0.5;
 const RESEND_COOLDOWN = 60; // seconds
 
 export default function VerifyOtpPage() {
@@ -23,7 +25,7 @@ export default function VerifyOtpPage() {
   } | null>(null);
   const [cooldown, setCooldown] = useState(0);
 
-  const router = useRouter();
+  const { navigate, isNavigating } = usePageTransition();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const type = searchParams.get("type") || "signup";
@@ -70,10 +72,10 @@ export default function VerifyOtpPage() {
 
         setTimeout(() => {
           if (type === "signup") {
-            router.push(PATHS.AUTH.LOGIN);
+            navigate(PATHS.AUTH.LOGIN);
           } else {
             const { verificationToken } = res;
-            router.push(
+            navigate(
               `${PATHS.AUTH.RESET_PASSWORD}?email=${encodeURIComponent(
                 email
               )}&token=${verificationToken}`
@@ -125,116 +127,109 @@ export default function VerifyOtpPage() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut", delay: DELAY_OFFSET }}
-      className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
-    >
-      {/* Logo */}
+    <>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.1, duration: 0.3 }}
-        className="mb-12 hidden md:block"
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
       >
-        <Image
-          src="/images/logo/cruize-easy-logo-dark.svg"
-          alt="Cruize Easy Logo Icon"
-          width={192}
-          height={38}
-          className="w-48 h-auto"
-          quality={100}
-          priority
-        />
-      </motion.div>
-
-      {/* Title & description */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.2, duration: 0.3 }}
-        className="mb-12 flex flex-col items-center text-center space-y-6"
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: DELAY_OFFSET + 0.25, duration: 0.3 }}
-          className="font-modulus-semibold text-[20px] hidden md:block"
+        {/* Logo */}
+        <motion.div
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="mb-12 hidden md:block"
         >
-          Verify OTP
-        </motion.h1>
+          <Image
+            src="/images/logo/cruize-easy-logo-dark.svg"
+            alt="Cruize Easy Logo Icon"
+            width={192}
+            height={38}
+            className="w-48 h-auto"
+            quality={100}
+            priority
+          />
+        </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: DELAY_OFFSET + 0.3, duration: 0.3 }}
-          className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
+        {/* Title & description */}
+        <motion.div
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="mb-12 flex flex-col items-center text-center space-y-6"
         >
-          We&apos;ve sent an email to <strong>{email}</strong>, please enter the
-          code below.
-        </motion.p>
-      </motion.div>
+          <h1 className="font-modulus-semibold text-[20px] hidden md:block">
+            Verify OTP
+          </h1>
 
-      {/* Form */}
-      <motion.form
-        onSubmit={(e) => handleSubmit(undefined, e)}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.35, duration: 0.3 }}
-        className="w-full space-y-6"
-      >
-        <OTPInput
-          onChange={setOtp}
-          error={toast?.type === "error" ? toast.message : undefined}
-          onComplete={(code) => {
-            if (!verifyLoading) handleSubmit(code);
-          }}
-        />
+          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]">
+            We&apos;ve sent an email to <strong>{email}</strong>, please enter
+            the code below.
+          </p>
+        </motion.div>
 
-        <Button
-          type="submit"
-          variant="dark-primary"
-          fontFamily="inter"
-          fullWidth
-          shadow="shadow-none"
-          className="p-4 text-xs"
-          disabled={verifyLoading || resendLoading}
-          loading={verifyLoading}
-          loadingText="Verifying Code..."
+        {/* Form */}
+        <motion.form
+          onSubmit={(e) => handleSubmit(undefined, e)}
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="w-full space-y-6"
         >
-          Verify
-        </Button>
+          <OTPInput
+            onChange={setOtp}
+            error={toast?.type === "error" ? toast.message : undefined}
+            onComplete={(code) => {
+              if (!verifyLoading) handleSubmit(code);
+            }}
+          />
 
-        <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
-          Didn’t see your email?{" "}
-          <button
-            type="button"
-            className={`text-blue-600 hover:underline transition-all ${
-              cooldown > 0 || resendLoading
-                ? "opacity-50 cursor-not-allowed"
-                : ""
-            }`}
-            onClick={handleResend}
-            disabled={cooldown > 0 || resendLoading}
+          <Button
+            type="submit"
+            variant="dark-primary"
+            fontFamily="inter"
+            fullWidth
+            shadow="shadow-none"
+            className="p-4 text-xs"
+            disabled={verifyLoading || resendLoading}
+            loading={verifyLoading}
+            loadingText="Verifying Code..."
           >
-            {resendLoading
-              ? "Resending..."
-              : cooldown > 0
-              ? `Resend (${cooldown}s)`
-              : "Resend"}
-          </button>
-        </p>
-      </motion.form>
+            Verify
+          </Button>
 
-      {/* Toast */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={handleToastClose}
-        />
-      )}
-    </motion.div>
+          <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
+            Didn't see your email?{" "}
+            <button
+              type="button"
+              className={`text-blue-600 hover:underline transition-all ${
+                cooldown > 0 || resendLoading
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
+              onClick={handleResend}
+              disabled={cooldown > 0 || resendLoading}
+            >
+              {resendLoading
+                ? "Resending..."
+                : cooldown > 0
+                ? `Resend (${cooldown}s)`
+                : "Resend"}
+            </button>
+          </p>
+        </motion.form>
+
+        {/* Toast */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={handleToastClose}
+          />
+        )}
+      </motion.div>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
+    </>
   );
 }

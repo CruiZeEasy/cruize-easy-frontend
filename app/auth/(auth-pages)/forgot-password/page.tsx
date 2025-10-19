@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
-import Link from "next/link";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,9 @@ import {
   ForgotPasswordFormData,
 } from "@/schemas/auth/forgotPasswordSchema";
 import { forgotPassword } from "@/services/authService";
-import { useRouter } from "next/navigation";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { fadeUp } from "@/config/animation";
+import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -23,8 +24,7 @@ export default function ForgotPasswordPage() {
     message: string;
     type: "success" | "error";
   } | null>(null);
-
-  const router = useRouter();
+  const { navigate, isNavigating } = usePageTransition();
 
   const {
     register,
@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
 
     try {
       const res = await forgotPassword(payload);
-      console.log("Forgot Password Response:", res);
+
       if (res?.success) {
         setToast({
           message: "OTP has been sent to your email!",
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
         reset();
 
         setTimeout(() => {
-          router.push(
+          navigate(
             `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
               payload.email
             )}&type=forgot-password`
@@ -73,70 +73,55 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  // Animation delay offset (for smoother entry)
-  const DELAY_OFFSET = 0.5;
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: DELAY_OFFSET, duration: 0.4, ease: "easeOut" }}
-      className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
-    >
-      {/* Logo */}
+    <>
       <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.1, duration: 0.3 }}
-        className="mb-12 hidden md:block"
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
       >
-        <Image
-          src="/images/logo/cruize-easy-logo-dark.svg"
-          alt="Cruize Easy Logo Icon"
-          width={192}
-          height={38}
-          className="w-48 h-auto"
-          quality={100}
-          priority
-        />
-      </motion.div>
-
-      {/* Title + Description */}
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.2, duration: 0.3 }}
-        className="mb-12 flex flex-col items-center text-center space-y-6"
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: DELAY_OFFSET + 0.25, duration: 0.3 }}
-          className="font-modulus-semibold text-[20px] hidden md:block"
+        {/* Logo */}
+        <motion.div
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="mb-12 hidden md:block"
         >
-          Forgot Password
-        </motion.h1>
+          <Image
+            src="/images/logo/cruize-easy-logo-dark.svg"
+            alt="Cruize Easy Logo Icon"
+            width={192}
+            height={38}
+            className="w-48 h-auto"
+            quality={100}
+            priority
+          />
+        </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: DELAY_OFFSET + 0.3, duration: 0.3 }}
-          className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]"
+        {/* Title + Description */}
+        <motion.div
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="mb-12 flex flex-col items-center text-center space-y-6"
         >
-          Enter the email address registered with your account. We&apos;ll send
-          you a one-time code to reset your password.
-        </motion.p>
-      </motion.div>
+          <h1 className="font-modulus-semibold text-[20px] hidden md:block">
+            Forgot Password
+          </h1>
 
-      {/* Form */}
-      <motion.form
-        onSubmit={handleSubmit(onSubmit)}
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: DELAY_OFFSET + 0.35, duration: 0.3 }}
-        className="w-full"
-      >
-        <div className="space-y-6">
+          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]">
+            Enter the email address registered with your account. We&apos;ll
+            send you a one-time code to reset your password.
+          </p>
+        </motion.div>
+
+        {/* Form */}
+        <motion.form
+          onSubmit={handleSubmit(onSubmit)}
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="w-full space-y-6"
+        >
           <FormInput
             id="email"
             label="Email Address"
@@ -163,24 +148,28 @@ export default function ForgotPasswordPage() {
 
           <p className="font-gilroy-medium text-sm text-neutral-550 text-center">
             Remembered your password?{" "}
-            <Link
-              href={PATHS.AUTH.LOGIN}
+            <button
+              type="button"
+              onClick={() => navigate(PATHS.AUTH.LOGIN)}
               className="text-primary-dark hover:underline transition-all"
             >
               Log in here
-            </Link>
+            </button>
           </p>
-        </div>
-      </motion.form>
+        </motion.form>
 
-      {/* Toast */}
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
-    </motion.div>
+        {/* Toast */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
+      </motion.div>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
+    </>
   );
 }

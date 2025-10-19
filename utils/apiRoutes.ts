@@ -9,4 +9,8 @@ export const API_ROUTES = {
     REFRESH_TOKEN: "/api/v1/auth/refresh-token",
     GOOGLE: "/oauth2/authorization/google",
   },
+
+  USER: {
+    ME: "/api/v1/users/me", // get current user profile
+  },
 };
