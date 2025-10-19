@@ -1,7 +1,12 @@
+"use client";
+
 import React from "react";
+import { Button } from "../ui/Buttons";
+import { goToSignup } from "@/utils/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/Buttons";
+import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
+import { usePageTransition } from "@/hooks/usePageTransition";
 
 interface SocialIconsProps {
   href: string;
@@ -56,6 +61,7 @@ const quickLinks: FooterLinkProps[] = [
 ];
 
 export function Footer() {
+  const { navigate, isNavigating } = usePageTransition();
   return (
     <footer className="bg-neutral-900 text-white pt-8 md:pt-16 font-inter rounded-t-[30px]">
       <div className="container ">
@@ -156,6 +162,7 @@ export function Footer() {
                 fullWidth
                 rounded="full"
                 className="lg:w-[25rem] p-4"
+                onClick={() => navigate(goToSignup("user"))}
               >
                 Sign Up Now
               </Button>
@@ -169,6 +176,9 @@ export function Footer() {
           </p>
         </section>
       </div>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
     </footer>
   );
 }

@@ -1,22 +1,15 @@
 "use client";
 
 import { Button } from "../ui/Buttons";
+import { goToSignup } from "@/utils/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { PATHS } from "@/utils/path";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { usePageTransition } from "@/hooks/usePageTransition";
 
 export function Header() {
   const { navigate, isNavigating } = usePageTransition();
-  const handleUserSignup = () => {
-    navigate(PATHS.AUTH.SIGNUP + "?role=user");
-  };
-
-  const handleHostSignup = () => {
-    navigate(PATHS.AUTH.SIGNUP + "?role=host");
-  };
 
   return (
     <header>
@@ -51,7 +44,7 @@ export function Header() {
                 <Button
                   variant="primary"
                   className="py-3"
-                  onClick={handleUserSignup}
+                  onClick={() => navigate(goToSignup("user"))}
                 >
                   Get Started
                 </Button>
@@ -90,10 +83,16 @@ export function Header() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
             >
-              <Button variant="secondary" onClick={handleUserSignup}>
+              <Button
+                variant="secondary"
+                onClick={() => navigate(goToSignup("user"))}
+              >
                 Sign up as a user
               </Button>
-              <Button variant="outline" onClick={handleHostSignup}>
+              <Button
+                variant="outline"
+                onClick={() => navigate(goToSignup("host"))}
+              >
                 Sign up as a Host
               </Button>
             </motion.div>
@@ -112,7 +111,7 @@ export function Header() {
           variant="primary"
           className="py-4"
           fullWidth
-          onClick={handleUserSignup}
+          onClick={() => navigate(goToSignup("user"))}
         >
           Sign up as a user
         </Button>
@@ -120,7 +119,7 @@ export function Header() {
           variant="primary"
           className="py-4"
           fullWidth
-          onClick={handleHostSignup}
+          onClick={() => navigate(goToSignup("host"))}
         >
           Sign up as a Host
         </Button>
