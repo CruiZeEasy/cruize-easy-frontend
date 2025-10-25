@@ -10,7 +10,7 @@ export default function ResetPasswordLayout({
   return (
     <div className="flex min-h-screen flex-col bg-white md:bg-neutral-100">
       <main className="max-w-[1440px] mx-auto w-full mb-28">
-        <div className="bg-white mx-4 mt-4 md:pt-4 md:px-4  md:pb-12  md:border md:border-neutral-300 md:rounded-[30px]">
+        <div className="bg-white mx-4 mt-4 md:pt-4 md:px-4 md:pb-12  md:border md:border-neutral-300 md:rounded-[30px]">
           <div className="hidden">
             <BackButton variant="mobile" showOnDesktop />
           </div>
