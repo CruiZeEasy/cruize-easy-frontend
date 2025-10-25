@@ -3,15 +3,94 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
+import { FormSelect } from "@/components/ui/FormSelect";
+import { ImageUpload } from "@/components/ui/ImageUpload";
 import Image from "next/image";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { usePageTransition } from "@/hooks/usePageTransition";
-import { FormSelect } from "@/components/ui/FormSelect";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  completeProfileSchema,
+  CompleteProfileFormData,
+} from "@/schemas/profile/completeProfileSchema";
+import { Toast } from "@/components/ui/Toast";
+import { PATHS } from "@/utils/path";
 
 export default function CompleteProfilePage() {
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
   const { navigate, isNavigating } = usePageTransition();
-  const [selectedGender, setSelectedGender] = useState<string>("");
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<CompleteProfileFormData>({
+    resolver: zodResolver(completeProfileSchema),
+    defaultValues: {
+      username: "",
+      phoneNumber: "",
+      gender: undefined,
+      profileImage: undefined,
+    },
+  });
+
+  const onSubmit = async (data: CompleteProfileFormData) => {
+    setLoading(true);
+    setToast(null);
+
+    try {
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("phoneNumber", `234${data.phoneNumber}`); // Add country code
+      formData.append("gender", data.gender);
+
+      if (data.profileImage) {
+        formData.append("profileImage", data.profileImage);
+      }
+
+      console.log("🧾 FormData contents:");
+      for (const [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Mock API response
+      const mockSuccess = true;
+
+      if (mockSuccess) {
+        setToast({
+          message: "Profile completed successfully!",
+          type: "success",
+        });
+        reset();
+
+        // setTimeout(() => {
+        //   navigate(PATHS.HOME); // or wherever you want to redirect
+        // }, 1500);
+      } else {
+        throw new Error("Failed to complete profile");
+      }
+    } catch (error: any) {
+      setToast({
+        message: error.message || "Something went wrong. Please try again.",
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="flex flex-col items-center pb-12">
@@ -21,7 +100,7 @@ export default function CompleteProfilePage() {
             alt="Happy Robot"
             width={250}
             height={250}
-            className="w-36 h-auto "
+            className="w-36 h-auto"
             quality={100}
             priority
           />
@@ -39,50 +118,33 @@ export default function CompleteProfilePage() {
           </p>
         </div>
 
-        <form className="w-full">
-          {/* Image Upload Placeholder */}
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+          {/* Image Upload */}
           <div className="flex justify-center mb-12">
-            <div className="relative ">
-              <div className="bg-neutral-250 rounded-full size-20">
-                <Image
-                  src="/images/me.jpg"
-                  alt="Eclipse Shape"
-                  fill
-                  className=" object-cover rounded-full"
+            <Controller
+              name="profileImage"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <ImageUpload
+                  onImageSelect={onChange}
+                  disabled={loading}
+                  error={errors.profileImage?.message}
                 />
-              </div>
-
-              {/* Half Eclipse */}
-              <Image
-                src="/images/shapes/eclipse-1.svg"
-                alt="Eclipse Shape"
-                width={50}
-                height={50}
-                className="absolute -top-2 -right-2 w-12 h-auto"
-              />
-
-              {/* Edit Icon */}
-              <Image
-                src="/images/icons/edit-icon.svg"
-                alt="Edit Icon"
-                width={50}
-                height={50}
-                className="absolute -right-2 -bottom-[10px] w-5 h-auto"
-              />
-            </div>
+              )}
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 lg:px-20 xl:px-24">
             <FormInput
-              id="userName"
+              id="username"
               label="Username"
               type="text"
-              autoComplete="name"
+              autoComplete="username"
               placeholder="Username"
               labelFontFamily="gilroy-medium"
               disabled={loading}
-              // {...register("username")}
-              // error={errors.username?.message}
+              {...register("username")}
+              error={errors.username?.message}
             />
 
             <FormInput
@@ -91,24 +153,33 @@ export default function CompleteProfilePage() {
               variant="phone"
               placeholder="812 345 6789"
               disabled={loading}
+              {...register("phoneNumber")}
+              error={errors.phoneNumber?.message}
             />
 
-            <FormSelect
-              id="gender"
-              label="Gender"
-              labelFontFamily="gilroy-medium"
-              placeholder="Select Gender"
-              options={[
-                { value: "male", label: "Male" },
-                { value: "female", label: "Female" },
-              ]}
-              value={selectedGender}
-              onChange={(value) => setSelectedGender(value)}
-              disabled={loading}
+            <Controller
+              name="gender"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormSelect
+                  id="gender"
+                  label="Gender"
+                  labelFontFamily="gilroy-medium"
+                  placeholder="Select Gender"
+                  options={[
+                    { value: "male", label: "Male" },
+                    { value: "female", label: "Female" },
+                  ]}
+                  value={value}
+                  onChange={onChange}
+                  disabled={loading}
+                  error={errors.gender?.message}
+                />
+              )}
             />
 
             <Button
-              // type="submit"
+              type="submit"
               variant="dark-primary"
               fontFamily="inter"
               fullWidth
@@ -122,6 +193,15 @@ export default function CompleteProfilePage() {
             </Button>
           </div>
         </form>
+
+        {/* Toast */}
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
 
       {/* Page Transition Spinner */}
