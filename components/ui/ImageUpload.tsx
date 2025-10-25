@@ -97,9 +97,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
                 className="object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center">
-                <i className="fa fa-user text-neutral-400 text-2xl" />
-              </div>
+              <div className="w-full h-full flex items-center justify-center" />
             )}
           </div>
 

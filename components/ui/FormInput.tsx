@@ -100,20 +100,12 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
               value="+234"
               readOnly
               className={clsx(
-                "border border-neutral-200 p-4 bg-white text-neutral-425 rounded-lg font-gilroy-medium w-20 text-center outline-none"
+                "border border-neutral-200 bg-white text-neutral-425 rounded-lg font-gilroy-medium w-20 text-center outline-none"
               )}
             />
 
             {/* Phone number input */}
-            <motion.div
-              animate={{
-                boxShadow: focused
-                  ? "0px 1px 6px rgba(0,0,0,0.08)"
-                  : "0px 0px 0px rgba(0,0,0,0)",
-              }}
-              transition={{ type: "spring", stiffness: 250, damping: 20 }}
-              className="relative flex-1"
-            >
+            <div className="relative flex-1">
               <input
                 ref={(el) => {
                   if (typeof ref === "function") ref(el);
@@ -165,18 +157,10 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 )}
                 {...props}
               />
-            </motion.div>
+            </div>
           </div>
         ) : (
-          <motion.div
-            animate={{
-              boxShadow: focused
-                ? "0px 1px 6px rgba(0,0,0,0.08)"
-                : "0px 0px 0px rgba(0,0,0,0)",
-            }}
-            transition={{ type: "spring", stiffness: 250, damping: 20 }}
-            className="relative"
-          >
+          <div className="relative">
             <input
               ref={(el) => {
                 if (typeof ref === "function") ref(el);
@@ -215,7 +199,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 onClick={togglePassword}
               />
             )}
-          </motion.div>
+          </div>
         )}
 
         {/* Error message */}

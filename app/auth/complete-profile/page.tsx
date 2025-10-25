@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { fadeUp } from "@/config/animation";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import { FormSelect } from "@/components/ui/FormSelect";
@@ -14,8 +16,9 @@ import {
   completeProfileSchema,
   CompleteProfileFormData,
 } from "@/schemas/profile/completeProfileSchema";
-import { Toast } from "@/components/ui/Toast";
 import { PATHS } from "@/utils/path";
+import { Toast } from "@/components/ui/Toast";
+import { UserRoles } from "@/constants/roles";
 
 export default function CompleteProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -25,21 +28,29 @@ export default function CompleteProfilePage() {
   } | null>(null);
   const { navigate, isNavigating } = usePageTransition();
 
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   control,
+  //   formState: { errors },
+  // } = useForm<CompleteProfileFormData>({
+  //   resolver: zodResolver(completeProfileSchema),
+  //   defaultValues: {
+  //     username: "",
+  //     phoneNumber: "",
+  //     gender: undefined,
+  //     profileImage: undefined,
+  //   },
+  // });
+
+  const schema = completeProfileSchema(UserRoles.USER);
   const {
     register,
     handleSubmit,
     control,
-    setValue,
     formState: { errors },
-    reset,
   } = useForm<CompleteProfileFormData>({
-    resolver: zodResolver(completeProfileSchema),
-    defaultValues: {
-      username: "",
-      phoneNumber: "",
-      gender: undefined,
-      profileImage: undefined,
-    },
+    resolver: zodResolver(schema),
   });
 
   const onSubmit = async (data: CompleteProfileFormData) => {
@@ -47,15 +58,12 @@ export default function CompleteProfilePage() {
     setToast(null);
 
     try {
-      // Create FormData for file upload
+      // Prepare FormData
       const formData = new FormData();
       formData.append("username", data.username);
-      formData.append("phoneNumber", `234${data.phoneNumber}`); // Add country code
+      formData.append("phoneNumber", `+234${data.phoneNumber}`);
       formData.append("gender", data.gender);
-
-      if (data.profileImage) {
-        formData.append("profileImage", data.profileImage);
-      }
+      if (data.profileImage) formData.append("profileImage", data.profileImage);
 
       console.log("🧾 FormData contents:");
       for (const [key, value] of formData.entries()) {
@@ -64,8 +72,6 @@ export default function CompleteProfilePage() {
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Mock API response
       const mockSuccess = true;
 
       if (mockSuccess) {
@@ -73,10 +79,9 @@ export default function CompleteProfilePage() {
           message: "Profile completed successfully!",
           type: "success",
         });
-        reset();
 
         // setTimeout(() => {
-        //   navigate(PATHS.HOME); // or wherever you want to redirect
+        //   navigate(PATHS.HOME);
         // }, 1500);
       } else {
         throw new Error("Failed to complete profile");
@@ -93,8 +98,15 @@ export default function CompleteProfilePage() {
 
   return (
     <>
-      <div className="flex flex-col items-center pb-12">
-        <div>
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeUp}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="flex flex-col items-center pb-12"
+      >
+        {/* Image */}
+        <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
           <Image
             src="/images/robots/robot-1.png"
             alt="Happy Robot"
@@ -104,23 +116,37 @@ export default function CompleteProfilePage() {
             quality={100}
             priority
           />
-        </div>
+        </motion.div>
 
         {/* Title + Description */}
-        <div className="mb-6 flex flex-col items-center text-center space-y-2">
+        <motion.div
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="mb-6 flex flex-col items-center text-center space-y-2"
+        >
           <h1 className="font-modulus-semibold text-[26px] block">
             Complete your Profile
           </h1>
 
           <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
             Don&apos;t worry only you can see your personal data, no one else
-            will be able to see it
+            will be able to see it.
           </p>
-        </div>
+        </motion.div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        {/* Form */}
+        <motion.form
+          onSubmit={handleSubmit(onSubmit)}
+          variants={fadeUp}
+          transition={{ duration: 0.25 }}
+          className="w-full"
+        >
           {/* Image Upload */}
-          <div className="flex justify-center mb-12">
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.25 }}
+            className="flex justify-center mb-12"
+          >
             <Controller
               name="profileImage"
               control={control}
@@ -132,9 +158,14 @@ export default function CompleteProfilePage() {
                 />
               )}
             />
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 lg:px-20 xl:px-24">
+          {/* Inputs Grid */}
+          <motion.div
+            variants={fadeUp}
+            transition={{ duration: 0.25 }}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 lg:px-20 xl:px-24"
+          >
             <FormInput
               id="username"
               label="Username"
@@ -191,8 +222,8 @@ export default function CompleteProfilePage() {
             >
               Complete Profile
             </Button>
-          </div>
-        </form>
+          </motion.div>
+        </motion.form>
 
         {/* Toast */}
         {toast && (
@@ -202,7 +233,7 @@ export default function CompleteProfilePage() {
             onClose={() => setToast(null)}
           />
         )}
-      </div>
+      </motion.div>
 
       {/* Page Transition Spinner */}
       <PageTransitionSpinner isVisible={isNavigating} />
