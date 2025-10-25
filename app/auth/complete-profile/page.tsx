@@ -33,7 +33,7 @@ export default function CompleteProfilePage() {
             Complete your Profile
           </h1>
 
-          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[19rem]">
+          <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
             Don&apos;t worry only you can see your personal data, no one else
             will be able to see it
           </p>
@@ -113,7 +113,7 @@ export default function CompleteProfilePage() {
               fontFamily="inter"
               fullWidth
               shadow="shadow-none"
-              className="p-[21px] text-xs self-end"
+              className="p-[21px] text-xs self-end mt-10"
               disabled={loading}
               loading={loading}
               loadingText="Setting Up Account..."
