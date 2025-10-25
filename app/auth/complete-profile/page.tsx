@@ -14,7 +14,7 @@ export default function CompleteProfilePage() {
   const [selectedGender, setSelectedGender] = useState<string>("");
   return (
     <>
-      <div className="flex flex-col items-center md:pb-12">
+      <div className="flex flex-col items-center pb-12">
         <div>
           <Image
             src="/images/robots/robot-1.png"
