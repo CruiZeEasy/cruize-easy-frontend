@@ -113,7 +113,7 @@ export default function CompleteProfilePage() {
               fontFamily="inter"
               fullWidth
               shadow="shadow-none"
-              className="p-[21px] text-xs self-end mt-10"
+              className="p-4 sm:p-[21px] text-xs self-end mt-12 sm:mt-0"
               disabled={loading}
               loading={loading}
               loadingText="Setting Up Account..."
