@@ -1,170 +1,130 @@
-// import Cookies from "js-cookie";
-// import { API_BASE_URL } from "./api";
-// import { API_ROUTES } from "./apiRoutes";
-
-// export async function apiClient(endpoint: string, options: RequestInit = {}) {
-//   const token = Cookies.get("access_token");
-
-//   const headers = {
-//     "Content-Type": "application/json",
-//     ...(token ? { Authorization: `Bearer ${token}` } : {}),
-//     ...options.headers,
-//   };
-
-//   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-//     ...options,
-//     headers,
-//   });
-
-//   if (!res.ok) {
-//     // Optionally handle 401 globally
-//     // if (res.status === 401) {
-//     //   Cookies.remove("access_token");
-//     //   window.location.href = "/auth/login";
-//     // }
-//   }
-
-//   return res.json();
-// }
-
-// export async function apiClient(
-//   endpoint: string,
-//   options: RequestInit = {}
-// ) {
-//   let token = Cookies.get("access_token");
-//   let res = await fetch(`${API_BASE_URL}${endpoint}`, {
-//     ...options,
-//     headers: {
-//       "Content-Type": "application/json",
-//       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-//       ...options.headers,
-//     },
-//   });
-
-//   if (res.status === 401) {
-//     // Try refreshing token
-//     const refreshToken = Cookies.get("refresh_token");
-//     if (refreshToken) {
-//       const refreshRes = await fetch(
-//         `${API_BASE_URL}${API_ROUTES.AUTH.REFRESH_TOKEN}`,
-//         {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify({ refreshToken }),
-//         }
-//       );
-
-//       const refreshData = await refreshRes.json();
-//       if (refreshRes.ok && refreshData.accessToken) {
-//         Cookies.set("access_token", refreshData.accessToken, { secure: true });
-//         Cookies.set("refresh_token", refreshData.refreshToken, {
-//           secure: true,
-//         });
-//         token = refreshData.accessToken;
-
-//         // Retry original request
-//         res = await fetch(`${API_BASE_URL}${endpoint}`, {
-//           ...options,
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${token}`,
-//             ...options.headers,
-//           },
-//         });
-//       } else {
-//         // Refresh failed → force logout
-//         Cookies.remove("access_token");
-//         Cookies.remove("refresh_token");
-//         window.location.href = "/auth/login";
-//         return;
-//       }
-//     }
-//   }
-
-//   return res.json();
-// }
-
 import Cookies from "js-cookie";
 import { API_BASE_URL } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 import { tokenConfig } from "@/config/tokenConfig";
-import { PATHS } from "./path";
 
-export async function apiClient(endpoint: string, options: RequestInit = {}) {
+export interface FetchOptions extends RequestInit {
+  timeout?: number; // milliseconds
+}
+
+export class APIError extends Error {
+  status?: number;
+  constructor(message: string, status?: number) {
+    super(message);
+    this.name = "APIError";
+    this.status = status;
+  }
+}
+
+export async function fetchWithTimeout(
+  url: string,
+  options: FetchOptions = {}
+) {
+  const { timeout = 10000, ...fetchOptions } = options;
+
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...fetchOptions,
+      signal: controller.signal,
+    });
+
+    const data = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new APIError(
+        data?.message || `Request failed with status ${response.status}`,
+        response.status
+      );
+    }
+
+    return data;
+  } catch (err: any) {
+    if (err.name === "AbortError")
+      throw new APIError("Request timed out. Please try again.");
+    throw err;
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+export async function apiClient(
+  endpoint: string,
+  options: FetchOptions & { skipAuthHandling?: boolean } = {}
+) {
   let token = Cookies.get("access_token");
 
-  let res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  });
+  try {
+    return await fetchWithTimeout(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    });
+  } catch (err: any) {
+    // If unauthorized, attempt refresh — only if not skipped
+    if (
+      !options.skipAuthHandling &&
+      err instanceof APIError &&
+      err.status === 401
+    ) {
+      const refreshToken = Cookies.get("refresh_token");
+      if (refreshToken) {
+        try {
+          const refreshRes = await fetchWithTimeout(
+            `${API_BASE_URL}${API_ROUTES.AUTH.REFRESH_TOKEN}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ refreshToken }),
+            }
+          );
 
-  let data = await res.json();
+          if (refreshRes?.accessToken) {
+            // Save new tokens
+            Cookies.set("access_token", refreshRes.accessToken, {
+              expires: tokenConfig.accessTokenExpiryDays,
+              secure: true,
+              sameSite: "Strict",
+              path: "/",
+            });
+            Cookies.set("refresh_token", refreshRes.refreshToken, {
+              expires: tokenConfig.refreshTokenExpiryDays,
+              secure: true,
+              sameSite: "Strict",
+              path: "/",
+            });
+            token = refreshRes.accessToken;
 
-  // Treat backend generic error as "access token expired" for now
-  if (
-    !res.ok ||
-    (data.success === false && data.message.includes("unexpected error"))
-  ) {
-    const refreshToken = Cookies.get("refresh_token");
-    if (refreshToken) {
-      // Attempt refresh
-      const refreshRes = await fetch(
-        `${API_BASE_URL}${API_ROUTES.AUTH.REFRESH_TOKEN}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ refreshToken }),
+            // Retry original request
+            return await fetchWithTimeout(`${API_BASE_URL}${endpoint}`, {
+              ...options,
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+                ...options.headers,
+              },
+            });
+          } else {
+            throw new APIError("Session expired. Please log in again.", 401);
+          }
+        } catch {
+          throw new APIError("Session expired. Please log in again.", 401);
         }
-      );
-
-      const refreshData = await refreshRes.json();
-
-      if (refreshRes.ok && refreshData.accessToken) {
-        // Save new tokens
-        Cookies.set("access_token", refreshData.accessToken, {
-          expires: tokenConfig.accessTokenExpiryDays,
-          secure: true,
-          sameSite: "Strict",
-          path: "/",
-        });
-        Cookies.set("refresh_token", refreshData.refreshToken, {
-          expires: tokenConfig.refreshTokenExpiryDays,
-          secure: true,
-          sameSite: "Strict",
-          path: "/",
-        });
-        token = refreshData.accessToken;
-
-        // Retry original request
-        res = await fetch(`${API_BASE_URL}${endpoint}`, {
-          ...options,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            ...options.headers,
-          },
-        });
-
-        return res.json();
       } else {
-        // Refresh failed → force logout
-        Cookies.remove("access_token");
-        Cookies.remove("refresh_token");
-        window.location.href = PATHS.AUTH.LOGIN;
-        return;
+        throw new APIError("Session expired. Please log in again.", 401);
       }
-    } else {
-      // No refresh token → force logout
+    }
+
+    if (err instanceof APIError && err.status === 401) {
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
-      window.location.href = PATHS.AUTH.LOGIN;
-      return;
     }
-  }
 
-  return data;
+    throw err;
+  }
 }

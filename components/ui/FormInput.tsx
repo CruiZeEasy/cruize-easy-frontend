@@ -131,7 +131,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                   // Limit to 10 digits (after country code)
                   if (value.length > 10) value = value.slice(0, 10);
 
-                  // 🪄 Format as 8123 456 789
+                  // Format as 8123 456 789
                   let formatted = value;
                   if (value.length > 7) {
                     formatted = value.replace(
@@ -187,14 +187,12 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
 
             {/* Toggle Password */}
             {type === "password" && (
-              <motion.i
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <i
                 onMouseDown={(e) => e.preventDefault()}
                 className={clsx(
                   "fa",
                   showPassword ? "fa-eye-slash" : "fa-eye",
-                  "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-neutral-550 text-sm transition-colors duration-200 hover:text-neutral-600"
+                  "absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-neutral-550 text-md transition-colors duration-200 hover:text-neutral-600"
                 )}
                 onClick={togglePassword}
               />

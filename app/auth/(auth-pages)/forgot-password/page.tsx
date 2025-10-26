@@ -17,6 +17,7 @@ import { forgotPassword } from "@/services/authService";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { APIError } from "@/utils/apiClient";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +40,7 @@ export default function ForgotPasswordPage() {
     setLoading(true);
     setToast(null);
 
-    const payload = { email: data.email.trim() };
+    const payload = { email: data.email.trim().toLowerCase() };
 
     try {
       const res = await forgotPassword(payload);
@@ -54,7 +55,7 @@ export default function ForgotPasswordPage() {
         setTimeout(() => {
           navigate(
             `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
-              payload.email
+              payload.email.toLowerCase()
             )}&type=forgot-password`
           );
         }, 1500);
@@ -62,10 +63,13 @@ export default function ForgotPasswordPage() {
         throw new Error(res?.message || "No account found with this email.");
       }
     } catch (error: any) {
+      let message =
+        error instanceof APIError
+          ? error.message
+          : "Couldn't connect. Check your internet connection.";
+
       setToast({
-        message:
-          error.message ||
-          "An error occurred while sending the password reset OTP.",
+        message,
         type: "error",
       });
     } finally {
@@ -127,6 +131,7 @@ export default function ForgotPasswordPage() {
             label="Email Address"
             type="email"
             placeholder="email@gmail.com"
+            disabled={loading}
             autoComplete="email"
             {...register("email")}
             error={errors.email?.message}
@@ -151,7 +156,7 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               onClick={() => navigate(PATHS.AUTH.LOGIN)}
-              className="text-primary-dark hover:underline transition-all"
+              className="text-primary-dark hover:underline transition-all cursor-pointer"
             >
               Log in here
             </button>

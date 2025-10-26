@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/Buttons";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -14,8 +14,8 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { tokenConfig } from "@/config/tokenConfig";
-
-const RESEND_COOLDOWN = 60; // seconds
+import { APIError } from "@/utils/apiClient";
+import { REQUEST_COOLDOWN } from "@/config/cooldown";
 
 export function VerifyOtpClient() {
   const [otp, setOtp] = useState("");
@@ -32,10 +32,28 @@ export function VerifyOtpClient() {
   const email = searchParams.get("email") || "";
   const type = searchParams.get("type") || "signup";
 
+  const hasRedirected = useRef(false);
+
   // Toast close handler
   const handleToastClose = useCallback(() => {
     setToast(null);
   }, []);
+
+  useEffect(() => {
+    if (!email && !hasRedirected.current) {
+      hasRedirected.current = true;
+
+      setToast({
+        message: "Invalid verification link or missing email.",
+        type: "error",
+      });
+
+      setTimeout(() => {
+        console.log("Redirecting to login...");
+        navigate(PATHS.AUTH.LOGIN);
+      }, 1500);
+    }
+  }, [email, navigate]);
 
   // Countdown timer effect
   useEffect(() => {
@@ -86,7 +104,7 @@ export function VerifyOtpClient() {
               sameSite: "strict",
               path: "/",
             });
-            navigate(PATHS.HOME);
+            navigate(PATHS.ONBOARDING.COMPLETE_PROFILE);
           } else {
             const { verificationToken } = res;
             navigate(
@@ -100,8 +118,13 @@ export function VerifyOtpClient() {
         throw new Error(res?.message || "Invalid or expired OTP");
       }
     } catch (error: any) {
+      let message =
+        error instanceof APIError
+          ? error.message
+          : "Couldn't connect. Check your internet connection.";
+
       setToast({
-        message: error.message || "Verification failed. Try again.",
+        message,
         type: "error",
       });
     } finally {
@@ -126,13 +149,18 @@ export function VerifyOtpClient() {
           message: "OTP resent successfully! Check your email.",
           type: "success",
         });
-        setCooldown(RESEND_COOLDOWN);
+        setCooldown(REQUEST_COOLDOWN);
       } else {
         throw new Error(res?.message || "Failed to resend OTP");
       }
     } catch (error: any) {
+      const message =
+        error instanceof APIError
+          ? error.message
+          : "Couldn't connect. Check your internet connection.";
+
       setToast({
-        message: error.message || "Could not resend OTP. Try again.",
+        message,
         type: "error",
       });
     } finally {
@@ -192,6 +220,7 @@ export function VerifyOtpClient() {
           <OTPInput
             onChange={setOtp}
             error={toast?.type === "error" ? toast.message : undefined}
+            disabled={verifyLoading}
             onComplete={(code) => {
               if (!verifyLoading) handleSubmit(code);
             }}
@@ -215,13 +244,13 @@ export function VerifyOtpClient() {
             Didn't see your email?{" "}
             <button
               type="button"
-              className={`text-blue-600 hover:underline transition-all ${
+              className={`text-blue-600 hover:underline transition-all cursor-pointer ${
                 cooldown > 0 || resendLoading
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
               onClick={handleResend}
-              disabled={cooldown > 0 || resendLoading}
+              disabled={cooldown > 0 || resendLoading || verifyLoading}
             >
               {resendLoading
                 ? "Resending..."

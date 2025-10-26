@@ -114,7 +114,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
           <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            className="absolute -right-2 -bottom-[10px] w-5 h-5 bg-white rounded-full flex items-center justify-center shadow-sm"
+            className="absolute -right-2 -bottom-[10px] w-5 h-5 rounded-full flex items-center justify-center "
           >
             <Image
               src="/images/icons/edit-icon.svg"

@@ -2,11 +2,11 @@
 
 import React from "react";
 import { Button } from "../ui/Buttons";
-import { goToSignup } from "@/utils/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { PATHS } from "@/utils/path";
 
 interface SocialIconsProps {
   href: string;
@@ -162,7 +162,7 @@ export function Footer() {
                 fullWidth
                 rounded="full"
                 className="lg:w-[25rem] p-4"
-                onClick={() => navigate(goToSignup("user"))}
+                onClick={() => navigate(PATHS.AUTH.SIGNUP)}
               >
                 Sign Up Now
               </Button>

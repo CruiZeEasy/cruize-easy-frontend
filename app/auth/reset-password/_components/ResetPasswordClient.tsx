@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import { motion } from "framer-motion";
@@ -17,6 +17,7 @@ import { PATHS } from "@/utils/path";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { APIError } from "@/utils/apiClient";
 
 export function ResetPasswordClient() {
   const [loading, setLoading] = useState(false);
@@ -30,6 +31,8 @@ export function ResetPasswordClient() {
 
   const verificationToken = searchParams.get("token") || "";
 
+  const hasRedirected = useRef(false);
+
   const {
     register,
     handleSubmit,
@@ -38,6 +41,22 @@ export function ResetPasswordClient() {
   } = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
   });
+
+  useEffect(() => {
+    if (!verificationToken && !hasRedirected.current) {
+      hasRedirected.current = true;
+
+      setToast({
+        message: "Invalid reset link or missing token.",
+        type: "error",
+      });
+
+      setTimeout(() => {
+        console.log("Redirecting to login...");
+        navigate(PATHS.AUTH.LOGIN);
+      }, 1500);
+    }
+  }, [verificationToken, navigate]);
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     setLoading(true);
@@ -65,10 +84,12 @@ export function ResetPasswordClient() {
         throw new Error(res?.message || "Failed to reset password.");
       }
     } catch (error: any) {
-      setToast({
-        message: error.message || "Something went wrong. Please try again!",
-        type: "error",
-      });
+      const message =
+        error instanceof APIError
+          ? error.message
+          : "Couldn't connect. Check your internet connection.";
+
+      setToast({ message, type: "error" });
     } finally {
       setLoading(false);
     }
@@ -110,6 +131,7 @@ export function ResetPasswordClient() {
               label="New Password"
               type="password"
               placeholder="New Password"
+              disabled={loading}
               autoComplete="new-password"
               {...register("newPassword")}
               error={errors.newPassword?.message}
@@ -119,6 +141,7 @@ export function ResetPasswordClient() {
               label="Confirm Password"
               type="password"
               placeholder="Confirm Password"
+              disabled={loading}
               autoComplete="new-password"
               {...register("confirmPassword")}
               error={errors.confirmPassword?.message}

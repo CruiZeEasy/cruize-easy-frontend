@@ -19,6 +19,8 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { UserRoles } from "@/constants/roles";
 import { useSearchParams } from "next/navigation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { normalizeString } from "@/utils/stringUtils";
+import { APIError } from "@/utils/apiClient";
 
 export function SignUpClient() {
   const [loading, setLoading] = useState(false);
@@ -43,16 +45,14 @@ export function SignUpClient() {
     resolver: zodResolver(signupSchema),
   });
 
-  const normalize = (str: string) => str.trim().replace(/\s+/g, " ");
-
   const onSubmit = async (data: SignupFormData) => {
     setLoading(true);
     setToast(null);
 
     const payload = {
       ...data,
-      fullName: normalize(data.fullName),
-      email: data.email.trim(),
+      fullName: normalizeString(data.fullName),
+      email: data.email.trim().toLowerCase(),
       role,
     };
 
@@ -70,7 +70,7 @@ export function SignUpClient() {
         setTimeout(() => {
           navigate(
             `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
-              payload.email
+              payload.email.toLowerCase()
             )}&type=signup`
           );
         }, 1500);
@@ -78,10 +78,12 @@ export function SignUpClient() {
         throw new Error(res?.message || "An unexpected error occurred");
       }
     } catch (error: any) {
-      setToast({
-        message: error.message || "Email already in use or invalid input.",
-        type: "error",
-      });
+      const message =
+        error instanceof APIError
+          ? error.message
+          : "Couldn't connect. Check your internet connection.";
+
+      setToast({ message, type: "error" });
     } finally {
       setLoading(false);
     }
@@ -130,6 +132,7 @@ export function SignUpClient() {
               id="fullName"
               label="Full Name"
               type="text"
+              disabled={loading}
               autoComplete="name"
               placeholder="Full Name"
               {...register("fullName")}
@@ -139,6 +142,7 @@ export function SignUpClient() {
               id="email"
               label="Email Address"
               type="email"
+              disabled={loading}
               autoComplete="email"
               placeholder="email@gmail.com"
               {...register("email")}
@@ -148,6 +152,7 @@ export function SignUpClient() {
               id="password"
               label="Password"
               type="password"
+              disabled={loading}
               autoComplete="new-password"
               placeholder="Password"
               {...register("password")}
@@ -202,7 +207,7 @@ export function SignUpClient() {
             <button
               type="button"
               onClick={() => navigate(PATHS.AUTH.LOGIN)}
-              className="text-primary-dark hover:underline transition-all"
+              className="text-primary-dark hover:underline transition-all cursor-pointer"
             >
               Log in here
             </button>

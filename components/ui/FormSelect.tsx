@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -57,8 +57,12 @@ export const FormSelect = React.forwardRef<HTMLDivElement, SelectProps>(
       onChange?.(optionValue);
     };
 
+    useEffect(() => {
+      setSelectedValue(value || "");
+    }, [value]);
+
     // Close dropdown when clicking outside
-    React.useEffect(() => {
+    useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (
           containerRef.current &&

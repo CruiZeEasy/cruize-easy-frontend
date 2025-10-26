@@ -7,6 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { PATHS } from "@/utils/path";
 
 export function Header() {
   const { navigate, isNavigating } = usePageTransition();
@@ -44,7 +45,7 @@ export function Header() {
                 <Button
                   variant="primary"
                   className="py-3"
-                  onClick={() => navigate(goToSignup("user"))}
+                  onClick={() => navigate(PATHS.AUTH.SIGNUP)}
                 >
                   Get Started
                 </Button>
@@ -85,7 +86,7 @@ export function Header() {
             >
               <Button
                 variant="secondary"
-                onClick={() => navigate(goToSignup("user"))}
+                onClick={() => navigate(PATHS.AUTH.SIGNUP)}
               >
                 Sign up as a user
               </Button>
@@ -111,7 +112,7 @@ export function Header() {
           variant="primary"
           className="py-4"
           fullWidth
-          onClick={() => navigate(goToSignup("user"))}
+          onClick={() => navigate(PATHS.AUTH.SIGNUP)}
         >
           Sign up as a user
         </Button>

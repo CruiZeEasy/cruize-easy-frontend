@@ -12,5 +12,6 @@ export const API_ROUTES = {
 
   USER: {
     ME: "/api/v1/users/me", // get current user profile
+    UPLOAD_PROFILE_IMAGE: "/api/v1/users/me/profile-image",
   },
 };

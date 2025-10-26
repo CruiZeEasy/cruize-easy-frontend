@@ -8,4 +8,9 @@ export const PATHS = {
     RESET_PASSWORD: "/auth/reset-password",
     CHANGE_PASSWORD: "/auth/change-password",
   },
+  ONBOARDING: {
+    COMPLETE_PROFILE: "/onboarding/complete-profile",
+    ALLOW_LOCATION: "/onboarding/allow-location",
+    ALLOW_NOTIFICATIONS: "/onboarding/allow-notifications",
+  },
 };

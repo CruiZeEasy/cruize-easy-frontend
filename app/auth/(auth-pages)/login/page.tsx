@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { APIError } from "@/utils/apiClient";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import Cookies from "js-cookie";
@@ -20,8 +21,12 @@ import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { tokenConfig } from "@/config/tokenConfig";
 
+// TODO: Add rate limiting on failed login attempts to enhance security
+//       In the future, if backend returns 429 Too Many Requests, you could add a retry or cooldown message.
+
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -42,7 +47,7 @@ export default function LoginPage() {
     setToast(null);
 
     const payload = {
-      email: data.email.trim(),
+      email: data.email.trim().toLowerCase(),
       password: data.password,
     };
 
@@ -79,8 +84,38 @@ export default function LoginPage() {
         throw new Error(res?.message || "Invalid credentials");
       }
     } catch (error: any) {
+      let message =
+        error instanceof APIError
+          ? error.message
+          : "Email or password is incorrect.";
+
+      if (error instanceof APIError) {
+        // 🟡 Handle account not verified
+        if (error.status === 403 && /not verified/i.test(error.message)) {
+          message =
+            "Your account is not verified. Redirecting to OTP verification...";
+          setToast({ message, type: "error" });
+          setTimeout(() => {
+            navigate(
+              `${PATHS.AUTH.VERIFY_OTP}?email=${encodeURIComponent(
+                payload.email.toLowerCase()
+              )}&type=signup`
+            );
+          }, 1500);
+          return;
+        }
+        message = error.message;
+      } else if (
+        // Handle network errors explicitly
+        error.message === "Failed to fetch" ||
+        /network/i.test(error.message)
+      ) {
+        message = "Couldn't connect. Check your internet connection.";
+      }
+
+      // 🔴 Handle all other errors normally
       setToast({
-        message: error.message || "Email or password is incorrect.",
+        message,
         type: "error",
       });
     } finally {
@@ -131,6 +166,7 @@ export default function LoginPage() {
             label="Email Address"
             type="email"
             placeholder="email@gmail.com"
+            disabled={loading}
             autoComplete="email"
             {...register("email")}
             error={errors.email?.message}
@@ -142,6 +178,7 @@ export default function LoginPage() {
               label="Password"
               type="password"
               placeholder="Password"
+              disabled={loading}
               autoComplete="current-password"
               {...register("password")}
               error={errors.password?.message}
@@ -151,7 +188,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => navigate(PATHS.AUTH.FORGOT_PASSWORD)}
-                className="font-gilroy-bold text-sm text-primary-dark hover:underline transition-all"
+                className="font-gilroy-bold text-sm text-primary-dark hover:underline transition-all cursor-pointer"
               >
                 Forgot Password
               </button>
@@ -205,7 +242,7 @@ export default function LoginPage() {
             <button
               type="button"
               onClick={() => navigate(PATHS.AUTH.SIGNUP)}
-              className="text-primary-dark hover:underline transition-all"
+              className="text-primary-dark hover:underline transition-all cursor-pointer"
             >
               Sign up here
             </button>

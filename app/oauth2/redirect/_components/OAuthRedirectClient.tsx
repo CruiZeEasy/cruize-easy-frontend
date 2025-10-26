@@ -17,7 +17,7 @@ export function OAuthRedirectClient() {
   const refreshToken = params.get("refreshToken");
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (accessToken && refreshToken) {
         Cookies.set("access_token", accessToken, {
           expires: tokenConfig.accessTokenExpiryDays,
@@ -26,18 +26,22 @@ export function OAuthRedirectClient() {
           path: "/",
         });
 
-        Cookies.set("refresh_token", accessToken, {
+        Cookies.set("refresh_token", refreshToken, {
           expires: tokenConfig.refreshTokenExpiryDays,
           secure: true,
           sameSite: "Strict",
           path: "/",
         });
 
-        router.push(PATHS.HOME);
+        router.push(PATHS.ONBOARDING.COMPLETE_PROFILE);
       } else {
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
         router.push(PATHS.AUTH.LOGIN);
       }
     }, 1500);
+
+    return () => clearTimeout(timer);
   }, [accessToken, refreshToken, router]);
 
   return (

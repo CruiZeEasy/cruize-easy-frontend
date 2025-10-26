@@ -18,7 +18,9 @@ import {
 } from "@/schemas/profile/completeProfileSchema";
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
-import { UserRoles } from "@/constants/roles";
+import { normalizeString } from "@/utils/stringUtils";
+import { updateUserProfile, uploadProfileImage } from "@/services/userService";
+import { APIError } from "@/utils/apiClient";
 
 export default function CompleteProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -28,29 +30,13 @@ export default function CompleteProfilePage() {
   } | null>(null);
   const { navigate, isNavigating } = usePageTransition();
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   control,
-  //   formState: { errors },
-  // } = useForm<CompleteProfileFormData>({
-  //   resolver: zodResolver(completeProfileSchema),
-  //   defaultValues: {
-  //     username: "",
-  //     phoneNumber: "",
-  //     gender: undefined,
-  //     profileImage: undefined,
-  //   },
-  // });
-
-  const schema = completeProfileSchema(UserRoles.USER);
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<CompleteProfileFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(completeProfileSchema),
   });
 
   const onSubmit = async (data: CompleteProfileFormData) => {
@@ -58,39 +44,40 @@ export default function CompleteProfilePage() {
     setToast(null);
 
     try {
-      // Prepare FormData
-      const formData = new FormData();
-      formData.append("username", data.username);
-      formData.append("phoneNumber", `+234${data.phoneNumber}`);
-      formData.append("gender", data.gender);
-      if (data.profileImage) formData.append("profileImage", data.profileImage);
-
-      console.log("🧾 FormData contents:");
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
+      if (data.profileImage) {
+        const uploadRes = await uploadProfileImage(data.profileImage);
+        if (!uploadRes?.success) throw new Error("Failed to upload image");
       }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      const mockSuccess = true;
+      const payload = {
+        username: normalizeString(data.username),
+        phoneN0: `+234${data.phoneNumber}`,
+        gender: data.gender.toUpperCase() as "MALE" | "FEMALE",
+        profileCompleted: true,
+      };
 
-      if (mockSuccess) {
+      const res = await updateUserProfile(payload);
+
+      if (res?.success) {
         setToast({
           message: "Profile completed successfully!",
           type: "success",
         });
 
-        // setTimeout(() => {
-        //   navigate(PATHS.HOME);
-        // }, 1500);
+        setTimeout(() => {
+          navigate(PATHS.ONBOARDING.ALLOW_LOCATION);
+        }, 1500);
       } else {
         throw new Error("Failed to complete profile");
       }
     } catch (error: any) {
-      setToast({
-        message: error.message || "Something went wrong. Please try again.",
-        type: "error",
-      });
+      const message =
+        error instanceof APIError
+          ? error.message
+          : error.message ||
+            "Couldn't connect. Check your internet connection.";
+
+      setToast({ message, type: "error" });
     } finally {
       setLoading(false);
     }
@@ -108,8 +95,8 @@ export default function CompleteProfilePage() {
         {/* Image */}
         <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
           <Image
-            src="/images/robots/robot-1.png"
-            alt="Happy Robot"
+            src="/images/robots/happy-robot.png"
+            alt="gpt robot happy raising right arm"
             width={250}
             height={250}
             className="w-36 h-auto"
