@@ -102,6 +102,7 @@ export default function CompleteProfilePage() {
         username: normalizeString(data.username),
         phoneN0: `+234${data.phoneNumber}`,
         gender: data.gender.toUpperCase() as "MALE" | "FEMALE",
+        profileCompleted: true,
       };
 
       const res = await updateUserProfile(payload);
