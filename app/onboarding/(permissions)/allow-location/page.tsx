@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Buttons";
 import { fadeUp } from "@/config/animation";
 import Image from "next/image";
@@ -8,16 +8,62 @@ import { motion } from "framer-motion";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Toast } from "@/components/ui/Toast";
-import { updateUserProfile } from "@/services/userService";
+import { updateUserProfile, getCurrentUser } from "@/services/userService";
 import { PATHS } from "@/utils/path";
+import { APIError } from "@/utils/apiClient";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 export default function AllowLocationPage() {
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
+  const [redirecting, setRedirecting] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
+
   const { navigate, isNavigating } = usePageTransition();
+
+  useEffect(() => {
+    if (unauthorized) return;
+
+    let isMounted = true;
+    async function fetchUser() {
+      try {
+        const currentUser = await getCurrentUser();
+        if (!isMounted) return;
+
+        const nextPath = getNextOnboardingPath(currentUser);
+        if (nextPath !== PATHS.ONBOARDING.ALLOW_LOCATION) {
+          setRedirecting(true);
+          navigate(nextPath);
+          return;
+        }
+      } catch (err: any) {
+        if (err instanceof APIError && err.status === 401) {
+          setUnauthorized(true);
+          return;
+        }
+
+        if (isMounted) {
+          const message =
+            err instanceof APIError
+              ? err.message
+              : "Couldn't connect. Check your internet connection.";
+          setToast({ message, type: "error" });
+        }
+      } finally {
+        if (isMounted) setUserLoading(false);
+      }
+    }
+
+    fetchUser();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate, unauthorized]);
 
   const handleAllowLocation = async () => {
     setLoading(true);
@@ -32,21 +78,28 @@ export default function AllowLocationPage() {
           type: "success",
         });
 
+        const user = await getCurrentUser();
+        const nextPath = getNextOnboardingPath(user);
+
         setTimeout(() => {
-          navigate(PATHS.ONBOARDING.ALLOW_NOTIFICATIONS);
+          navigate(nextPath);
         }, 1500);
       } else {
         throw new Error("Failed to enable location access");
       }
     } catch (error: any) {
-      setToast({
-        message: error.message || "Something went wrong. Please try again.",
-        type: "error",
-      });
+      const message =
+        error instanceof APIError
+          ? error.message
+          : error.message || "Something went wrong. Please try again.";
+      setToast({ message, type: "error" });
     } finally {
       setLoading(false);
     }
   };
+
+  if (userLoading || redirecting)
+    return <PageTransitionSpinner isVisible={true} />;
 
   return (
     <>
@@ -65,7 +118,7 @@ export default function AllowLocationPage() {
         >
           <Image
             src="/images/robots/robot-location.png"
-            alt="gpt robot holding loupe"
+            alt="robot holding magnifying glass"
             width={400}
             height={250}
             className="w-36 h-auto"
@@ -83,7 +136,6 @@ export default function AllowLocationPage() {
           <h1 className="font-modulus-semibold text-[26px] block">
             What is your location?
           </h1>
-
           <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
             We need to know your location to suggest nearby cars to you.
           </p>
@@ -120,7 +172,7 @@ export default function AllowLocationPage() {
         )}
       </motion.div>
 
-      {/* Page Transition Spinner */}
+      {/* Spinner for route transition */}
       <PageTransitionSpinner isVisible={isNavigating} />
     </>
   );

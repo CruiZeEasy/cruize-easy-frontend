@@ -16,6 +16,8 @@ import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { tokenConfig } from "@/config/tokenConfig";
 import { APIError } from "@/utils/apiClient";
 import { REQUEST_COOLDOWN } from "@/config/cooldown";
+import { getCurrentUser } from "@/services/userService";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 export function VerifyOtpClient() {
   const [otp, setOtp] = useState("");
@@ -90,21 +92,27 @@ export function VerifyOtpClient() {
           type: "success",
         });
 
-        setTimeout(() => {
+        setTimeout(async () => {
           if (type === "signup") {
             Cookies.set("access_token", res.accessToken, {
               expires: tokenConfig.accessTokenExpiryDays,
               secure: true,
-              sameSite: "strict",
+              sameSite: "Strict",
               path: "/",
             });
             Cookies.set("refresh_token", res.refreshToken, {
               expires: tokenConfig.refreshTokenExpiryDays,
               secure: true,
-              sameSite: "strict",
+              sameSite: "Strict",
               path: "/",
             });
-            navigate(PATHS.ONBOARDING.COMPLETE_PROFILE);
+            try {
+              const user = await getCurrentUser();
+              const nextPath = getNextOnboardingPath(user);
+              navigate(nextPath);
+            } catch {
+              navigate(PATHS.AUTH.LOGIN);
+            }
           } else {
             const { verificationToken } = res;
             navigate(

@@ -20,6 +20,8 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { tokenConfig } from "@/config/tokenConfig";
+import { getCurrentUser } from "@/services/userService";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 // TODO: Add rate limiting on failed login attempts to enhance security
 //       In the future, if backend returns 429 Too Many Requests, you could add a retry or cooldown message.
@@ -77,8 +79,11 @@ export default function LoginPage() {
 
         reset();
 
+        const user = await getCurrentUser();
+        const nextPath = getNextOnboardingPath(user);
+
         setTimeout(() => {
-          navigate(PATHS.HOME);
+          navigate(nextPath);
         }, 1500);
       } else {
         throw new Error(res?.message || "Invalid credentials");
@@ -90,7 +95,7 @@ export default function LoginPage() {
           : "Email or password is incorrect.";
 
       if (error instanceof APIError) {
-        // 🟡 Handle account not verified
+        //  Handle account not verified
         if (error.status === 403 && /not verified/i.test(error.message)) {
           message =
             "Your account is not verified. Redirecting to OTP verification...";
@@ -113,7 +118,7 @@ export default function LoginPage() {
         message = "Couldn't connect. Check your internet connection.";
       }
 
-      // 🔴 Handle all other errors normally
+      // Handle all other errors normally
       setToast({
         message,
         type: "error",

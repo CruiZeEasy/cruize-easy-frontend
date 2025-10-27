@@ -8,6 +8,8 @@ import Image from "next/image";
 import { Spinner } from "@/components/ui/Spinner";
 import { PATHS } from "@/utils/path";
 import { tokenConfig } from "@/config/tokenConfig";
+import { getCurrentUser } from "@/services/userService";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 export function OAuthRedirectClient() {
   const router = useRouter();
@@ -17,7 +19,7 @@ export function OAuthRedirectClient() {
   const refreshToken = params.get("refreshToken");
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       if (accessToken && refreshToken) {
         Cookies.set("access_token", accessToken, {
           expires: tokenConfig.accessTokenExpiryDays,
@@ -33,7 +35,13 @@ export function OAuthRedirectClient() {
           path: "/",
         });
 
-        router.push(PATHS.ONBOARDING.COMPLETE_PROFILE);
+        try {
+          const user = await getCurrentUser();
+          const nextPath = getNextOnboardingPath(user);
+          router.push(nextPath);
+        } catch {
+          router.push(PATHS.AUTH.LOGIN);
+        }
       } else {
         Cookies.remove("access_token");
         Cookies.remove("refresh_token");

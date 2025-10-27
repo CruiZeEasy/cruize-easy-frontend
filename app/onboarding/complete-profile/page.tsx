@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fadeUp } from "@/config/animation";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
@@ -19,11 +19,19 @@ import {
 import { PATHS } from "@/utils/path";
 import { Toast } from "@/components/ui/Toast";
 import { normalizeString } from "@/utils/stringUtils";
-import { updateUserProfile, uploadProfileImage } from "@/services/userService";
+import {
+  updateUserProfile,
+  uploadProfileImage,
+  getCurrentUser,
+} from "@/services/userService";
 import { APIError } from "@/utils/apiClient";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 export default function CompleteProfilePage() {
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
+  const [redirecting, setRedirecting] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -38,6 +46,47 @@ export default function CompleteProfilePage() {
   } = useForm<CompleteProfileFormData>({
     resolver: zodResolver(completeProfileSchema),
   });
+
+  useEffect(() => {
+    if (unauthorized) return;
+
+    let isMounted = true;
+    async function fetchUser() {
+      try {
+        const currentUser = await getCurrentUser();
+        if (!isMounted) return;
+
+        const nextPath = getNextOnboardingPath(currentUser);
+        if (nextPath !== PATHS.ONBOARDING.COMPLETE_PROFILE) {
+          setRedirecting(true);
+          navigate(nextPath);
+          return;
+        }
+      } catch (err: any) {
+        if (err instanceof APIError && err.status === 401) {
+          // mark as unauthorized to stop retries
+          setUnauthorized(true);
+          return;
+        }
+
+        if (isMounted) {
+          const message =
+            err instanceof APIError
+              ? err.message
+              : "Couldn't connect. Check your internet connection.";
+          setToast({ message, type: "error" });
+        }
+      } finally {
+        if (isMounted) setUserLoading(false);
+      }
+    }
+
+    fetchUser();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate, unauthorized]);
 
   const onSubmit = async (data: CompleteProfileFormData) => {
     setLoading(true);
@@ -64,8 +113,12 @@ export default function CompleteProfilePage() {
           type: "success",
         });
 
+        const user = await getCurrentUser();
+        console.log("Current User after profile completion:", user);
+        const nextPath = getNextOnboardingPath(user);
+
         setTimeout(() => {
-          navigate(PATHS.ONBOARDING.ALLOW_LOCATION);
+          navigate(nextPath);
         }, 1500);
       } else {
         throw new Error("Failed to complete profile");
@@ -76,12 +129,14 @@ export default function CompleteProfilePage() {
           ? error.message
           : error.message ||
             "Couldn't connect. Check your internet connection.";
-
       setToast({ message, type: "error" });
     } finally {
       setLoading(false);
     }
   };
+
+  if (userLoading || redirecting)
+    return <PageTransitionSpinner isVisible={true} />;
 
   return (
     <>
@@ -92,7 +147,6 @@ export default function CompleteProfilePage() {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="flex flex-col items-center pb-12"
       >
-        {/* Image */}
         <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
           <Image
             src="/images/robots/happy-robot.png"
@@ -105,7 +159,6 @@ export default function CompleteProfilePage() {
           />
         </motion.div>
 
-        {/* Title + Description */}
         <motion.div
           variants={fadeUp}
           transition={{ duration: 0.25 }}
@@ -114,21 +167,18 @@ export default function CompleteProfilePage() {
           <h1 className="font-modulus-semibold text-[26px] block">
             Complete your Profile
           </h1>
-
           <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
-            Don&apos;t worry only you can see your personal data, no one else
-            will be able to see it.
+            Don't worry only you can see your personal data, no one else will be
+            able to see it.
           </p>
         </motion.div>
 
-        {/* Form */}
         <motion.form
           onSubmit={handleSubmit(onSubmit)}
           variants={fadeUp}
           transition={{ duration: 0.25 }}
           className="w-full"
         >
-          {/* Image Upload */}
           <motion.div
             variants={fadeUp}
             transition={{ duration: 0.25 }}
@@ -137,7 +187,7 @@ export default function CompleteProfilePage() {
             <Controller
               name="profileImage"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { onChange } }) => (
                 <ImageUpload
                   onImageSelect={onChange}
                   disabled={loading}
@@ -147,7 +197,6 @@ export default function CompleteProfilePage() {
             />
           </motion.div>
 
-          {/* Inputs Grid */}
           <motion.div
             variants={fadeUp}
             transition={{ duration: 0.25 }}
@@ -212,7 +261,6 @@ export default function CompleteProfilePage() {
           </motion.div>
         </motion.form>
 
-        {/* Toast */}
         {toast && (
           <Toast
             message={toast.message}
@@ -222,7 +270,6 @@ export default function CompleteProfilePage() {
         )}
       </motion.div>
 
-      {/* Page Transition Spinner */}
       <PageTransitionSpinner isVisible={isNavigating} />
     </>
   );

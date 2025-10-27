@@ -2,9 +2,10 @@ import Cookies from "js-cookie";
 import { API_BASE_URL } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 import { tokenConfig } from "@/config/tokenConfig";
+import { PATHS } from "./path";
 
 export interface FetchOptions extends RequestInit {
-  timeout?: number; // milliseconds
+  timeout?: number;
 }
 
 export class APIError extends Error {
@@ -56,17 +57,30 @@ export async function apiClient(
 ) {
   let token = Cookies.get("access_token");
 
+  const isFormData = options.body instanceof FormData;
+
+  async function handleUnauthorized() {
+    console.log("Unauthorized. Removing tokens and redirecting...");
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+
+    if (typeof window !== "undefined") {
+      setTimeout(() => {
+        window.location.replace(PATHS.AUTH.LOGIN);
+      }, 1500);
+    }
+  }
+
   try {
     return await fetchWithTimeout(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers: {
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
     });
   } catch (err: any) {
-    // If unauthorized, attempt refresh — only if not skipped
     if (
       !options.skipAuthHandling &&
       err instanceof APIError &&
@@ -104,25 +118,20 @@ export async function apiClient(
             return await fetchWithTimeout(`${API_BASE_URL}${endpoint}`, {
               ...options,
               headers: {
-                "Content-Type": "application/json",
+                ...(isFormData ? {} : { "Content-Type": "application/json" }),
                 Authorization: `Bearer ${token}`,
                 ...options.headers,
               },
             });
-          } else {
-            throw new APIError("Session expired. Please log in again.", 401);
           }
         } catch {
-          throw new APIError("Session expired. Please log in again.", 401);
+          // failed refresh — fall through to unauthorized handler
         }
-      } else {
-        throw new APIError("Session expired. Please log in again.", 401);
       }
-    }
 
-    if (err instanceof APIError && err.status === 401) {
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
+      // Any 401 that reaches here — remove cookies and redirect
+      await handleUnauthorized();
+      throw new APIError("Session expired. Please log in again.", 401);
     }
 
     throw err;
