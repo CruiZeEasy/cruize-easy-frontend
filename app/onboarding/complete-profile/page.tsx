@@ -149,7 +149,7 @@ export default function CompleteProfilePage() {
       >
         <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
           <Image
-            src="/images/robots/happy-robot.png"
+            src="/images/robots/happy-robot.webp"
             alt="gpt robot happy raising right arm"
             width={250}
             height={250}

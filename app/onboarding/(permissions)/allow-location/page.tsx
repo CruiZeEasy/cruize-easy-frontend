@@ -117,7 +117,7 @@ export default function AllowLocationPage() {
           className="mb-10"
         >
           <Image
-            src="/images/robots/robot-location.png"
+            src="/images/robots/robot-location.webp"
             alt="robot holding magnifying glass"
             width={400}
             height={250}

@@ -118,7 +118,7 @@ export default function AllowNotificationPage() {
           className="mb-10"
         >
           <Image
-            src="/images/robots/robot-turning-right.png"
+            src="/images/robots/robot-turning-right.webp"
             alt="gpt robot turning right"
             width={400}
             height={400}
