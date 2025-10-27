@@ -26,8 +26,6 @@ import {
 } from "@/services/userService";
 import { APIError } from "@/utils/apiClient";
 import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 
 export default function CompleteProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +37,6 @@ export default function CompleteProfilePage() {
     type: "success" | "error";
   } | null>(null);
   const { navigate, isNavigating } = usePageTransition();
-  const router = useRouter();
 
   const {
     register,
@@ -51,11 +48,6 @@ export default function CompleteProfilePage() {
   });
 
   useEffect(() => {
-    const accessToken = Cookies.get("access_token");
-    if (!accessToken) {
-      router.replace(PATHS.AUTH.LOGIN);
-      return;
-    }
     if (unauthorized) return;
 
     let isMounted = true;
