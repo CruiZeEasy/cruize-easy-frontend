@@ -1,11 +1,11 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PATHS } from "@/utils/path"; // adjust import path if needed
+import { PATHS } from "@/utils/path"; 
 
 export function proxy(request: NextRequest) {
   const { pathname, origin } = request.nextUrl;
   const accessToken = request.cookies.get("access_token")?.value;
 
-  // 🔒 Define protected routes
+  // Define protected routes
   const protectedRoutes = [
     PATHS.ONBOARDING.COMPLETE_PROFILE,
     PATHS.ONBOARDING.ALLOW_LOCATION,
