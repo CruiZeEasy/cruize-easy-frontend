@@ -11,6 +11,7 @@ import { PATHS } from "@/utils/path";
 interface SocialIconsProps {
   href: string;
   title: string;
+  name: string;
 }
 
 interface BadgeIconsProps {
@@ -27,15 +28,22 @@ const socialIcons: SocialIconsProps[] = [
   {
     href: "https://www.facebook.com/share/1b39zJ1VHg/?mibextid=wwXIfr",
     title: "fa-facebook-f",
+    name: "Facebook",
   },
-  { href: "https://x.com/cruizeeasy?s=21", title: "fa-x-twitter" },
+  {
+    href: "https://x.com/cruizeeasy?s=21",
+    title: "fa-x-twitter",
+    name: "Twitter",
+  },
   {
     href: "https://www.instagram.com/cruizeeasy?igsh=MXZ5eTJvMXlreW0wOA%3D%3D&utm_source=qr",
     title: "fa-instagram",
+    name: "Instagram",
   },
   {
     href: "https://www.tiktok.com/@cruize.easy?_t=ZN-90FEHsYsVi2&_r=1",
     title: "fa-tiktok",
+    name: "TikTok",
   },
 ];
 
@@ -89,6 +97,7 @@ export function Footer() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`Visit our ${item.name} page`}
                   className="text-neutral-400 hover:text-white transition-colors duration-200"
                 >
                   <i className={`fa-brands ${item.title}`}></i>
@@ -113,7 +122,7 @@ export function Footer() {
 
             {/* Support Links */}
             <nav aria-label="Support">
-              <h4 className="font-semibold text-white mb-6">Support</h4>
+              <h3 className="font-semibold text-white mb-6">Support</h3>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {supportLinks.map((link) => (
                   <li key={link.label}>
@@ -132,7 +141,7 @@ export function Footer() {
           <section>
             {/* Quick Links */}
             <nav aria-label="Quick Links" className="mb-10">
-              <h4 className="font-semibold text-white mb-6">Quick Links</h4>
+              <h3 className="font-semibold text-white mb-6">Quick Links</h3>
               <ul className="text-sm text-neutral-400 space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
@@ -148,9 +157,9 @@ export function Footer() {
             </nav>
 
             <div>
-              <h4 className="font-semibold text-white mb-6">
+              <h3 className="font-semibold text-white mb-6">
                 Start your Journey Today
-              </h4>
+              </h3>
 
               <p className="text-sm text-pretty text-neutral-400 mb-6 max-w-full sm:max-w-[20rem]">
                 Ready to experience the best in car rentals? Sign up now and get
