@@ -311,7 +311,7 @@ export function Header() {
         <div className="max-w-[1440px] mx-auto">
           <section className="relative bg-cover bg-center h-[500px] w-full px-4 sm:px-6 lg:px-8 pt-4 rounded-b-[30px] overflow-hidden">
             {/* Background Image */}
-            <Image
+            {/* <Image
               src="/images/hero/hero-bg-mobile.webp"
               alt=""
               fill
@@ -319,6 +319,16 @@ export function Header() {
               fetchPriority="high"
               quality={90}
               sizes="100vw"
+              className="object-cover sm:hidden"
+            /> */}
+            <Image
+              src="/images/hero/hero-bg-mobile.webp"
+              alt=""
+              fill
+              priority
+              fetchPriority="high"
+              quality={90}
+              sizes="(max-width: 640px) 100vw, 0px" 
               className="object-cover sm:hidden"
             />
             <Image
