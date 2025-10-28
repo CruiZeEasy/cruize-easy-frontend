@@ -317,7 +317,7 @@ export function Header() {
               fill
               priority
               fetchPriority="high"
-              quality={75}
+              quality={90}
               sizes="100vw"
               className="object-cover sm:hidden"
             />
