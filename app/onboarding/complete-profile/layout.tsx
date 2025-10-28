@@ -1,9 +1,4 @@
 import { BackButton } from "@/components/ui/BackButton";
-import { Viewport } from "next";
-
-export const viewport: Viewport = {
-  themeColor: "#ff3a3a",
-};
 
 export default function CompleteProfileLayout({
   children,

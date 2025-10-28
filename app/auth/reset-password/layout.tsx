@@ -1,7 +1,6 @@
 import { BackButton } from "@/components/ui/BackButton";
 import { Footer } from "@/components/shared/Footer";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
-import { Viewport } from "next";
 
 export default function ResetPasswordLayout({
   children,
