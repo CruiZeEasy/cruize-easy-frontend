@@ -3,10 +3,6 @@ import { Footer } from "@/components/shared/Footer";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
 import { Viewport } from "next";
 
-export const viewport: Viewport = {
-  themeColor: "#ff3a3a",
-};
-
 export default function ResetPasswordLayout({
   children,
 }: {

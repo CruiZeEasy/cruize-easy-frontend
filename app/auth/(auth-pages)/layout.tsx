@@ -4,9 +4,6 @@ import Image from "next/image";
 import { BackButton } from "@/components/ui/BackButton";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
 
-export const viewport: Viewport = {
-  themeColor: "#ff3a3a",
-};
 
 export default function AuthLayout({
   children,
