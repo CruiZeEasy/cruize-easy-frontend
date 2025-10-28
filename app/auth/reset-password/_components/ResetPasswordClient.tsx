@@ -52,7 +52,6 @@ export function ResetPasswordClient() {
       });
 
       setTimeout(() => {
-        console.log("Redirecting to login...");
         navigate(PATHS.AUTH.LOGIN);
       }, 1500);
     }

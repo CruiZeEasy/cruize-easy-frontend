@@ -1,4 +1,9 @@
 import { BackButton } from "@/components/ui/BackButton";
+import { Viewport } from "next";
+
+export const viewport: Viewport = {
+  themeColor: "#ff3a3a",
+};
 
 export default function CompleteProfileLayout({
   children,
@@ -9,9 +14,7 @@ export default function CompleteProfileLayout({
     <div className="flex min-h-screen flex-col bg-white">
       <main className="max-w-[1440px] mx-auto w-full">
         <div className="mx-4 my-4 md:pt-4 md:px-4 md:pb-12 md:border md:border-neutral-300 md:rounded-[30px]">
-          <div>
-            <BackButton variant="mobile" showOnDesktop />
-          </div>
+          <div>{/* <BackButton variant="mobile" showOnDesktop /> */}</div>
           <div>{children}</div>
         </div>
       </main>

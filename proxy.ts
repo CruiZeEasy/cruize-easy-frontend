@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PATHS } from "@/utils/path"; 
+import { PATHS } from "@/utils/path";
 
 export function proxy(request: NextRequest) {
   const { pathname, origin } = request.nextUrl;

@@ -1,7 +1,12 @@
+import { Viewport } from "next";
 import { Footer } from "@/components/shared/Footer";
 import Image from "next/image";
 import { BackButton } from "@/components/ui/BackButton";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
+
+export const viewport: Viewport = {
+  themeColor: "#ff3a3a",
+};
 
 export default function AuthLayout({
   children,
@@ -21,7 +26,7 @@ export default function AuthLayout({
                 height={500}
                 className="h-full w-full object-cover rounded-[30px]"
               />
-              <BackButton variant="desktop" />
+              {/* <BackButton variant="desktop" /> */}
             </div>
             <div className="flex flex-col ">
               <MobileAuthHeader />

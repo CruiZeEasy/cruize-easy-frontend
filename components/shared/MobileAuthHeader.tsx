@@ -32,7 +32,8 @@ export function MobileAuthHeader() {
   return (
     <div className={containerClass}>
       {/* Hide back button only on reset-password page */}
-      {isResetPasswordPage ? <div /> : <BackButton variant="mobile" />}
+      {/* {isResetPasswordPage ? <div /> : <BackButton variant="mobile" />} */}
+      <div />
 
       {showCenteredTitle ? (
         <>
