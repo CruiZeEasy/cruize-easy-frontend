@@ -6,8 +6,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // maximumScale: 1,
+  // userScalable: false,
   // themeColor: "#ffffff",
 
   themeColor: "#ff3a3a",
