@@ -19,19 +19,6 @@ export function HostMobileSidebar() {
         <Image
           src="/images/icons/menu-dark.svg"
           alt="menu icon"
-          width={28}
-          height={28}
-          priority
-        />
-      </button>
-      <button
-        onClick={() => setExpanded(true)}
-        aria-label="Open sidebar"
-        className="cursor-pointer"
-      >
-        <Image
-          src="/images/icons/menu-dark.svg"
-          alt="menu icon"
           width={35}
           height={35}
           priority
