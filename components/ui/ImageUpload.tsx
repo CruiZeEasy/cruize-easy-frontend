@@ -156,7 +156,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
         />
 
         {/* Helper Text */}
-        <p className="text-xs text-neutral-500 mt-3 text-center font-inter">
+        <p className="text-xs text-neutral-500 mt-3 text-center">
           Click to upload or drag and drop
           <br />
           <span className="text-neutral-400">PNG, JPG (max. 5MB)</span>

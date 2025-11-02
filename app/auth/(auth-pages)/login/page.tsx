@@ -142,10 +142,8 @@ export default function LoginPage() {
           <Image
             src="/images/logo/cruize-easy-logo-icon.svg"
             alt="Cruize Easy Logo Icon"
-            width={70}
-            height={70}
-            className="w-12 h-auto"
-            quality={100}
+            width={48}
+            height={48}
             priority
           />
         </motion.div>

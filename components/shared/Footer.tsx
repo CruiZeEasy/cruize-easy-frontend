@@ -71,7 +71,7 @@ const quickLinks: FooterLinkProps[] = [
 export function Footer() {
   const { navigate, isNavigating } = usePageTransition();
   return (
-    <footer className="bg-neutral-900 text-white pt-8 md:pt-16 font-inter rounded-t-[30px]">
+    <footer className="bg-neutral-900 text-white pt-8 md:pt-16  rounded-t-[30px]">
       <div className="container ">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 mb-12">
           <section>

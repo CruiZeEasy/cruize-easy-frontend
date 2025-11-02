@@ -73,7 +73,7 @@ export function OAuthRedirectClient() {
           <h1 className="font-modulus-semibold text-xl text-neutral-950">
             Signing you in securely...
           </h1>
-          <p className="text-sm text-neutral-600 mt-2 font-inter">
+          <p className="text-sm text-neutral-600 mt-2 ">
             Please wait while we complete your authentication.
           </p>
         </div>

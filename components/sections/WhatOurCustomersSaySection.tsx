@@ -92,7 +92,7 @@ export function WhatOurCustomersSaySection() {
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: i * 0.15 }}
-            className="bg-white border border-[#F3F4F6] p-8 font-inter rounded-lg 
+            className="bg-white border border-[#F3F4F6] p-8 rounded-lg 
               transition-transform duration-300 hover:scale-[1.02] hover:shadow-lg"
           >
             <div className="flex space-x-2 mb-4">

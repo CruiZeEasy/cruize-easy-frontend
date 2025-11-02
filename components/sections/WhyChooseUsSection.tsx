@@ -83,7 +83,7 @@ export function WhyChooseUsSection() {
                   height={50}
                   className="size-[30px]"
                 />
-                <span className="font-inter font-semibold text-[20px] sm:text-[20px] text-neutral-900">
+                <span className="font-semibold text-[20px] sm:text-[20px] text-neutral-900">
                   {reason.title}
                 </span>
               </div>

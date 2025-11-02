@@ -9,7 +9,6 @@ export const viewport: Viewport = {
   themeColor: "#ff3a3a",
 };
 
-// Load Inter font from Google
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -42,12 +41,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${inter.variable} ${poppins.variable} ${source_sans.variable}`}
-      >
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${poppins.variable} ${source_sans.variable}`}
+    >
+      <body className={`${inter.className}`}>{children}</body>
     </html>
   );
 }

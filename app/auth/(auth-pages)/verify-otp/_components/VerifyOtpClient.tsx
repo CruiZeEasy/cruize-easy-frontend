@@ -195,9 +195,7 @@ export function VerifyOtpClient() {
             src="/images/logo/cruize-easy-logo-dark.svg"
             alt="Cruize Easy Logo Icon"
             width={192}
-            height={38}
-            className="w-48 h-auto"
-            quality={100}
+            height={100}
             priority
           />
         </motion.div>

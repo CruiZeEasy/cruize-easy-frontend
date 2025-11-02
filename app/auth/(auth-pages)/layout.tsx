@@ -4,7 +4,6 @@ import Image from "next/image";
 import { BackButton } from "@/components/ui/BackButton";
 import { MobileAuthHeader } from "@/components/shared/MobileAuthHeader";
 
-
 export default function AuthLayout({
   children,
 }: {

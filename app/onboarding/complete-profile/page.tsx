@@ -151,9 +151,8 @@ export default function CompleteProfilePage() {
           <Image
             src="/images/robots/happy-robot.webp"
             alt="gpt robot happy raising right arm"
-            width={250}
-            height={250}
-            className="w-36 h-auto"
+            width={144}
+            height={100}
             quality={100}
             priority
           />

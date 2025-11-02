@@ -31,7 +31,7 @@ export const Toast: React.FC<ToastProps> = ({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.25 }}
-        className={`fixed top-4 sm:w-full max-w-xs z-50 font-inter font-medium text-xs py-4 px-8 rounded-lg text-white text-center ${bgColor}`}
+        className={`fixed top-4 sm:w-full max-w-xs z-50 font-medium text-xs py-4 px-8 rounded-lg text-white text-center ${bgColor}`}
       >
         {message}
       </motion.div>
