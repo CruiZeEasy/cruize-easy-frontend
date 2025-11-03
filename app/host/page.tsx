@@ -78,6 +78,7 @@ export default function HostHomePage() {
         </div>
       </section>
 
+      {/* My Activity Section */}
       <section className="mt-6">
         <h2 className="font-gilroy-bold text-sm md:px-4">My Activity</h2>
 
@@ -90,6 +91,41 @@ export default function HostHomePage() {
               value={0}
             />
           ))}
+        </div>
+      </section>
+
+      {/* Bookings Section */}
+      <section className="bg-white rounded-[20px] mt-6 p-4">
+        <h2 className="font-gilroy-bold text-sm ">Bookings</h2>
+
+        <div className="flex flex-col justify-center items-center">
+          <div className="relative w-[97px] h-[117px] md:w-[131px] md:h-[159px]">
+            <Image
+              src="/images/robots/sad-robot.webp"
+              alt="Sad and confused robot"
+              fill
+              priority
+              quality={100}
+              className="object-contain"
+            />
+          </div>
+
+          <p className="font-gilroy-medium text-xs text-center w-[15rem] text-neutral-475 mt-2 md:mt-4">
+            You currently don&apos;t have any booking history, get started by
+            adding your first car
+          </p>
+
+          <div className=" w-80 max-w-full mt-3">
+            <Button
+              variant="dark-primary"
+              fontFamily="gilroy-medium"
+              shadow="shadow-none"
+              className="py-4 md:px-6 text-xs"
+              fullWidth
+            >
+              Add Car
+            </Button>
+          </div>
         </div>
       </section>
     </div>
