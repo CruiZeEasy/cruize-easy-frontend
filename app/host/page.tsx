@@ -1,5 +1,7 @@
+import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostMobileSidebar } from "@/components/shared/HostMobileSidebar";
 import { Button } from "@/components/ui/Buttons";
+import { activityCards } from "@/data/hostActivityCards";
 import Image from "next/image";
 
 export default function HostHomePage() {
@@ -79,35 +81,15 @@ export default function HostHomePage() {
       <section className="mt-6">
         <h2 className="font-gilroy-bold text-sm md:px-4">My Activity</h2>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 mt-2">
-          <div className="bg-white px-4 pt-4 pb-2 rounded-[16.5px] border border-neutral-75 shadow-[0_6px_18.61px_0_rgba(0,0,0,0.07)]">
-            <div className="flex md:items-center space-x-2 md:space-x-4">
-              <div className="relative size-6 md:size-[38px]">
-                <Image
-                  src={`/images/icons/profile-2user-dark.svg`}
-                  alt="User 2 Profile Icon"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <span className="font-gilroy-bold text-sm md:text-3xl text-primary-dark">
-                  0
-                </span>
-
-                <span className="md:hidden font-gilroy-medium text-xs  text-black-transparent">
-                  Rating
-                </span>
-              </div>
-            </div>
-
-            <div className="hidden md:flex justify-end -mt-1">
-              <span className="font-gilroy-medium text-sm md:text-base text-black-transparent">
-                Rating
-              </span>
-            </div>
-          </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
+          {activityCards.map((card) => (
+            <ActivityCard
+              key={card.id}
+              icon={card.icon}
+              label={card.label}
+              value={0}
+            />
+          ))}
         </div>
       </section>
     </div>

@@ -74,7 +74,7 @@ export function HostMobileSidebar() {
                     )}
                   >
                     <Image
-                      src={`/images/icons/${link.src}.svg`}
+                      src={`/images/icons/${link.icon}.svg`}
                       alt={link.label}
                       width={22}
                       height={22}

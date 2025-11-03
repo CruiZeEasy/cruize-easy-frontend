@@ -1,19 +1,19 @@
-export type SidebarLink = {
+interface SidebarLink {
   id: number;
   label: string;
   href: string;
-  src: string;
+  icon: string;
   showOnMobile?: boolean;
   showOnDesktop?: boolean;
   active?: boolean;
-};
+}
 
 export const hostSidebarLinks: SidebarLink[] = [
   {
     id: 1,
     label: "Profile",
     href: "#",
-    src: "user-profile-light",
+    icon: "user-profile-light",
     showOnMobile: true,
     showOnDesktop: true,
   },
@@ -21,21 +21,21 @@ export const hostSidebarLinks: SidebarLink[] = [
     id: 2,
     label: "My Earnings",
     href: "#",
-    src: "wallet-light",
+    icon: "wallet-light",
     showOnMobile: true,
   },
   {
     id: 3,
     label: "Listings",
     href: "#",
-    src: "line-chart-light",
+    icon: "line-chart-light",
     showOnDesktop: true,
   },
   {
     id: 4,
     label: "Bookings",
     href: "#",
-    src: "bookings-light",
+    icon: "bookings-light",
     showOnMobile: true,
     showOnDesktop: true,
   },
@@ -43,21 +43,21 @@ export const hostSidebarLinks: SidebarLink[] = [
     id: 5,
     label: "My Cars",
     href: "#",
-    src: "driving-light",
+    icon: "driving-light",
     showOnMobile: true,
   },
   {
     id: 6,
     label: "Notification",
     href: "#",
-    src: "message-notif-light",
+    icon: "message-notif-light",
     showOnMobile: true,
   },
   {
     id: 7,
     label: "Settings",
     href: "#",
-    src: "settings-light",
+    icon: "settings-light",
     showOnMobile: true,
     showOnDesktop: true,
     active: true,

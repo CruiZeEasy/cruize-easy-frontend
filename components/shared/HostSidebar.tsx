@@ -67,7 +67,7 @@ export default function HostSidebar() {
               )}
             >
               <Image
-                src={`/images/icons/${link.src}.svg`}
+                src={`/images/icons/${link.icon}.svg`}
                 alt={link.label}
                 width={24}
                 height={24}
