@@ -47,15 +47,16 @@ export function HostMobileSidebar() {
               className="fixed top-0 left-0 h-full w-64 bg-primary-light-opaque text-white flex flex-col py-6 z-50 shadow-lg rounded-tr-[30px] rounded-br-[30px]"
             >
               {/* Header Section */}
-              <div className="flex items-center justify-between px-4 mb-10">
+              <div className="flex flex-col gap-2 px-4 mb-10">
                 <Image
                   src="/images/logo/cruize-easy-logo-light.svg"
                   alt="Cruize Easy Logo"
                   width={178}
                   height={40}
                   priority
-                  loading="eager"
                 />
+
+                <span className="text-xs font-gilroy-medium">John Doe</span>
               </div>
 
               {/* Nav Links */}
