@@ -37,41 +37,41 @@ export default function HostHomePage() {
 
       {/* My Earnings Section */}
       <section className="mt-3 md:mt-6">
-        <span className="font-gilroy-bold text-sm  md:hidden">My Earnings</span>
+        <h2 className="font-gilroy-bold text-sm  md:hidden">My Earnings</h2>
         <div className="rounded-[20px] mt-2 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
           <div className="flex justify-between items-center">
             <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
               Total Balance
             </span>
-            <span className="font-gilroy-bold text-sm hidden md:block">
+            <h2 className="font-gilroy-bold text-sm hidden md:block">
               My Earnings
-            </span>
+            </h2>
             <span className="font-gilroy-medium text-xs text-black-transparent">
               {new Date().toLocaleString("en-US", { month: "long" })}
             </span>
           </div>
 
-          <div className="mt-8 flex items-end justify-between">
-            <div>
-              <h2 className="font-gilroy-bold text-4xl text-neutral-700">
-                <span className="font-source-sans font-bold text-[2.5rem]">
-                  ₦
-                </span>
-                0.00
-              </h2>
+          <div className="mt-8">
+            <span className="font-gilroy-bold text-4xl text-neutral-700">
+              <span className="font-source-sans font-bold text-[2.5rem]">
+                ₦
+              </span>
+              0.00
+            </span>
+
+            <div className="flex justify-between items-center mt-1 md:-mt-2">
               <span className="font-gilroy-medium text-xs text-black-transparent invisible md:visible">
                 Total Earnings this month
               </span>
+              <Button
+                variant="dark-primary"
+                fontFamily="gilroy-medium"
+                shadow="shadow-none"
+                className="py-3 md:px-6 text-xs"
+              >
+                Create Wallet
+              </Button>
             </div>
-
-            <Button
-              variant="dark-primary"
-              fontFamily="gilroy-medium"
-              shadow="shadow-none"
-              className="py-3 md:px-6 text-xs"
-            >
-              Create Wallet
-            </Button>
           </div>
         </div>
       </section>
