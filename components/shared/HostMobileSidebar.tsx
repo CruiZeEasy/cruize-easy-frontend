@@ -54,6 +54,7 @@ export function HostMobileSidebar() {
                   width={178}
                   height={40}
                   priority
+                  loading="eager"
                 />
               </div>
 
@@ -86,6 +87,7 @@ export function HostMobileSidebar() {
                     alt="logout icon"
                     width={22}
                     height={22}
+                    priority
                   />
 
                   <span>Log Out</span>
