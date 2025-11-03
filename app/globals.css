@@ -9,6 +9,8 @@ xl:	1280px	Large desktops
 @theme {
   --breakpoint-xs: 374px;
 
+  --color-black-transparent: #0000009e;
+
   --color-blue-600: #1443c3;
 
   --color-gray-light: #b4b6b4;
@@ -26,6 +28,7 @@ xl:	1280px	Large desktops
   --color-neutral-500: #6b7280;
   --color-neutral-550: #6c6f72;
   --color-neutral-600: #4b5563;
+  --color-neutral-700: #3b3b3b;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
   --color-neutral-950: #191d31;

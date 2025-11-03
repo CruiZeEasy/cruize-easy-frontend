@@ -57,7 +57,7 @@ export function HostMobileSidebar() {
                   priority
                 />
 
-                <span className="text-xs font-gilroy-medium">John Doe</span>
+                <span className="text-xs font-gilroy-medium">Joshua Bamidele</span>
               </div>
 
               {/* Nav Links */}
@@ -68,9 +68,9 @@ export function HostMobileSidebar() {
                     href={link.href}
                     onClick={() => setExpanded(false)}
                     className={clsx(
-                      "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent/70 transition-all",
+                      "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all",
                       link.active &&
-                        "bg-primary-light-transparent/70 before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                        "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
                     )}
                   >
                     <Image

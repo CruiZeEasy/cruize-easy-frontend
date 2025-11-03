@@ -12,8 +12,8 @@ export default function HostLayout({
       <HostSidebar />
 
       {/* Main content area */}
-      <main className="flex-1 p-4 md:p-6 bg-white overflow-y-auto">
-        {children}
+      <main className="flex-1 p-4 md:p-6 overflow-y-auto ">
+        <div className="max-w-[1440px] w-full mx-auto">{children}</div>
       </main>
     </div>
   );

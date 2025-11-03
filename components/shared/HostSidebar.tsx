@@ -60,10 +60,10 @@ export default function HostSidebar() {
               key={link.id}
               href={link.href}
               className={clsx(
-                "relative flex items-center gap-2 py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent/70  transition-all",
+                "relative flex items-center gap-2 py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent  transition-all",
                 expanded ? "pl-4" : "justify-center",
                 link.active &&
-                  "bg-primary-light-transparent/70 before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                  "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
               )}
             >
               <Image
