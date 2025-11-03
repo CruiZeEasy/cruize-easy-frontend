@@ -58,8 +58,8 @@ export const hostSidebarLinks: SidebarLink[] = [
     label: "Settings",
     href: "#",
     src: "settings-light",
-    active: true,
     showOnMobile: true,
     showOnDesktop: true,
+    active: true,
   },
 ];

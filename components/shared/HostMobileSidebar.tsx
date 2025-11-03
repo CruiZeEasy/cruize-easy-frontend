@@ -71,6 +71,7 @@ export function HostMobileSidebar() {
                       alt={link.label}
                       width={22}
                       height={22}
+                      priority
                     />
                     <span>{link.label}</span>
                   </Link>
