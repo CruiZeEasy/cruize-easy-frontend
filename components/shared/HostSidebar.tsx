@@ -9,6 +9,7 @@ import { hostSidebarLinks } from "@/data/sidebarLinks";
 
 export default function HostSidebar() {
   const [expanded, setExpanded] = useState(false);
+  const desktopLinks = hostSidebarLinks.filter((l) => l.showOnDesktop);
 
   return (
     <motion.aside
@@ -54,7 +55,7 @@ export default function HostSidebar() {
 
         {/* Nav links */}
         <nav className="flex-1 flex flex-col space-y-3">
-          {hostSidebarLinks.map((link) => (
+          {desktopLinks.map((link) => (
             <Link
               key={link.id}
               href={link.href}

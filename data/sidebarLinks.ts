@@ -3,6 +3,8 @@ export type SidebarLink = {
   label: string;
   href: string;
   src: string;
+  showOnMobile?: boolean;
+  showOnDesktop?: boolean;
   active?: boolean;
 };
 
@@ -12,25 +14,52 @@ export const hostSidebarLinks: SidebarLink[] = [
     label: "Profile",
     href: "#",
     src: "user-profile-light",
-    // active: true,
+    showOnMobile: true,
+    showOnDesktop: true,
   },
   {
     id: 2,
-    label: "Listings",
+    label: "My Earnings",
     href: "#",
-    src: "line-chart-light",
+    src: "wallet-light",
+    showOnMobile: true,
   },
   {
     id: 3,
-    label: "Bookings",
+    label: "Listings",
     href: "#",
-    src: "bookings-light",
+    src: "line-chart-light",
+    showOnDesktop: true,
   },
   {
     id: 4,
+    label: "Bookings",
+    href: "#",
+    src: "bookings-light",
+    showOnMobile: true,
+    showOnDesktop: true,
+  },
+  {
+    id: 5,
+    label: "My Cars",
+    href: "#",
+    src: "driving-light",
+    showOnMobile: true,
+  },
+  {
+    id: 6,
+    label: "Notification",
+    href: "#",
+    src: "message-notif-light",
+    showOnMobile: true,
+  },
+  {
+    id: 7,
     label: "Settings",
     href: "#",
     src: "settings-light",
     active: true,
+    showOnMobile: true,
+    showOnDesktop: true,
   },
 ];

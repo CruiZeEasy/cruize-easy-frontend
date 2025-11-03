@@ -8,6 +8,7 @@ import { hostSidebarLinks } from "@/data/sidebarLinks";
 
 export function HostMobileSidebar() {
   const [expanded, setExpanded] = useState(false);
+  const mobileLinks = hostSidebarLinks.filter((l) => l.showOnMobile);
 
   return (
     <>
@@ -58,7 +59,7 @@ export function HostMobileSidebar() {
 
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4 px-4">
-                {hostSidebarLinks.map((link) => (
+                {mobileLinks.map((link) => (
                   <Link
                     key={link.id}
                     href={link.href}
