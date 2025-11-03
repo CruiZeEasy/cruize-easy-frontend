@@ -43,7 +43,7 @@ export function HostMobileSidebar() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 left-0 h-full w-64 bg-primary-light-opaque text-white flex flex-col py-6 z-50 shadow-lg"
+              className="fixed top-0 left-0 h-full w-64 bg-primary-light-opaque text-white flex flex-col py-6 z-50 shadow-lg rounded-tr-[30px] rounded-br-[30px]"
             >
               {/* Header Section */}
               <div className="flex items-center justify-between px-4 mb-10">
@@ -52,6 +52,7 @@ export function HostMobileSidebar() {
                   alt="Cruize Easy Logo"
                   width={178}
                   height={40}
+                  priority
                 />
               </div>
 
@@ -61,7 +62,7 @@ export function HostMobileSidebar() {
                   <Link
                     key={link.id}
                     href={link.href}
-                    onClick={() => setExpanded(false)} // close sidebar when link clicked
+                    onClick={() => setExpanded(false)}
                     className="flex items-center gap-3 py-3 rounded-md font-gilroy-semibold text-sm hover:bg-[#FAA6A6BD]/70 transition-all"
                   >
                     <Image
@@ -75,9 +76,18 @@ export function HostMobileSidebar() {
                 ))}
               </nav>
 
-              {/* Profile */}
-              <div className="px-4 mt-auto">
-                <div className="size-11 bg-white rounded-full" />
+              {/* Log Out Button */}
+              <div className="px-4 mt-auto font-gilroy-semibold text-sm">
+                <button className="flex items-center gap-3 ">
+                  <Image
+                    src={`/images/icons/logout.svg`}
+                    alt="logout icon"
+                    width={22}
+                    height={22}
+                  />
+
+                  <span>Log Out</span>
+                </button>
               </div>
             </motion.aside>
           </>
