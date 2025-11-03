@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { hostSidebarLinks } from "@/data/sidebarLinks";
+import clsx from "clsx";
 
 export function HostMobileSidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -60,13 +61,17 @@ export function HostMobileSidebar() {
               </div>
 
               {/* Nav Links */}
-              <nav className="flex-1 flex flex-col space-y-4 px-4">
+              <nav className="flex-1 flex flex-col space-y-4">
                 {mobileLinks.map((link) => (
                   <Link
                     key={link.id}
                     href={link.href}
                     onClick={() => setExpanded(false)}
-                    className="flex items-center gap-3 py-3 rounded-md font-gilroy-semibold text-sm hover:bg-[#FAA6A6BD]/70 transition-all"
+                    className={clsx(
+                      "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent/70 transition-all",
+                      link.active &&
+                        "bg-primary-light-transparent/70 before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                    )}
                   >
                     <Image
                       src={`/images/icons/${link.src}.svg`}
@@ -82,7 +87,7 @@ export function HostMobileSidebar() {
 
               {/* Log Out Button */}
               <div className="px-4 mt-auto font-gilroy-semibold text-sm">
-                <button className="flex items-center gap-3 ">
+                <button className="flex items-center gap-3">
                   <Image
                     src={`/images/icons/logout.svg`}
                     alt="logout icon"

@@ -60,7 +60,7 @@ export default function HostSidebar() {
               key={link.id}
               href={link.href}
               className={clsx(
-                "relative flex items-center gap-2 py-3 font-gilroy-semibold text-sm hover:bg-[#FAA6A6BD]/70  transition-all",
+                "relative flex items-center gap-2 py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent/70  transition-all",
                 expanded ? "pl-4" : "justify-center",
                 link.active &&
                   "bg-primary-light-transparent/70 before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
@@ -84,7 +84,14 @@ export default function HostSidebar() {
             expanded ? "pl-4" : "justify-center"
           )}
         >
-          <div className="size-11 bg-white rounded-full" />
+          <div className="size-11 bg-white rounded-full overflow-hidden relative">
+            <Image
+              src="/images/me.jpg"
+              alt="Profile Image"
+              fill
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
     </motion.aside>
