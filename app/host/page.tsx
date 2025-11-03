@@ -77,9 +77,9 @@ export default function HostHomePage() {
       </section>
 
       <section className="mt-6">
-        <h2 className="font-gilroy-bold text-sm px-4">My Activity</h2>
+        <h2 className="font-gilroy-bold text-sm md:px-4">My Activity</h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 mt-2">
+        <div className="grid grid-cols-2 lg:grid-cols-4 mt-2">
           <div className="bg-white px-4 pt-4 pb-2 rounded-[16.5px] border border-neutral-75 shadow-[0_6px_18.61px_0_rgba(0,0,0,0.07)]">
             <div className="flex md:items-center space-x-2 md:space-x-4">
               <div className="relative size-6 md:size-[38px]">
