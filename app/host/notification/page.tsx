@@ -3,10 +3,10 @@ import Image from "next/image";
 
 export default function HostNotificationPage() {
   return (
-    <div>
+    <div className="pb-10">
       <HostHeader />
 
-      <section className="pb-28">
+      <section>
         {/* Today */}
         <div>
           <div className="font-gilroy-semibold flex items-center justify-between mt-12">
