@@ -7,17 +7,6 @@ import Image from "next/image";
 export default function HostHomePage() {
   return (
     <div>
-      {/* <div className="flex items-baseline justify-between md:hidden">
-        <Image
-          src="/images/logo/cruize-easy-logo-dark.svg"
-          alt="Cruize Easy Logo Icon"
-          width={155}
-          height={32}
-          priority
-        />
-        <HostMobileSidebar />
-      </div> */}
-
       <div className="fixed top-0 left-0 z-50 flex items-baseline justify-between w-full bg-white px-4 py-3 md:hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
         <Image
           src="/images/logo/cruize-easy-logo-dark.svg"
@@ -106,9 +95,9 @@ export default function HostHomePage() {
       </section>
 
       {/* Bookings Section */}
-      <div className="mt-6">
+      <section className="mt-6">
         <h2 className="font-gilroy-bold text-sm md:hidden">Bookings</h2>
-        <section className="bg-white rounded-[20px] mt-2 md:mt-0 p-4">
+        <div className="bg-white rounded-[20px] mt-2 md:mt-0 p-4">
           <h2 className="font-gilroy-bold text-sm hidden md:block">Bookings</h2>
 
           <div className="flex flex-col justify-center items-center">
@@ -140,8 +129,8 @@ export default function HostHomePage() {
               </Button>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

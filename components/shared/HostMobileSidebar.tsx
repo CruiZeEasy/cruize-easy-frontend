@@ -57,12 +57,14 @@ export function HostMobileSidebar() {
                   priority
                 />
 
-                <span className="text-xs font-gilroy-medium">Joshua Bamidele</span>
+                <span className="text-xs font-gilroy-medium">
+                  Joshua Bamidele
+                </span>
               </div>
 
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4">
-                {mobileLinks.map((link) => (
+                {hostSidebarLinks.map((link) => (
                   <Link
                     key={link.id}
                     href={link.href}

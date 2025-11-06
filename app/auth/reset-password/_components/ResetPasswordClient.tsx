@@ -42,20 +42,20 @@ export function ResetPasswordClient() {
     resolver: zodResolver(resetPasswordSchema),
   });
 
-  useEffect(() => {
-    if (!verificationToken && !hasRedirected.current) {
-      hasRedirected.current = true;
+  // useEffect(() => {
+  //   if (!verificationToken && !hasRedirected.current) {
+  //     hasRedirected.current = true;
 
-      setToast({
-        message: "Invalid reset link or missing token.",
-        type: "error",
-      });
+  //     setToast({
+  //       message: "Invalid reset link or missing token.",
+  //       type: "error",
+  //     });
 
-      setTimeout(() => {
-        navigate(PATHS.AUTH.LOGIN);
-      }, 1500);
-    }
-  }, [verificationToken, navigate]);
+  //     setTimeout(() => {
+  //       navigate(PATHS.AUTH.LOGIN);
+  //     }, 1500);
+  //   }
+  // }, [verificationToken, navigate]);
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     setLoading(true);

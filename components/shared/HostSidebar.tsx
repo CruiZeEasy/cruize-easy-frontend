@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 import { hostSidebarLinks } from "@/data/sidebarLinks";
+import { PATHS } from "@/utils/path";
 
 export default function HostSidebar() {
   const [expanded, setExpanded] = useState(false);
@@ -19,7 +20,8 @@ export default function HostSidebar() {
       className="h-[100dvh] bg-primary-light border-r-neutral-300 border-r hidden md:flex flex-col py-6 shadow-sm relative text-white"
     >
       {/* Logo */}
-      <div
+      <Link
+        href={PATHS.HOST.HOME}
         className={clsx(
           "flex items-center transition-all mb-12",
           expanded ? "justify-start pl-4" : "justify-center"
@@ -32,7 +34,7 @@ export default function HostSidebar() {
           height={40}
           priority
         />
-      </div>
+      </Link>
 
       {/* Toggle Button and Nav Links */}
       <div className="flex-1 flex flex-col">
@@ -53,15 +55,14 @@ export default function HostSidebar() {
           />
         </button>
 
-        {/* Nav links */}
-        <nav className="flex-1 flex flex-col space-y-3">
-          {desktopLinks.map((link) => (
+        <nav className="flex-1 flex flex-col space-y-3 overflow-y-auto overflow-x-hidden">
+          {hostSidebarLinks.map((link) => (
             <Link
               key={link.id}
               href={link.href}
               className={clsx(
-                "relative flex items-center gap-2 py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent  transition-all",
-                expanded ? "pl-4" : "justify-center",
+                "relative flex items-center py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all duration-300 ease-in-out",
+                expanded ? "gap-3 pl-4" : "justify-center",
                 link.active &&
                   "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
               )}
@@ -71,8 +72,27 @@ export default function HostSidebar() {
                 alt={link.label}
                 width={24}
                 height={24}
+                className="min-w-6"
               />
-              {expanded && <span>{link.label}</span>}
+
+              <motion.div
+                className="overflow-hidden"
+                initial={{ width: 0 }}
+                animate={{ width: expanded ? "auto" : 0 }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+              >
+                <motion.span
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{
+                    opacity: expanded ? 1 : 0,
+                    x: expanded ? 0 : -10,
+                  }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="whitespace-nowrap"
+                >
+                  {link.label}
+                </motion.span>
+              </motion.div>
             </Link>
           ))}
         </nav>
@@ -80,7 +100,7 @@ export default function HostSidebar() {
         {/* User Profile Photo */}
         <div
           className={clsx(
-            "flex transition-all mt-auto mb-12",
+            "flex transition-all mt-auto",
             expanded ? "pl-4" : "justify-center"
           )}
         >

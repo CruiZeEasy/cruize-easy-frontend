@@ -25,6 +25,7 @@ export const PATHS = {
 
   HOST: {
     HOME: "/host",
+    NOTIFICATION: "/host/notification",
     // LISTINGS: "/host/listings",
     // BOOKINGS: "/host/bookings",
     // EARNINGS: "/host/earnings",

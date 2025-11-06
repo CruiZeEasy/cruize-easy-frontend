@@ -1,3 +1,5 @@
+import { PATHS } from "@/utils/path";
+
 interface SidebarLink {
   id: number;
   label: string;
@@ -14,52 +16,52 @@ export const hostSidebarLinks: SidebarLink[] = [
     label: "Profile",
     href: "#",
     icon: "user-profile-light",
-    showOnMobile: true,
-    showOnDesktop: true,
+    // showOnMobile: true,
+    // showOnDesktop: true,
   },
   {
     id: 2,
     label: "My Earnings",
     href: "#",
     icon: "wallet-light",
-    showOnMobile: true,
+    // showOnMobile: true,
   },
-  {
-    id: 3,
-    label: "Listings",
-    href: "#",
-    icon: "line-chart-light",
-    showOnDesktop: true,
-  },
+  // {
+  //   id: 3,
+  //   label: "Listings",
+  //   href: "#",
+  //   icon: "line-chart-light",
+  //   // showOnDesktop: true,
+  // },
   {
     id: 4,
     label: "Bookings",
     href: "#",
     icon: "bookings-light",
-    showOnMobile: true,
-    showOnDesktop: true,
+    // showOnMobile: true,
+    // showOnDesktop: true,
   },
   {
     id: 5,
     label: "My Cars",
     href: "#",
     icon: "driving-light",
-    showOnMobile: true,
+    // showOnMobile: true,
   },
   {
     id: 6,
     label: "Notification",
-    href: "#",
+    href: PATHS.HOST.NOTIFICATION,
     icon: "message-notif-light",
-    showOnMobile: true,
+    // showOnMobile: true,
   },
   {
     id: 7,
     label: "Settings",
     href: "#",
     icon: "settings-light",
-    showOnMobile: true,
-    showOnDesktop: true,
+    // showOnMobile: true,
+    // showOnDesktop: true,
     active: true,
   },
 ];
