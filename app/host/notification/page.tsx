@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function HostNotificationPage() {
   return (
-    <div>
+    <div className="mb-28">
       <HostHeader />
 
       <section>
