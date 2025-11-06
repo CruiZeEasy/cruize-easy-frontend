@@ -6,13 +6,14 @@ export default function HostLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen md:h-screen">
+    <div className="flex min-h-screen md:h-screen bg-white">
       {/* Sidebar */}
 
       <HostSidebar />
 
       {/* Main content area */}
-      <main className="flex-1 md:py-6 md:px-12 md:overflow-y-auto">
+      {/* md:py-6 md:px-12 */}
+      <main className="flex-1  md:overflow-y-auto">
         <div className="max-w-[1440px] w-full mx-auto">{children}</div>
       </main>
     </div>

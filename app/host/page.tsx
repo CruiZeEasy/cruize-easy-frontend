@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function HostHomePage() {
   return (
     <div className="pb-28">
-      <div className="sticky top-0 z-10 flex items-baseline justify-between w-full bg-white p-4 md:hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+      <div className="sticky top-0 z-10 flex items-baseline justify-between w-full bg-white p-4 md:hidden shadow-sm">
         <Image
           src="/images/logo/cruize-easy-logo-dark.svg"
           alt="Cruize Easy Logo Icon"
@@ -18,7 +18,7 @@ export default function HostHomePage() {
         <HostMobileSidebar />
       </div>
 
-      <div className="p-4 md:p-0">
+      <div className="p-4 md:py-6 md:px-12">
         {/* Greeting Section */}
         <section className=" flex items-center space-x-4 mt-10 md:mt-0">
           <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
