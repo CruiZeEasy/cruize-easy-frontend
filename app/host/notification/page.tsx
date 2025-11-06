@@ -7,11 +7,11 @@ export default function HostNotificationPage() {
     <div className="pb-28 max-w-2xl mx-auto ">
       {/* <HostHeader /> */}
 
-      <div className="sticky top-0 bg-white z-10 pb-4 mb-6 -mx-4 px-4 md:mx-0 md:px-0">
+      <div className="sticky top-0 bg-white z-10 p-4 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
         <HostHeader />
       </div>
 
-      <section>
+      <section className="p-4 md:px-0">
         {notifications.map((section, index) => (
           <NotificationSection key={index} {...section} />
         ))}

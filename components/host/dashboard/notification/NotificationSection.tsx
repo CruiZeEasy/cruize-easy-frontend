@@ -4,7 +4,7 @@ import { NotificationItem } from "./NotificationItem";
 export function NotificationSection({ label, items }: NotificationProps) {
   return (
     <div>
-      <div className="font-gilroy-semibold flex items-center justify-between mt-12">
+      <div className="font-gilroy-semibold flex items-center justify-between mt-10">
         <h2>{label}</h2>
         <button className="text-royal-blue hover:underline transition-all text-sm cursor-pointer">
           Mark as read
