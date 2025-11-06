@@ -46,8 +46,12 @@ xl:	1280px	Large desktops
   --color-primary-light-transparent: #faa6a6bd;
   --color-primary-light-opaque: #ff5353bd;
 
+  --color-primary-pale: #ffd4d4;
+
   --color-red: #ff0000;
   --color-red-accent: #f20000;
+
+  --color-royal-blue: #2367ce;
 
   --font-inter: var(--font-inter);
   --font-poppins: var(--font-poppins);

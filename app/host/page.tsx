@@ -39,15 +39,13 @@ export default function HostHomePage() {
 
       {/* My Earnings Section */}
       <section className="mt-4 md:mt-6">
-        <h2 className="font-gilroy-bold text-sm  md:hidden">My Earnings</h2>
+        <h2 className="font-gilroy-bold text-sm md:hidden">My Earnings</h2>
         <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
           <div className="flex justify-between items-center">
             <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
               Total Balance
             </span>
-            <h2 className="font-gilroy-bold text-sm hidden md:block">
-              My Earnings
-            </h2>
+            <h2 className="font-gilroy-bold hidden md:block">My Earnings</h2>
             <span className="font-gilroy-medium text-xs text-black-transparent">
               {new Date().toLocaleString("en-US", { month: "long" })}
             </span>
@@ -80,7 +78,9 @@ export default function HostHomePage() {
 
       {/* My Activity Section */}
       <section className="mt-6">
-        <h2 className="font-gilroy-bold text-sm md:px-4">My Activity</h2>
+        <h2 className="font-gilroy-bold text-sm md:text-base md:px-4">
+          My Activity
+        </h2>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
           {activityCards.map((card) => (
@@ -98,7 +98,7 @@ export default function HostHomePage() {
       <section className="mt-6">
         <h2 className="font-gilroy-bold text-sm md:hidden">Bookings</h2>
         <div className="bg-white rounded-[20px] mt-2 md:mt-0 p-4">
-          <h2 className="font-gilroy-bold text-sm hidden md:block">Bookings</h2>
+          <h2 className="font-gilroy-bold hidden md:block">Bookings</h2>
 
           <div className="flex flex-col justify-center items-center">
             <div className="relative w-[97px] h-[117px] md:w-[131px] md:h-[159px]">
