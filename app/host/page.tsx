@@ -40,7 +40,7 @@ export default function HostHomePage() {
       {/* My Earnings Section */}
       <section className="mt-4 md:mt-6">
         <h2 className="font-gilroy-bold text-sm  md:hidden">My Earnings</h2>
-        <div className="rounded-[20px] mt-2 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
+        <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
           <div className="flex justify-between items-center">
             <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
               Total Balance
@@ -95,39 +95,42 @@ export default function HostHomePage() {
       </section>
 
       {/* Bookings Section */}
-      <section className="bg-white rounded-[20px] mt-6 p-4">
-        <h2 className="font-gilroy-bold text-sm ">Bookings</h2>
+      <div className="mt-6">
+        <h2 className="font-gilroy-bold text-sm md:hidden">Bookings</h2>
+        <section className="bg-white rounded-[20px] mt-2 md:mt-0 p-4">
+          <h2 className="font-gilroy-bold text-sm hidden md:block">Bookings</h2>
 
-        <div className="flex flex-col justify-center items-center">
-          <div className="relative w-[97px] h-[117px] md:w-[131px] md:h-[159px]">
-            <Image
-              src="/images/robots/sad-robot.webp"
-              alt="Sad and confused robot"
-              fill
-              priority
-              quality={100}
-              className="object-contain"
-            />
+          <div className="flex flex-col justify-center items-center">
+            <div className="relative w-[97px] h-[117px] md:w-[131px] md:h-[159px]">
+              <Image
+                src="/images/robots/sad-robot.webp"
+                alt="Sad and confused robot"
+                fill
+                priority
+                quality={100}
+                className="object-contain"
+              />
+            </div>
+
+            <p className="font-gilroy-medium text-xs text-center w-[15rem] text-neutral-475 mt-2 md:mt-4">
+              You currently don&apos;t have any booking history, get started by
+              adding your first car
+            </p>
+
+            <div className=" w-80 max-w-full mt-3">
+              <Button
+                variant="dark-primary"
+                fontFamily="gilroy-medium"
+                shadow="shadow-none"
+                className="py-4 md:px-6 text-xs"
+                fullWidth
+              >
+                Add Car
+              </Button>
+            </div>
           </div>
-
-          <p className="font-gilroy-medium text-xs text-center w-[15rem] text-neutral-475 mt-2 md:mt-4">
-            You currently don&apos;t have any booking history, get started by
-            adding your first car
-          </p>
-
-          <div className=" w-80 max-w-full mt-3">
-            <Button
-              variant="dark-primary"
-              fontFamily="gilroy-medium"
-              shadow="shadow-none"
-              className="py-4 md:px-6 text-xs"
-              fullWidth
-            >
-              Add Car
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }
