@@ -7,7 +7,18 @@ import Image from "next/image";
 export default function HostHomePage() {
   return (
     <div>
-      <div className="flex items-baseline justify-between md:hidden">
+      {/* <div className="flex items-baseline justify-between md:hidden">
+        <Image
+          src="/images/logo/cruize-easy-logo-dark.svg"
+          alt="Cruize Easy Logo Icon"
+          width={155}
+          height={32}
+          priority
+        />
+        <HostMobileSidebar />
+      </div> */}
+
+      <div className="fixed top-0 left-0 z-50 flex items-baseline justify-between w-full bg-white px-4 py-3 md:hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
         <Image
           src="/images/logo/cruize-easy-logo-dark.svg"
           alt="Cruize Easy Logo Icon"
@@ -19,7 +30,7 @@ export default function HostHomePage() {
       </div>
 
       {/* Greeting Section */}
-      <section className="flex items-center space-x-4 mt-10 md:mt-0">
+      <section className=" flex items-center space-x-4 mt-[70px] md:mt-0">
         <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
           <Image
             src="/images/me.jpg"
