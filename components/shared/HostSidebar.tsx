@@ -7,8 +7,10 @@ import Link from "next/link";
 import clsx from "clsx";
 import { hostSidebarLinks } from "@/data/sidebarLinks";
 import { PATHS } from "@/utils/path";
+import { usePathname } from "next/navigation";
 
 export default function HostSidebar() {
+  const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
   const desktopLinks = hostSidebarLinks.filter((l) => l.showOnDesktop);
 
@@ -56,45 +58,48 @@ export default function HostSidebar() {
         </button>
 
         <nav className="flex-1 flex flex-col space-y-3 overflow-y-auto overflow-x-hidden">
-          {hostSidebarLinks.map((link) => (
-            <Link
-              key={link.id}
-              href={link.href}
-              className={clsx(
-                "relative flex items-center py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all duration-300 ease-in-out",
-                expanded ? "gap-3 pl-4" : "justify-center",
-                link.active &&
-                  "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
-              )}
-            >
-              <Image
-                src={`/images/icons/${link.icon}.svg`}
-                alt={link.label}
-                width={24}
-                height={24}
-                className="min-w-6"
-              />
-
-              <motion.div
-                className="overflow-hidden"
-                initial={{ width: 0 }}
-                animate={{ width: expanded ? "auto" : 0 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
+          {hostSidebarLinks.map((link) => {
+            const isActive = pathname.startsWith(link.href);
+            return (
+              <Link
+                key={link.id}
+                href={link.href}
+                className={clsx(
+                  "relative flex items-center py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all duration-300 ease-in-out",
+                  expanded ? "gap-3 pl-4" : "justify-center",
+                  isActive &&
+                    "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                )}
               >
-                <motion.span
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{
-                    opacity: expanded ? 1 : 0,
-                    x: expanded ? 0 : -10,
-                  }}
+                <Image
+                  src={`/images/icons/${link.icon}.svg`}
+                  alt={link.label}
+                  width={24}
+                  height={24}
+                  className="min-w-6"
+                />
+
+                <motion.div
+                  className="overflow-hidden"
+                  initial={{ width: 0 }}
+                  animate={{ width: expanded ? "auto" : 0 }}
                   transition={{ duration: 0.25, ease: "easeInOut" }}
-                  className="whitespace-nowrap"
                 >
-                  {link.label}
-                </motion.span>
-              </motion.div>
-            </Link>
-          ))}
+                  <motion.span
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{
+                      opacity: expanded ? 1 : 0,
+                      x: expanded ? 0 : -10,
+                    }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="whitespace-nowrap"
+                  >
+                    {link.label}
+                  </motion.span>
+                </motion.div>
+              </Link>
+            );
+          })}
         </nav>
 
         {/* User Profile Photo */}

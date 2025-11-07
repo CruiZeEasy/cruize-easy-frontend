@@ -15,7 +15,12 @@ export function NotificationItem({
   read,
 }: NotificationItemProps) {
   return (
-    <div className={clsx("flex space-x-4 pb-5", read && "opacity-60")}>
+    <div
+      className={clsx(
+        "flex space-x-4 pb-5 transition-all duration-200",
+        read && "opacity-60"
+      )}
+    >
       <div className="bg-primary-pale flex flex-shrink-0 items-center justify-center size-14 rounded-full">
         <Image
           src={`/images/icons/${icon}-dark.svg`}

@@ -9,8 +9,14 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
     | "secondary"
     | "outline"
     | "sign_up_with_google"
-    | "dark-primary";
-  fontFamily?: "gilroy-semibold" | "gilroy-medium" | "inter" | "poppins";
+    | "dark-primary"
+    | "green";
+  fontFamily?:
+    | "gilroy-bold"
+    | "gilroy-semibold"
+    | "gilroy-medium"
+    | "inter"
+    | "poppins";
   fontWeight?: "thin" | "light" | "medium" | "semibold" | "bold";
   fullWidth?: boolean;
   rounded?: "lg" | "full";
@@ -82,6 +88,7 @@ export function Button({
           "bg-primary text-white border border-white px-6 py-4",
         variant === "dark-primary" && "bg-primary-dark text-white p-4",
         variant === "sign_up_with_google" && "bg-white text-neutral-950 p-4",
+        variant === "green" && "bg-green text-white",
         isDisabled && "opacity-60 cursor-not-allowed",
         className
       )}

@@ -12,8 +12,8 @@ export function NotificationSection({ label, items }: NotificationProps) {
       </div>
 
       <div className="mt-6 divide-y divide-neutral-150 space-y-5">
-        {items.map((n, idx) => (
-          <NotificationItem key={idx} {...n} />
+        {items.map((n, index) => (
+          <NotificationItem key={index} {...n} />
         ))}
       </div>
     </div>

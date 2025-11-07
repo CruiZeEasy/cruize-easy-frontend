@@ -36,7 +36,7 @@ export const hostSidebarLinks: SidebarLink[] = [
   {
     id: 4,
     label: "Bookings",
-    href: "#",
+    href: PATHS.HOST.BOOKINGS,
     icon: "bookings-light",
     // showOnMobile: true,
     // showOnDesktop: true,

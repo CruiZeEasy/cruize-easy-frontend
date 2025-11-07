@@ -1,4 +1,4 @@
-import { NotificationSection } from "@/components/host/dashboard/notification/NotificationSection";
+import { NotificationSection } from "@/components/host/notification/NotificationSection";
 import { HostHeader } from "@/components/host/HostHeader";
 import { notifications } from "@/data/notifications";
 

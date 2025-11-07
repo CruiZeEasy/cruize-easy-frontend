@@ -6,8 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { hostSidebarLinks } from "@/data/sidebarLinks";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
 export function HostMobileSidebar() {
+  const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
   const mobileLinks = hostSidebarLinks.filter((l) => l.showOnMobile);
 
@@ -64,27 +66,30 @@ export function HostMobileSidebar() {
 
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4">
-                {hostSidebarLinks.map((link) => (
-                  <Link
-                    key={link.id}
-                    href={link.href}
-                    onClick={() => setExpanded(false)}
-                    className={clsx(
-                      "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all",
-                      link.active &&
-                        "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
-                    )}
-                  >
-                    <Image
-                      src={`/images/icons/${link.icon}.svg`}
-                      alt={link.label}
-                      width={22}
-                      height={22}
-                      priority
-                    />
-                    <span>{link.label}</span>
-                  </Link>
-                ))}
+                {hostSidebarLinks.map((link) => {
+                  const isActive = pathname.startsWith(link.href);
+                  return (
+                    <Link
+                      key={link.id}
+                      href={link.href}
+                      onClick={() => setExpanded(false)}
+                      className={clsx(
+                        "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all",
+                        isActive &&
+                          "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                      )}
+                    >
+                      <Image
+                        src={`/images/icons/${link.icon}.svg`}
+                        alt={link.label}
+                        width={22}
+                        height={22}
+                        priority
+                      />
+                      <span>{link.label}</span>
+                    </Link>
+                  );
+                })}
               </nav>
 
               {/* Log Out Button */}
