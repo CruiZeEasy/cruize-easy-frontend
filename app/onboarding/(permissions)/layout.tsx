@@ -6,9 +6,9 @@ export default function PermissionLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col justify-center bg-white">
       <main className="max-w-[1440px] mx-auto w-full">
-        <div className="mx-4 my-4 md:pt-4 md:px-4">
+        <div className="mx-4 my-4 md:pt-4 md:px-4 ">
           {/* <div>
             <BackButton variant="mobile" showOnDesktop />
           </div> */}

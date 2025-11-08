@@ -102,7 +102,7 @@ export default function AllowLocationPage() {
     return <PageTransitionSpinner isVisible={true} />;
 
   return (
-    <div className="min-h-[calc(100vh-100px)] flex items-center justify-center">
+    <div className="">
       <motion.div
         initial="hidden"
         animate="visible"
