@@ -133,7 +133,7 @@ export default function HostBookingsPage() {
               />
             </div>
 
-            <p className="font-gilroy-medium text-xs md:text-sm text-center max-w-[25rem] px-4 text-neutral-475 mt-2 md:mt-4">
+            <p className="font-gilroy-medium text-sm text-center max-w-[25rem] px-4 text-neutral-475 mt-2 md:mt-4">
               {emptyStateConfig[selectedStatus].message}
             </p>
 
