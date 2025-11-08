@@ -9,7 +9,7 @@ export function proxy(request: NextRequest) {
   const protectedRoutes = [
     PATHS.ONBOARDING.COMPLETE_PROFILE,
     // PATHS.ONBOARDING.ALLOW_LOCATION,
-    PATHS.ONBOARDING.ALLOW_NOTIFICATIONS,
+    // PATHS.ONBOARDING.ALLOW_NOTIFICATIONS,
     // add more like "/dashboard", "/profile", etc. if needed
   ];
 

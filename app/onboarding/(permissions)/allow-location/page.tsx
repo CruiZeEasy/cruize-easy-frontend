@@ -15,7 +15,7 @@ import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 
 export default function AllowLocationPage() {
   const [loading, setLoading] = useState(false);
-  const [userLoading, setUserLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [redirecting, setRedirecting] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
   const [toast, setToast] = useState<{
@@ -25,45 +25,45 @@ export default function AllowLocationPage() {
 
   const { navigate, isNavigating } = usePageTransition();
 
-  // useEffect(() => {
-  //   if (unauthorized) return;
+  useEffect(() => {
+    if (unauthorized) return;
 
-  //   let isMounted = true;
-  //   async function fetchUser() {
-  //     try {
-  //       const currentUser = await getCurrentUser();
-  //       if (!isMounted) return;
+    let isMounted = true;
+    async function fetchUser() {
+      try {
+        const currentUser = await getCurrentUser();
+        if (!isMounted) return;
 
-  //       const nextPath = getNextOnboardingPath(currentUser);
-  //       if (nextPath !== PATHS.ONBOARDING.ALLOW_LOCATION) {
-  //         setRedirecting(true);
-  //         navigate(nextPath);
-  //         return;
-  //       }
-  //     } catch (err: any) {
-  //       if (err instanceof APIError && err.status === 401) {
-  //         setUnauthorized(true);
-  //         return;
-  //       }
+        const nextPath = getNextOnboardingPath(currentUser);
+        if (nextPath !== PATHS.ONBOARDING.ALLOW_LOCATION) {
+          setRedirecting(true);
+          navigate(nextPath);
+          return;
+        }
+      } catch (err: any) {
+        if (err instanceof APIError && err.status === 401) {
+          setUnauthorized(true);
+          return;
+        }
 
-  //       if (isMounted) {
-  //         const message =
-  //           err instanceof APIError
-  //             ? err.message
-  //             : "Couldn't connect. Check your internet connection.";
-  //         setToast({ message, type: "error" });
-  //       }
-  //     } finally {
-  //       if (isMounted) setUserLoading(false);
-  //     }
-  //   }
+        if (isMounted) {
+          const message =
+            err instanceof APIError
+              ? err.message
+              : "Couldn't connect. Check your internet connection.";
+          setToast({ message, type: "error" });
+        }
+      } finally {
+        if (isMounted) setUserLoading(false);
+      }
+    }
 
-  //   fetchUser();
+    fetchUser();
 
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [navigate, unauthorized]);
+    return () => {
+      isMounted = false;
+    };
+  }, [navigate, unauthorized]);
 
   const handleAllowLocation = async () => {
     setLoading(true);
@@ -102,7 +102,7 @@ export default function AllowLocationPage() {
     return <PageTransitionSpinner isVisible={true} />;
 
   return (
-    <div className="">
+    <>
       <motion.div
         initial="hidden"
         animate="visible"
@@ -173,6 +173,6 @@ export default function AllowLocationPage() {
 
       {/* Spinner for route transition */}
       <PageTransitionSpinner isVisible={isNavigating} />
-    </div>
+    </>
   );
 }
