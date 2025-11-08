@@ -1,17 +1,17 @@
 import { type Booking } from "@/components/host/bookings/BookingCard";
 
 export const mockBookings: Booking[] = [
-  {
-    id: "1",
-    customerName: "John Doe",
-    carName: "Mercedes GLE",
-    carImage: "/images/cars/land-rover.png",
-    pickupDate: "Apr 3",
-    pickupTime: "12pm",
-    dropoffDate: "Apr 5",
-    dropoffTime: "3pm",
-    status: "upcoming",
-  },
+  // {
+  //   id: "1",
+  //   customerName: "John Doe",
+  //   carName: "Mercedes GLE",
+  //   carImage: "/images/cars/land-rover.png",
+  //   pickupDate: "Apr 3",
+  //   pickupTime: "12pm",
+  //   dropoffDate: "Apr 5",
+  //   dropoffTime: "3pm",
+  //   status: "upcoming",
+  // },
   // {
   //   id: "2",
   //   customerName: "John Doe",

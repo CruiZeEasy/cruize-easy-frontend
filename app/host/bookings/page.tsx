@@ -121,7 +121,7 @@ export default function HostBookingsPage() {
             ))}
           </div>
         ) : (
-          <div className="min-h-[calc(100vh-300px)] flex flex-col justify-center items-center">
+          <div className="min-h-[calc(100vh-300px)] md:min-h-[calc(100vh-200px)] flex flex-col justify-center items-center">
             <div className="relative w-[150px] h-[200px] md:w-[150px] md:h-[200px]">
               <Image
                 src="/images/robots/sad-robot.webp"
@@ -137,7 +137,7 @@ export default function HostBookingsPage() {
               {emptyStateConfig[selectedStatus].message}
             </p>
 
-            <div className="w-80 max-w-full mt-3 px-4">
+            <div className="w-80 max-w-full mt-6 px-4">
               <Button
                 variant="dark-primary"
                 fontFamily="gilroy-medium"
