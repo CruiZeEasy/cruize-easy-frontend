@@ -73,20 +73,20 @@ export default function HostBookingsPage() {
                   {
                     status: "upcoming",
                     label: "Upcoming",
-                    color: "yellow-500",
+                    indicatorClass: "bg-yellow-500",
                   },
                   {
                     status: "ongoing",
                     label: "Ongoing",
-                    color: "orange-bright",
+                    indicatorClass: "bg-orange-bright",
                   },
                   {
                     status: "completed",
                     label: "Completed",
-                    color: "green-bright",
+                    indicatorClass: "bg-green-bright",
                   },
                 ] as const
-              ).map(({ status, label, color }) => (
+              ).map(({ status, label, indicatorClass }) => (
                 <button
                   key={status}
                   onClick={() => setSelectedStatus(status)}
@@ -94,7 +94,7 @@ export default function HostBookingsPage() {
                 >
                   <span>{label}</span>
                   <div
-                    className={`bg-${color} absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity ${
+                    className={`${indicatorClass} absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity ${
                       selectedStatus === status ? "opacity-100" : "opacity-0"
                     }`}
                   />
