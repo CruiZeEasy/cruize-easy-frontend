@@ -9,7 +9,7 @@ export function HostHeader() {
   const isHostNotificationPage = pathname.startsWith(PATHS.HOST.NOTIFICATION);
 
   const pageTitle = pathname.startsWith(PATHS.HOST.BOOKINGS)
-    ? "Bookings"
+    ? "Booking"
     : pathname.startsWith(PATHS.HOST.NOTIFICATION)
     ? "Notification"
     : "";
@@ -18,7 +18,7 @@ export function HostHeader() {
     <div className="flex items-center justify-between">
       <BackButton variant="mobile" showOnDesktop />
 
-      <span className="font-modulus-semibold">{pageTitle}</span>
+      <span className="font-modulus-semibold md:text-[20px]">{pageTitle}</span>
 
       <div
         className={clsx(
