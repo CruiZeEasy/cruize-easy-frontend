@@ -17,7 +17,7 @@ export function NotificationItem({
   return (
     <div
       className={clsx(
-        "flex space-x-4 pb-5 transition-all duration-200",
+        "flex space-x-4 pb-5 transition-all",
         read && "opacity-60"
       )}
     >

@@ -224,7 +224,7 @@ export function BookingCard({
                 Find Car
               </Button>
             ) : (
-              <span className="font-gilroy-bold text-green">Completed</span>
+              <span className="font-gilroy-bold text-green py-2">Completed</span>
             )}
           </div>
         </div>

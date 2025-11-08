@@ -11,7 +11,7 @@ export default function HostNotificationPage() {
         </div>
       </div>
 
-      <section className="p-4 md:px-0">
+      <section className="p-4 md:px-1">
         {notifications.map((section, index) => (
           <NotificationSection key={index} {...section} />
         ))}
