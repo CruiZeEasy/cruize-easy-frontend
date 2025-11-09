@@ -15,7 +15,7 @@ export default function HostAddCarPage() {
 
   if (success)
     return (
-      <div className="flex flex-col items-center justify-center bg-red-500 h-[100dvh] px-4">
+      <div className="flex flex-col items-center justify-center bg-red-500 min-h-[100dvh] px-4">
         {/* Image */}
         <div className="mb-10">
           <Image
@@ -29,7 +29,7 @@ export default function HostAddCarPage() {
         </div>
 
         {/* Title + Description */}
-        <div className="mb-6 flex flex-col items-center text-center space-y-2">
+        {/* <div className="mb-6 flex flex-col items-center text-center space-y-2">
           <h1 className="font-modulus-semibold text-[26px] block">
             Car Successfully Added!
           </h1>
@@ -38,10 +38,10 @@ export default function HostAddCarPage() {
             Your car has been successfully added, you can now begin to accept
             bookings
           </p>
-        </div>
+        </div> */}
 
         {/* Button */}
-        <div className="w-full flex justify-center">
+        {/* <div className="w-full flex justify-center">
           <Button
             variant="dark-primary"
             fontFamily="inter"
@@ -51,7 +51,7 @@ export default function HostAddCarPage() {
           >
             View Car Details
           </Button>
-        </div>
+        </div> */}
       </div>
     );
 
