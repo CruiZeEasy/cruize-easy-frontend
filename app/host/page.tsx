@@ -116,13 +116,13 @@ export default function HostHomePage() {
                   className="object-contain"
                 />
               </div>
-
+              
               <p className="font-gilroy-medium text-xs text-center w-[15rem] text-neutral-475 mt-2 md:mt-4">
                 You currently don&apos;t have any booking history, get started
                 by adding your first car
               </p>
 
-              <div className=" w-80 max-w-full mt-4">
+              <div className="max-w-80 w-full mt-4">
                 <Button
                   variant="dark-primary"
                   fontFamily="gilroy-medium"

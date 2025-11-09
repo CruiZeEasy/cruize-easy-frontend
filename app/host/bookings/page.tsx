@@ -64,7 +64,7 @@ export default function HostBookingsPage() {
     // pb-28
     <div
       className={clsx(
-        "max-w-3xl mx-auto bg-white ",
+        "max-w-3xl mx-auto bg-white min-h-screen",
         filteredBookings.length > 0 && "pb-28"
       )}
     >
@@ -143,7 +143,7 @@ export default function HostBookingsPage() {
               {emptyStateConfig[selectedStatus].message}
             </p>
 
-            <div className="w-80 max-w-full mt-4 px-4">
+            <div className="max-w-80 w-full mt-4">
               <Button
                 variant="dark-primary"
                 fontFamily="gilroy-medium"
