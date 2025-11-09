@@ -27,7 +27,7 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // "/onboarding/:path*",
+    "/onboarding/:path*",
     // add other patterns as needed
   ],
 };
