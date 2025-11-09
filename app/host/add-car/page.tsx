@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function HostAddCarPage() {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
 
   if (success)
     return (
@@ -19,9 +19,9 @@ export default function HostAddCarPage() {
         {/* Image */}
         <div className="mb-10">
           <Image
-            src="/images/robots/robot-turning-right.webp"
+            src="/images/robots/robot-with-speech-bubble.webp"
             alt="gpt robot turning right"
-            width={144}
+            width={110}
             height={100}
             quality={100}
             priority
@@ -83,7 +83,7 @@ export default function HostAddCarPage() {
         </div>
 
         {/* Vehicle Information Step 1 */}
-        <section className="md:px-4 mt-3 hidden">
+        <section className="md:px-4 mt-3">
           <span className="font-gilroy-bold text-lg md:text-xl">
             Vehicle Information
           </span>
@@ -285,7 +285,7 @@ export default function HostAddCarPage() {
         </section>
 
         {/* Uploading Images Of The Car Step 4 */}
-        <section className="md:px-4 mt-3 ">
+        <section className="md:px-4 mt-3 hidden">
           <form className="mt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               <ImageUpload
