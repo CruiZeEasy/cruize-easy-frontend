@@ -6,7 +6,7 @@ export default function HostLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen md:h-screen bg-white">
+    <div className="flex min-h-screen md:h-screen bg-neutral-100">
       {/* Sidebar */}
 
       <HostSidebar />

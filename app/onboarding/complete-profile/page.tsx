@@ -145,7 +145,7 @@ export default function CompleteProfilePage() {
         animate="visible"
         variants={fadeUp}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="flex flex-col items-center pb-12"
+        className="flex flex-col items-center py-12"
       >
         <motion.div variants={fadeUp} transition={{ duration: 0.25 }}>
           <Image
@@ -208,6 +208,7 @@ export default function CompleteProfilePage() {
               autoComplete="username"
               placeholder="Username"
               labelFontFamily="gilroy-medium"
+              placeholderVariant="light"
               disabled={loading}
               {...register("username")}
               error={errors.username?.message}
@@ -218,6 +219,8 @@ export default function CompleteProfilePage() {
               label="Phone Number"
               variant="phone"
               placeholder="812 345 6789"
+              labelFontFamily="gilroy-medium"
+              placeholderVariant="light"
               disabled={loading}
               {...register("phoneNumber")}
               error={errors.phoneNumber?.message}
@@ -237,6 +240,7 @@ export default function CompleteProfilePage() {
                     { value: "female", label: "Female" },
                   ]}
                   value={value}
+                  placeholderVariant="light"
                   onChange={onChange}
                   disabled={loading}
                   error={errors.gender?.message}

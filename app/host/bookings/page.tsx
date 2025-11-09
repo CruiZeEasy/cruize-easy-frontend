@@ -6,6 +6,7 @@ import {
 } from "@/components/host/bookings/BookingCard";
 import { Button } from "@/components/ui/Buttons";
 import { mockBookings } from "@/data/hostBookings";
+import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -61,8 +62,13 @@ export default function HostBookingsPage() {
 
   return (
     // pb-28
-    <div className="max-w-2xl mx-auto">
-      <div className="sticky top-0 z-10 bg-white md:pt-6">
+    <div
+      className={clsx(
+        "max-w-3xl mx-auto bg-white ",
+        filteredBookings.length > 0 && "pb-28"
+      )}
+    >
+      <div className="sticky top-0 z-10 bg-white md:pt-2 md:px-10">
         <div className="px-4 pt-4 md:px-0 pb-0">
           <HostHeader />
 
@@ -105,7 +111,7 @@ export default function HostBookingsPage() {
         </div>
       </div>
 
-      <section className="p-4 md:px-1 flex items-center justify-center">
+      <section className="p-4 md:px-10 flex items-center justify-center">
         {filteredBookings.length > 0 ? (
           <div className="w-full">
             {filteredBookings.map((booking) => (
@@ -122,7 +128,7 @@ export default function HostBookingsPage() {
           </div>
         ) : (
           <div className="min-h-[calc(100vh-300px)] md:min-h-[calc(100vh-200px)] flex flex-col justify-center items-center">
-            <div className="relative w-[150px] h-[200px] md:w-[150px] md:h-[200px]">
+            <div className="relative w-[150px] h-[200px]">
               <Image
                 src="/images/robots/sad-robot.webp"
                 alt="Sad and confused robot"
@@ -133,11 +139,11 @@ export default function HostBookingsPage() {
               />
             </div>
 
-            <p className="font-gilroy-medium text-sm text-center max-w-[25rem] px-4 text-neutral-475 mt-2 md:mt-4">
+            <p className="font-gilroy-medium text-sm text-center max-w-[25rem] px-4 text-neutral-475 mt-3 ">
               {emptyStateConfig[selectedStatus].message}
             </p>
 
-            <div className="w-80 max-w-full mt-6 px-4">
+            <div className="w-80 max-w-full mt-4 px-4">
               <Button
                 variant="dark-primary"
                 fontFamily="gilroy-medium"

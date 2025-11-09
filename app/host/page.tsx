@@ -1,10 +1,14 @@
+"use client";
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostMobileSidebar } from "@/components/shared/HostMobileSidebar";
 import { Button } from "@/components/ui/Buttons";
 import { activityCards } from "@/data/hostActivityCards";
+import { PATHS } from "@/utils/path";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HostHomePage() {
+  const router = useRouter();
   return (
     <div className="pb-28">
       <div className="sticky top-0 z-10 flex items-baseline justify-between w-full bg-white p-4 md:hidden shadow-sm">
@@ -118,13 +122,14 @@ export default function HostHomePage() {
                 by adding your first car
               </p>
 
-              <div className=" w-80 max-w-full mt-3">
+              <div className=" w-80 max-w-full mt-4">
                 <Button
                   variant="dark-primary"
                   fontFamily="gilroy-medium"
                   shadow="shadow-none"
                   className="py-4 md:px-6 text-xs"
                   fullWidth
+                  onClick={() => router.push(PATHS.HOST.ADD_CAR)}
                 >
                   Add Car
                 </Button>

@@ -20,6 +20,7 @@ interface SelectProps {
   labelFontFamily?: "gilroy-medium" | "gilroy-bold";
   error?: string;
   value?: string;
+  placeholderVariant?: "light" | "dark";
   onChange?: (value: string) => void;
   disabled?: boolean;
   className?: string;
@@ -38,6 +39,7 @@ export const FormSelect = React.forwardRef<HTMLDivElement, SelectProps>(
       labelFontFamily = "gilroy-bold",
       error,
       value,
+      placeholderVariant = "dark",
       onChange,
       disabled = false,
       className,
@@ -113,7 +115,7 @@ export const FormSelect = React.forwardRef<HTMLDivElement, SelectProps>(
               fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
               rounded === "full" && "rounded-full",
               rounded === "lg" && "rounded-lg",
-              selectedValue ? "text-black" : "text-neutral-425",
+              selectedValue ? "text-black" : "text-neutral-350",
               disabled && "opacity-50 cursor-not-allowed",
               className
             )}
@@ -122,7 +124,7 @@ export const FormSelect = React.forwardRef<HTMLDivElement, SelectProps>(
             <motion.i
               animate={{ rotate: isOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
-              className="fa fa-chevron-down text-neutral-550 text-sm"
+              className="fa fa-chevron-down text-sm text-neutral-725"
             />
           </motion.button>
 

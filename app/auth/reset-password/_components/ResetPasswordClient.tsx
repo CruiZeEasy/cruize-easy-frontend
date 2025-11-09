@@ -101,7 +101,7 @@ export function ResetPasswordClient() {
         animate="visible"
         variants={fadeUp}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="flex flex-col items-center md:pl-4 md:pr-12 md:py-12"
+        className="flex flex-col items-center"
       >
         {/* Title + Description */}
         <motion.div

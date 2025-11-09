@@ -16,6 +16,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   showPasswordRulesBelow?: boolean;
   watchValue?: string;
   variant?: "default" | "phone";
+  placeholderVariant?: "light" | "dark";
 }
 
 export const passwordRules = [
@@ -51,6 +52,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
       watchValue = "",
       className,
       variant = "default",
+      placeholderVariant = "dark",
       ...props
     },
     ref
@@ -100,7 +102,9 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
               value="+234"
               readOnly
               className={clsx(
-                "border border-neutral-200 bg-white text-neutral-425 rounded-lg font-gilroy-medium w-20 text-center outline-none"
+                "border border-neutral-200 bg-white rounded-lg font-gilroy-medium w-20 text-center outline-none",
+                placeholderVariant === "light" && "text-neutral-350",
+                placeholderVariant === "dark" && "text-neutral-425"
               )}
             />
 
@@ -147,12 +151,16 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
                 className={clsx(
-                  "border border-neutral-200 p-4 bg-white text-black w-full placeholder:text-neutral-425",
+                  "border border-neutral-200 p-4 bg-white text-black w-full",
                   "transition-all duration-200 ease-in-out focus:border-primary-dark focus:ring-0 outline-none",
                   fontFamily === "gilroy-medium" && "font-gilroy-medium",
                   fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
                   rounded === "full" && "rounded-full",
                   rounded === "lg" && "rounded-lg",
+                  placeholderVariant === "light" &&
+                    "placeholder:text-neutral-350",
+                  placeholderVariant === "dark" &&
+                    "placeholder:text-neutral-425",
                   className
                 )}
                 {...props}
@@ -174,12 +182,15 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               className={clsx(
-                "border border-neutral-200 p-4 bg-white text-black w-full placeholder:text-neutral-425",
+                "border border-neutral-200 p-4 bg-white text-black w-full ",
                 "transition-all duration-200 ease-in-out focus:border-primary-dark focus:ring-0 outline-none",
                 fontFamily === "gilroy-medium" && "font-gilroy-medium",
                 fontFamily === "gilroy-semibold" && "font-gilroy-semibold",
                 rounded === "full" && "rounded-full",
                 rounded === "lg" && "rounded-lg",
+                placeholderVariant === "light" &&
+                  "placeholder:text-neutral-350",
+                placeholderVariant === "dark" && "placeholder:text-neutral-425",
                 className
               )}
               {...props}
