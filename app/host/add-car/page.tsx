@@ -15,7 +15,7 @@ export default function HostAddCarPage() {
 
   if (success)
     return (
-      <div className="flex flex-col items-center justify-center bg-white min-h-screen px-4">
+      <div className="flex flex-col items-center justify-center bg-white min-h-[calc(100vh-200px)] md:min-h-screen px-4">
         {/* Image */}
         <div className="mb-10">
           <Image
@@ -31,11 +31,12 @@ export default function HostAddCarPage() {
         {/* Title + Description */}
         <div className="mb-6 flex flex-col items-center text-center space-y-2">
           <h1 className="font-modulus-semibold text-[26px] block">
-            Enable Notification Access
+            Car Successfully Added!
           </h1>
 
           <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[18rem]">
-            Enable notifications to receive real-time updates.
+            Your car has been successfully added, you can now begin to accept
+            bookings
           </p>
         </div>
 
@@ -47,9 +48,8 @@ export default function HostAddCarPage() {
             fullWidth
             shadow="shadow-none"
             className="p-4 text-xs sm:max-w-sm"
-            loadingText="Requesting Notification Permission..."
           >
-            Allow Notification
+            View Car Details
           </Button>
         </div>
       </div>
