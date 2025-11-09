@@ -6,7 +6,7 @@ export default function HostLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex  bg-neutral-100">
+    <div className="flex md:h-screen bg-neutral-100">
       {/* Sidebar */}
 
       <HostSidebar />
