@@ -1,5 +1,3 @@
-import { BackButton } from "@/components/ui/BackButton";
-
 export default function PermissionLayout({
   children,
 }: {
@@ -9,9 +7,6 @@ export default function PermissionLayout({
     <div className="flex min-h-[100dvh] flex-col justify-center bg-white">
       <main className="max-w-[1440px] mx-auto w-full">
         <div className="mx-4 my-4">
-          {/* <div>
-            <BackButton variant="mobile" showOnDesktop />
-          </div> */}
           <div>{children}</div>
         </div>
       </main>
