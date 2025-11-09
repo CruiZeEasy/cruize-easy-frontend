@@ -52,7 +52,7 @@ export default function HostAddCarPage() {
               />
               <FormInput
                 id="carBrand"
-                label="Car Name"
+                label="Car Brand"
                 type="text"
                 autoComplete="off"
                 placeholder="Toyota, Honda"

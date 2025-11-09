@@ -10,6 +10,8 @@ export function HostHeader() {
 
   const pageTitle = pathname.startsWith(PATHS.HOST.BOOKINGS)
     ? "Booking"
+    : pathname.startsWith(PATHS.HOST.ADD_CAR)
+    ? "Add Car"
     : pathname.startsWith(PATHS.HOST.NOTIFICATION)
     ? "Notification"
     : "";
