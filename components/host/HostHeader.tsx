@@ -4,17 +4,35 @@ import { BackButton } from "../ui/BackButton";
 import { PATHS } from "@/utils/path";
 import clsx from "clsx";
 
-export function HostHeader() {
-  const pathname = usePathname();
-  const isHostNotificationPage = pathname.startsWith(PATHS.HOST.NOTIFICATION);
+const PAGE_CONFIG = {
+  [PATHS.HOST.BOOKINGS]: {
+    title: "Booking",
+    showBadge: false,
+  },
+  [PATHS.HOST.ADD_CAR]: {
+    title: "Add Car",
+    showBadge: false,
+  },
+  [PATHS.HOST.NOTIFICATION]: {
+    title: "Notification",
+    showBadge: true,
+  },
+} as const;
 
-  const pageTitle = pathname.startsWith(PATHS.HOST.BOOKINGS)
-    ? "Booking"
-    : pathname.startsWith(PATHS.HOST.ADD_CAR)
-    ? "Add Car"
-    : pathname.startsWith(PATHS.HOST.NOTIFICATION)
-    ? "Notification"
-    : "";
+interface HostHeaderProps {
+  notificationCount?: number;
+}
+
+export function HostHeader({ notificationCount = 3 }: HostHeaderProps) {
+  const pathname = usePathname();
+
+  // Find matching page config
+  const currentPage = Object.entries(PAGE_CONFIG).find(([path]) =>
+    pathname.startsWith(path)
+  );
+
+  const pageTitle = currentPage?.[1].title || "";
+  const showBadge = currentPage?.[1].showBadge || false;
 
   return (
     <div className="flex items-center justify-between">
@@ -25,10 +43,10 @@ export function HostHeader() {
       <div
         className={clsx(
           "font-gilroy-semibold text-sm bg-primary-dark text-white rounded-lg py-2 px-4",
-          { invisible: !isHostNotificationPage }
+          { invisible: !showBadge || notificationCount === 0 }
         )}
       >
-        3 new
+        {notificationCount} new
       </div>
     </div>
   );

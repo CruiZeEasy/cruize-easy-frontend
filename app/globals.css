@@ -11,6 +11,7 @@ xl:	1280px	Large desktops
 
   --color-black-transparent: #0000009e;
 
+  --color-blue-400: #658fe4;
   --color-blue-600: #1443c3;
 
   --color-gray-light: #b4b6b4;
@@ -67,6 +68,7 @@ xl:	1280px	Large desktops
   --font-poppins: var(--font-poppins);
   --font-source-sans: var(--font-source-sans);
 
+  --font-gilroy-light: "Gilroy-Light";
   --font-gilroy-regular: "Gilroy-Regular";
   --font-gilroy-medium: "Gilroy-Medium";
   --font-gilroy-semibold: "Gilroy-Semibold";
@@ -76,6 +78,13 @@ xl:	1280px	Large desktops
 }
 
 /* Gilroy Font Face */
+
+@font-face {
+  font-family: "Gilroy-Light";
+  font-style: normal;
+  font-display: swap;
+  src: url("/fonts/Gilroy/Gilroy-Light.ttf") format("truetype");
+}
 
 @font-face {
   font-family: "Gilroy-Regular";
