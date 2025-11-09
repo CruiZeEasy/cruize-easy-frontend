@@ -15,7 +15,7 @@ export default function HostAddCarPage() {
 
   if (success)
     return (
-      <div className="flex flex-col items-center justify-center bg-red-500 h-screen px-4">
+      <div className="flex flex-col items-center justify-center bg-red-500 min-h-[100dvh] px-4">
         {/* Image */}
         {/* <div className="mb-10">
           <Image
