@@ -1,4 +1,3 @@
-import React from "react";
 import { CarDisplaySection } from "@/components/sections/CarDisplaySection";
 import { HowItWorksSection } from "@/components/sections/HowItWorksSection";
 import { PopularCarsSection } from "@/components/sections/PopularCarsSection";

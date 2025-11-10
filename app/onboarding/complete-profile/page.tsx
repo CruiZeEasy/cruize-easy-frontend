@@ -335,14 +335,13 @@ export default function CompleteProfilePage() {
 
       return updateUserProfile(payload);
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      queryClient.setQueryData(["currentUser"], data);
+
       setToast({ message: "Profile completed successfully!", type: "success" });
 
       setTimeout(async () => {
-        await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
-        const updatedUser = queryClient.getQueryData(["currentUser"]);
-        const nextPath = getNextOnboardingPath(updatedUser);
+        const nextPath = getNextOnboardingPath(data);
         navigate(nextPath);
       }, 1500);
     },

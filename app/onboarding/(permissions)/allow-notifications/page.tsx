@@ -203,14 +203,13 @@ export default function AllowNotificationPage() {
 
   const mutation = useMutation({
     mutationFn: () => updateUserProfile({ emailNotificationsEnabled: true }),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      queryClient.setQueryData(["currentUser"], data);
+
       setToast({ message: "Notification access enabled!", type: "success" });
 
       setTimeout(async () => {
-        await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
-        const updatedUser = queryClient.getQueryData(["currentUser"]);
-        const nextPath = getNextOnboardingPath(updatedUser);
+        const nextPath = getNextOnboardingPath(data);
         navigate(nextPath);
       }, 1500);
     },
@@ -284,13 +283,7 @@ export default function AllowNotificationPage() {
         </motion.div>
 
         {/* Toast */}
-        {toast && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast(null)}
-          />
-        )}
+        {toast && <Toast {...toast} onClose={() => setToast(null)} />}
       </motion.div>
 
       {/* Page Transition Spinner */}

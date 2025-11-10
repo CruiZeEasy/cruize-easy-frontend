@@ -201,14 +201,13 @@ export default function AllowLocationPage() {
 
   const mutation = useMutation({
     mutationFn: () => updateUserProfile({ allowLocation: true }),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      queryClient.setQueryData(["currentUser"], data);
+
       setToast({ message: "Location access enabled!", type: "success" });
 
-      setTimeout(async () => {
-        await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-
-        const updatedUser = queryClient.getQueryData(["currentUser"]);
-        const nextPath = getNextOnboardingPath(updatedUser);
+      setTimeout(() => {
+        const nextPath = getNextOnboardingPath(data);
         navigate(nextPath);
       }, 1500);
     },
