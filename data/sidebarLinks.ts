@@ -14,7 +14,7 @@ export const hostSidebarLinks: SidebarLink[] = [
   {
     id: 1,
     label: "Profile",
-    href: "#",
+    href: PATHS.HOST.PROFILE,
     icon: "user-profile-light",
     // showOnMobile: true,
     // showOnDesktop: true,
@@ -62,6 +62,5 @@ export const hostSidebarLinks: SidebarLink[] = [
     icon: "settings-light",
     // showOnMobile: true,
     // showOnDesktop: true,
-    active: true,
   },
 ];

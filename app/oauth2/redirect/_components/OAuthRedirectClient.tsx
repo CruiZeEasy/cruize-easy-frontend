@@ -10,8 +10,10 @@ import { PATHS } from "@/utils/path";
 import { tokenConfig } from "@/config/tokenConfig";
 import { getCurrentUser } from "@/services/userService";
 import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function OAuthRedirectClient() {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const params = useSearchParams();
 
@@ -34,6 +36,14 @@ export function OAuthRedirectClient() {
           sameSite: "Strict",
           path: "/",
         });
+
+        queryClient.removeQueries({
+          queryKey: ["currentUser"],
+          exact: true,
+        });
+
+        // Tiny delay — ensures tokens sync before fetching new user
+        await new Promise((r) => setTimeout(r, 50));
 
         try {
           const user = await getCurrentUser();

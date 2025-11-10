@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Poppins, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { Providers } from "./providers";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -45,7 +46,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${poppins.variable} ${source_sans.variable}`}
     >
-      <body className={`${inter.className}`}>{children}</body>
+      <body className={`${inter.className}`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

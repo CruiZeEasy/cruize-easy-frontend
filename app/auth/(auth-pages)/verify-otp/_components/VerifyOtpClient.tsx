@@ -18,8 +18,10 @@ import { APIError } from "@/utils/apiClient";
 import { REQUEST_COOLDOWN } from "@/config/cooldown";
 import { getCurrentUser } from "@/services/userService";
 import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function VerifyOtpClient() {
+  const queryClient = useQueryClient();
   const [otp, setOtp] = useState("");
   const [verifyLoading, setVerifyLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
@@ -106,6 +108,15 @@ export function VerifyOtpClient() {
               sameSite: "Strict",
               path: "/",
             });
+
+            queryClient.removeQueries({
+              queryKey: ["currentUser"],
+              exact: true,
+            });
+
+            // Tiny delay — ensures tokens sync before fetching new user
+            await new Promise((r) => setTimeout(r, 50));
+
             try {
               const user = await getCurrentUser();
               const nextPath = getNextOnboardingPath(user);

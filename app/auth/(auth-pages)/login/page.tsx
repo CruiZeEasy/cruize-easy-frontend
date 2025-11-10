@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { APIError } from "@/utils/apiClient";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
@@ -22,12 +22,15 @@ import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { tokenConfig } from "@/config/tokenConfig";
 import { getCurrentUser } from "@/services/userService";
 import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
+import { useQueryClient } from "@tanstack/react-query";
 
 // TODO: Add rate limiting on failed login attempts to enhance security
 //       In the future, if backend returns 429 Too Many Requests, you could add a retry or cooldown message.
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const [toast, setToast] = useState<{
     message: string;
@@ -72,15 +75,23 @@ export default function LoginPage() {
           path: "/",
         });
 
+        queryClient.removeQueries({
+          queryKey: ["currentUser"],
+          exact: true,
+        });
+
+        // Tiny delay — ensures tokens sync before fetching new user
+        await new Promise((r) => setTimeout(r, 50));
+
+        const user = await getCurrentUser();
+        const nextPath = getNextOnboardingPath(user);
+
         setToast({
           message: "Login successful! Redirecting...",
           type: "success",
         });
 
         reset();
-
-        const user = await getCurrentUser();
-        const nextPath = getNextOnboardingPath(user);
 
         setTimeout(() => {
           navigate(nextPath);
