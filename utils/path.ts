@@ -16,7 +16,7 @@ export const PATHS = {
     ALLOW_NOTIFICATIONS: "/onboarding/allow-notifications",
   },
 
-  DASHBOARD: {
+  USER: {
     HOME: "/dashboard",
     // TRIPS: "/dashboard/trips",
     // PAYMENTS: "/dashboard/payments",

@@ -1,14 +1,23 @@
 "use client";
+
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostMobileSidebar } from "@/components/shared/HostMobileSidebar";
 import { Button } from "@/components/ui/Buttons";
 import { activityCards } from "@/data/hostActivityCards";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useHostProfile } from "@/hooks/useHostProfile";
 import { PATHS } from "@/utils/path";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function HostHomePage() {
   const router = useRouter();
+  const { data: user, isLoading: userLoading } = useCurrentUser();
+  const { data: host, isLoading: hostLoading } = useHostProfile();
+  // const user = {};
+  // const host = {};
+  // const userLoading = true;
+  // const hostLoading = true;
   return (
     <div className="pb-28">
       <div className="sticky top-0 z-10 flex items-baseline justify-between w-full bg-white p-4 md:hidden shadow-sm">
@@ -25,25 +34,42 @@ export default function HostHomePage() {
       <div className="p-4 md:py-6 md:px-12">
         {/* Greeting Section */}
         <section className=" flex items-center space-x-4 mt-10 md:mt-0">
-          <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
-            <Image
-              src="/images/me.jpg"
-              alt="Profile Image"
-              fill
-              className="object-cover"
-            />
-          </div>
+          {userLoading ? (
+            <div className="bg-neutral-300 rounded-full size-20 animate-pulse overflow-hidden md:hidden relative" />
+          ) : (
+            <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
+              <Image
+                // src={user.profileImageUrl}
+                src={"/images/me.jpg"}
+                alt="Profile Image"
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
 
           <div className="space-y-1">
-            <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
-            <span className="font-gilroy-medium">Joshua Bamidele</span>
+            <h1 className="font-gilroy-bold text-4xl md:text-5xl">
+              {userLoading ? (
+                <span className="bg-neutral-300 w-32 h-8 block animate-pulse" />
+              ) : (
+                "Welcome"
+              )}
+            </h1>
+            <span className="font-gilroy-medium">
+              {userLoading ? (
+                <span className="bg-neutral-300 w-40 h-5 block animate-pulse rounded" />
+              ) : (
+                user.fullName
+              )}
+            </span>
           </div>
         </section>
 
         <div className="bg-neutral-150 h-[1px] w-full mt-4 md:hidden" />
 
         {/* My Earnings Section */}
-        <section className="mt-4 md:mt-6">
+        {/* <section className="mt-4 md:mt-6">
           <h2 className="font-gilroy-bold text-sm md:hidden">My Earnings</h2>
           <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
             <div className="flex justify-between items-center">
@@ -79,6 +105,52 @@ export default function HostHomePage() {
               </div>
             </div>
           </div>
+        </section> */}
+
+        {/* My Earnings Section */}
+        <section className="mt-4 md:mt-6">
+          <h2 className="font-gilroy-bold text-sm md:hidden">My Earnings</h2>
+          <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
+            <div className="flex justify-between items-center">
+              <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
+                Total Balance
+              </span>
+              <h2 className="font-gilroy-bold hidden md:block">My Earnings</h2>
+              <span className="font-gilroy-medium text-xs text-black-transparent">
+                {new Date().toLocaleString("en-US", { month: "long" })}
+              </span>
+            </div>
+
+            <div className="mt-8">
+              <span className="font-gilroy-bold text-4xl text-neutral-700">
+                <span className="font-source-sans font-bold text-[2.5rem]">
+                  ₦
+                </span>
+                {hostLoading ? (
+                  <span className="bg-neutral-300 w-20 h-7 inline-block rounded animate-pulse" />
+                ) : (
+                  host?.totalEarnings?.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })
+                )}
+              </span>
+
+              <div className="flex justify-between items-center mt-1 md:-mt-2">
+                <span className="font-gilroy-medium text-xs text-black-transparent invisible md:visible">
+                  Total Earnings this month
+                </span>
+                <Button
+                  variant="dark-primary"
+                  fontFamily="gilroy-medium"
+                  shadow="shadow-none"
+                  className="py-3 md:px-6 text-xs"
+                >
+                  Create Wallet
+                </Button>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* My Activity Section */}
@@ -88,14 +160,22 @@ export default function HostHomePage() {
           </h2>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-2">
-            {activityCards.map((card) => (
-              <ActivityCard
-                key={card.id}
-                icon={card.icon}
-                label={card.label}
-                value={0}
-              />
-            ))}
+            {activityCards.map((card) => {
+              let value: number | string;
+              if (card.label === "Cars") value = host?.totalVehicles;
+              else if (card.label === "Rating") value = host?.averageRating;
+              else value = 0;
+
+              return (
+                <ActivityCard
+                  key={card.id}
+                  icon={card.icon}
+                  label={card.label}
+                  value={value}
+                  isLoading={hostLoading}
+                />
+              );
+            })}
           </div>
         </section>
 

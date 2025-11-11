@@ -47,6 +47,9 @@ export function OAuthRedirectClient() {
 
         try {
           const user = await getCurrentUser();
+
+          queryClient.setQueryData(["currentUser"], user);
+
           const nextPath = getNextOnboardingPath(user);
           router.push(nextPath);
         } catch {

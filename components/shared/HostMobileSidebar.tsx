@@ -59,9 +59,9 @@ export function HostMobileSidebar() {
                   priority
                 />
 
-                <span className="text-xs font-gilroy-medium">
+                {/* <span className="text-xs font-gilroy-medium">
                   Joshua Bamidele
-                </span>
+                </span> */}
               </div>
 
               {/* Nav Links */}

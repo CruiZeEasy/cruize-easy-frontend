@@ -84,6 +84,10 @@ export default function LoginPage() {
         await new Promise((r) => setTimeout(r, 50));
 
         const user = await getCurrentUser();
+
+        // cache the user globally so I don't have to refetch again
+        queryClient.setQueryData(["currentUser"], user);
+
         const nextPath = getNextOnboardingPath(user);
 
         setToast({

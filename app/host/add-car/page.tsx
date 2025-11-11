@@ -187,16 +187,30 @@ export default function HostAddCarPage() {
                     onChange={(e) => console.log(e.target.checked)}
                   />
 
-                  <Button
-                    type="submit"
-                    variant="dark-primary"
-                    fontFamily="inter"
-                    fullWidth
-                    shadow="shadow-none"
-                    className="mt-12 md:mt-0"
-                  >
-                    Next
-                  </Button>
+                  <div className="flex gap-4">
+                    <Button
+                      type="button"
+                      onClick={handleBack}
+                      variant="step-back"
+                      fontFamily="inter"
+                      fullWidth
+                      shadow="shadow-none"
+                      className="mt-12 md:mt-0"
+                    >
+                      Previous
+                    </Button>
+
+                    <Button
+                      type="submit"
+                      variant="dark-primary"
+                      fontFamily="inter"
+                      fullWidth
+                      shadow="shadow-none"
+                      className="mt-12 md:mt-0"
+                    >
+                      Next
+                    </Button>
+                  </div>
                 </div>
               </div>
             </form>
@@ -273,7 +287,18 @@ export default function HostAddCarPage() {
                   placeholderVariant="light"
                 />
 
-                <div className="flex items-end">
+                <div className="flex items-end gap-4">
+                  <Button
+                    type="button"
+                    onClick={handleBack}
+                    variant="step-back"
+                    fontFamily="inter"
+                    fullWidth
+                    shadow="shadow-none"
+                    className="mt-12 md:mt-0 md:p-[18.8px]"
+                  >
+                    Previous
+                  </Button>
                   <Button
                     type="submit"
                     variant="dark-primary"
@@ -320,7 +345,18 @@ export default function HostAddCarPage() {
                   onImageSelect={(file) => console.log(file)}
                 />
 
-                <div className="md:col-span-2 max-w-xl w-full mx-auto">
+                <div className="md:col-span-2 flex items-end gap-4 max-w-xl w-full mx-auto">
+                  <Button
+                    type="button"
+                    onClick={handleBack}
+                    variant="step-back"
+                    fontFamily="inter"
+                    fullWidth
+                    shadow="shadow-none"
+                    className="mt-12 md:mt-6"
+                  >
+                    Previous
+                  </Button>
                   <Button
                     type="submit"
                     variant="dark-primary"

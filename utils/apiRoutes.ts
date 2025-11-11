@@ -14,4 +14,8 @@ export const API_ROUTES = {
     ME: "/api/v1/users/me", // get current user profile
     UPLOAD_PROFILE_IMAGE: "/api/v1/users/me/profile-image",
   },
+
+  HOST: {
+    ME: "/api/v1/host-profiles/me", // get current host profile
+  },
 };

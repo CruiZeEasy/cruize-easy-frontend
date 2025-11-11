@@ -119,6 +119,9 @@ export function VerifyOtpClient() {
 
             try {
               const user = await getCurrentUser();
+
+              queryClient.setQueryData(["currentUser"], user);
+
               const nextPath = getNextOnboardingPath(user);
               navigate(nextPath);
             } catch {
