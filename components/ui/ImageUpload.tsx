@@ -1211,14 +1211,14 @@
 
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import clsx from "clsx";
 
 interface ImageUploadProps {
   variant?: "profile" | "document" | "gallery";
-  defaultImage?: string;
+  defaultImage?: string | File | File[];
   onImageSelect?: (file: File | null) => void;
   onImagesSelect?: (files: File[]) => void;
   disabled?: boolean;
@@ -1251,12 +1251,64 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
     },
     ref
   ) => {
-    const [preview, setPreview] = useState<string | null>(defaultImage || null);
+    const [preview, setPreview] = useState<string | null>(() => {
+      if (!defaultImage) return null;
+
+      // Single File (document or profile)
+      if (defaultImage instanceof File) return null; // we will generate preview in useEffect
+
+      // Array of Files (gallery)
+      if (Array.isArray(defaultImage)) return null; // gallery previews are handled separately
+
+      // String (existing URL)
+      if (typeof defaultImage === "string") return defaultImage;
+
+      return null;
+    });
+
     const [fileName, setFileName] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [images, setImages] = useState<
       Array<{ file: File; preview: string; id: string }>
     >([]);
+
+    // Single file (document or profile)
+    useEffect(() => {
+      if (variant !== "gallery" && defaultImage instanceof File) {
+        const file = defaultImage;
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onloadend = () => setPreview(reader.result as string);
+          reader.readAsDataURL(file);
+        } else if (file.type === "application/pdf") {
+          setPreview("pdf");
+          setFileName(file.name);
+        }
+      }
+    }, [defaultImage]);
+
+    // Gallery (multiple images)
+    useEffect(() => {
+      if (variant === "gallery" && Array.isArray(defaultImage)) {
+        const files = defaultImage as File[];
+        const previews: typeof images = [];
+        files.forEach((file) => {
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              previews.push({
+                file,
+                preview: reader.result as string,
+                id: `${Date.now()}-${Math.random()}`,
+              });
+              if (previews.length === files.length) setImages(previews);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+    }, [defaultImage]);
+
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const getAcceptAttribute = () => {
@@ -1499,7 +1551,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
           />
 
           {/* Image Count Status */}
-          <div className="flex items-center justify-between text-sm font-medium">
+          <div className="flex items-center justify-between text-sm font-gilroy-medium">
             <span
               className={
                 images.length >= minImages
@@ -1723,6 +1775,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
                   alt="Document Preview"
                   width={50}
                   height={50}
+                  priority
                 />
                 <span className="text-sm font-gilroy-medium text-neutral-500 text-center break-all px-4">
                   {fileName}
