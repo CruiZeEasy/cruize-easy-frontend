@@ -7,6 +7,7 @@ import { FormInput } from "@/components/ui/FormInput";
 import { FormSelect } from "@/components/ui/FormSelect";
 import { FormTextArea } from "@/components/ui/FormTextArea";
 import { ImageUpload } from "@/components/ui/ImageUpload";
+import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -69,7 +70,12 @@ export default function HostAddCarPage() {
           </span>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div
+          className={clsx(
+            "flex items-center justify-center",
+            currentStep === 4 ? "hidden" : "block"
+          )}
+        >
           <div className="relative w-[150px] h-[150px] md:w-[150px] md:h-[150px]">
             <Image
               src="/images/robots/robot-with-question-mark.webp"
@@ -176,6 +182,7 @@ export default function HostAddCarPage() {
                 <ImageUpload
                   variant="document"
                   label="Vehicle Document"
+                  fileType="pdf"
                   onImageSelect={(file) => console.log(file)}
                 />
 
@@ -318,56 +325,75 @@ export default function HostAddCarPage() {
         {/* Uploading Images Of The Car Step 4 */}
         {currentStep === 4 && (
           <section className="md:px-4 mt-3">
-            <form onSubmit={handleNext} className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <form onSubmit={handleNext} className="mt-6 font-gilroy-medium">
+              <div className=" text-neutral-550 text-center">
                 <ImageUpload
-                  variant="document"
-                  label="Front side of the car"
-                  uploadLabel="Click to upload your Front side of Car"
-                  onImageSelect={(file) => console.log(file)}
+                  onImagesSelect={(files) => {
+                    console.log("All images:", files);
+                    // Update your form state
+                  }}
                 />
+                <span className="">
+                  Select and upload 9-12 clear pictures of the car for
+                  verification
+                </span>
+
                 <ImageUpload
-                  variant="document"
-                  label="Back side of the car"
-                  uploadLabel="Click to upload your Back side of Car"
-                  onImageSelect={(file) => console.log(file)}
-                />
-                <ImageUpload
-                  variant="document"
-                  label="Left side of the car"
-                  uploadLabel="Click to upload your Left side of Car"
-                  onImageSelect={(file) => console.log(file)}
-                />
-                <ImageUpload
-                  variant="document"
-                  label="Right side of the car"
-                  uploadLabel="Click to upload your Right side of Car"
-                  onImageSelect={(file) => console.log(file)}
+                  variant="gallery"
+                  fileType="image"
+                  minImages={9}
+                  maxImages={12}
+                  onImagesSelect={(files) => {
+                    console.log("All images:", files);
+                    // Update your form state
+                  }}
                 />
 
-                <div className="md:col-span-2 flex items-end gap-4 max-w-xl w-full mx-auto">
-                  <Button
-                    type="button"
-                    onClick={handleBack}
-                    variant="step-back"
-                    fontFamily="inter"
-                    fullWidth
-                    shadow="shadow-none"
-                    className="mt-12 md:mt-6"
-                  >
-                    Previous
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="dark-primary"
-                    fontFamily="inter"
-                    fullWidth
-                    shadow="shadow-none"
-                    className="mt-12 md:mt-6"
-                  >
-                    Done
-                  </Button>
+                <span>
+                  Minimum of 9 photos required and maximum of 12 photos. Capture
+                  front, back, left and right sides, interior, and dashboard.
+                </span>
+
+                <div className="bg-primary-soft/30 text-black p-4 rounded-[11px]">
+                  <span className="font-gilroy-bold">Photo Guidelines</span>
+
+                  <ul className="text-sm text-black/60 list-disc px-6">
+                    <li>Ensure the car is well-lit and visible</li>
+                    <li>Include license plate and interior shots.</li>
+                    <li>Avoid blurry or cropped photos.</li>
+                  </ul>
                 </div>
+
+                <FormCheckbox
+                  id="isTinted"
+                  label="I confirm that the uploaded photos are clear and accurate"
+                  labelFontFamily="gilroy-medium"
+                  onChange={(e) => console.log(e.target.checked)}
+                />
+              </div>
+
+              <div className="flex items-end gap-4 max-w-xl w-full mx-auto">
+                <Button
+                  type="button"
+                  onClick={handleBack}
+                  variant="step-back"
+                  fontFamily="inter"
+                  fullWidth
+                  shadow="shadow-none"
+                  className="mt-12 md:mt-6"
+                >
+                  Previous
+                </Button>
+                <Button
+                  type="submit"
+                  variant="dark-primary"
+                  fontFamily="inter"
+                  fullWidth
+                  shadow="shadow-none"
+                  className="mt-12 md:mt-6"
+                >
+                  Done
+                </Button>
               </div>
             </form>
           </section>
