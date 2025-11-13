@@ -1,7 +1,5 @@
-// schemas/host/addCarSchema.ts
 import { z } from "zod";
 
-// Step 1: Vehicle Information
 export const vehicleInformationSchema = z.object({
   carName: z
     .string()
@@ -21,7 +19,6 @@ export const vehicleInformationSchema = z.object({
     .max(20, "Color must be less than 20 characters"),
 });
 
-// Step 2: Vehicle Licenses
 export const vehicleLicensesSchema = z.object({
   plateNumber: z
     .string()
@@ -42,19 +39,18 @@ export const vehicleLicensesSchema = z.object({
   isTinted: z.boolean().optional(),
 });
 
-// Step 3: Rent Information
 export const rentInformationSchema = z.object({
   rentType: z.enum(["SELF_DRIVE", "DRIVER"], {
     message: "Please select a rent type",
   }),
-  rentPrice: z
-    .number({ invalid_type_error: "Price must be a number" })
-    .min(1, "Rent price must be at least 1")
-    .max(1000000, "Rent price is too high"),
-  fuelPrice: z
-    .number({ invalid_type_error: "Price must be a number" })
-    .min(0, "Fuel price cannot be negative")
-    .max(100000, "Fuel price is too high"),
+  rentPrice: z.coerce
+    .number({ message: "Rent price must be a number" })
+    .min(10000, "Rent price must be at least ₦10,000 per day")
+    .max(1000000, "Rent price is too high") as z.ZodNumber,
+  fuelPrice: z.coerce
+    .number({ message: "Fuel price must be a number" })
+    .min(1000, "Fuel price must be at least ₦1,000")
+    .max(30000, "Fuel price is too high") as z.ZodNumber,
   transmission: z.enum(["MANUAL", "AUTOMATIC", "ELECTRIC"], {
     message: "Please select a transmission type",
   }),
@@ -63,7 +59,6 @@ export const rentInformationSchema = z.object({
   }),
 });
 
-// Step 4: Car Images
 export const carImagesSchema = z.object({
   carImages: z
     .array(z.instanceof(File))
@@ -82,16 +77,12 @@ export const carImagesSchema = z.object({
   }),
 });
 
-// Combined schema for all steps
-export const addCarSchema = vehicleInformationSchema
-  .extend(vehicleLicensesSchema.shape)
-  .extend(rentInformationSchema.shape)
-  .extend(carImagesSchema.shape);
+// Combined schema
+export const addCarSchema = z.object({
+  ...vehicleInformationSchema.shape,
+  ...vehicleLicensesSchema.shape,
+  ...rentInformationSchema.shape,
+  ...carImagesSchema.shape,
+});
 
-export type VehicleInformationFormData = z.infer<
-  typeof vehicleInformationSchema
->;
-export type VehicleLicensesFormData = z.infer<typeof vehicleLicensesSchema>;
-export type RentInformationFormData = z.infer<typeof rentInformationSchema>;
-export type CarImagesFormData = z.infer<typeof carImagesSchema>;
 export type AddCarFormData = z.infer<typeof addCarSchema>;

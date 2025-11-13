@@ -1,26 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import { Button } from "@/components/ui/Buttons";
+import {
+  CompleteProfileFormData,
+  completeProfileSchema,
+} from "@/schemas/profile/completeProfileSchema";
+import { Controller, useForm } from "react-hook-form";
+import { fadeUp } from "@/config/animation";
 import { FormInput } from "@/components/ui/FormInput";
 import { FormSelect } from "@/components/ui/FormSelect";
 import { ImageUpload } from "@/components/ui/ImageUpload";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { normalizeString } from "@/utils/stringUtils";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Toast } from "@/components/ui/Toast";
-import { fadeUp } from "@/config/animation";
-import {
-  completeProfileSchema,
-  CompleteProfileFormData,
-} from "@/schemas/profile/completeProfileSchema";
-import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
-import { normalizeString } from "@/utils/stringUtils";
-import { usePageTransition } from "@/hooks/usePageTransition";
 import { updateUserProfile, uploadProfileImage } from "@/services/userService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { useState } from "react";
+import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function CompleteProfilePage() {
   const queryClient = useQueryClient();
@@ -39,7 +39,7 @@ export default function CompleteProfilePage() {
     resolver: zodResolver(completeProfileSchema),
   });
 
-  const mutation = useMutation({
+  const completeProfileMutation = useMutation({
     mutationFn: async (data: CompleteProfileFormData) => {
       if (data.profileImage) {
         const uploadRes = await uploadProfileImage(data.profileImage);
@@ -108,7 +108,9 @@ export default function CompleteProfilePage() {
         </motion.div>
 
         <motion.form
-          onSubmit={handleSubmit((data) => mutation.mutate(data))}
+          onSubmit={handleSubmit((data) =>
+            completeProfileMutation.mutate(data)
+          )}
           variants={fadeUp}
           transition={{ duration: 0.25 }}
           className="w-full"
@@ -124,7 +126,7 @@ export default function CompleteProfilePage() {
               render={({ field: { onChange } }) => (
                 <ImageUpload
                   onImageSelect={onChange}
-                  disabled={mutation.isPending}
+                  disabled={completeProfileMutation.isPending}
                   error={errors.profileImage?.message}
                 />
               )}
@@ -144,7 +146,7 @@ export default function CompleteProfilePage() {
               placeholder="Username"
               labelFontFamily="gilroy-medium"
               placeholderVariant="light"
-              disabled={mutation.isPending}
+              disabled={completeProfileMutation.isPending}
               {...register("username")}
               error={errors.username?.message}
             />
@@ -156,7 +158,7 @@ export default function CompleteProfilePage() {
               placeholder="812 345 6789"
               labelFontFamily="gilroy-medium"
               placeholderVariant="light"
-              disabled={mutation.isPending}
+              disabled={completeProfileMutation.isPending}
               {...register("phoneNumber")}
               error={errors.phoneNumber?.message}
             />
@@ -177,7 +179,7 @@ export default function CompleteProfilePage() {
                   value={value}
                   placeholderVariant="light"
                   onChange={onChange}
-                  disabled={mutation.isPending}
+                  disabled={completeProfileMutation.isPending}
                   error={errors.gender?.message}
                 />
               )}
@@ -190,8 +192,8 @@ export default function CompleteProfilePage() {
               fullWidth
               shadow="shadow-none"
               className="p-4 sm:p-[21px] text-xs self-end mt-12 sm:mt-0"
-              disabled={mutation.isPending}
-              loading={mutation.isPending}
+              disabled={completeProfileMutation.isPending}
+              loading={completeProfileMutation.isPending}
               loadingText="Setting Up Account..."
             >
               Complete Profile

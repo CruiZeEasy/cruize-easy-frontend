@@ -90,16 +90,18 @@ export default function LoginPage() {
 
         const nextPath = getNextOnboardingPath(user);
 
-        setToast({
-          message: "Login successful! Redirecting...",
-          type: "success",
-        });
+        // setToast({
+        //   message: "Login successful! Redirecting...",
+        //   type: "success",
+        // });
 
         reset();
 
-        setTimeout(() => {
-          navigate(nextPath);
-        }, 1500);
+        navigate(nextPath);
+
+        // setTimeout(() => {
+        //   navigate(nextPath);
+        // }, 1500);
       } else {
         throw new Error(res?.message || "Invalid credentials");
       }
