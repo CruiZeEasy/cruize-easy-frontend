@@ -13,7 +13,7 @@ import { normalizeString } from "@/utils/stringUtils";
 import { Success } from "@/components/host/add-car/Success";
 import clsx from "clsx";
 import { Controller, useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Toast } from "@/components/ui/Toast";
@@ -21,7 +21,6 @@ import { Toast } from "@/components/ui/Toast";
 export default function HostAddCarPage() {
   // const queryClient = useQueryClient();
   const [currentStep, setCurrentStep] = useState(1);
-  const firstInputRef = useRef<HTMLInputElement>(null);
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
@@ -37,10 +36,6 @@ export default function HostAddCarPage() {
       confirmPhotos: false,
     },
   });
-
-  useEffect(() => {
-    firstInputRef.current?.focus();
-  }, [currentStep]);
 
   const handleNext = async () => {
     let isValid = false;
@@ -179,10 +174,6 @@ export default function HostAddCarPage() {
                   placeholderVariant="light"
                   {...form.register("carName")}
                   error={form.formState.errors.carName?.message}
-                  ref={(el) => {
-                    form.register("carName").ref(el);
-                    firstInputRef.current = el;
-                  }}
                 />
                 <FormInput
                   id="carBrand"
