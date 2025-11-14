@@ -1,3 +1,4 @@
+import { RENT_TYPES, TRANSMISSION_TYPES } from "@/constants/enums";
 import { z } from "zod";
 
 export const vehicleInformationSchema = z.object({
@@ -40,7 +41,7 @@ export const vehicleLicensesSchema = z.object({
 });
 
 export const rentInformationSchema = z.object({
-  rentType: z.enum(["SELF_DRIVE", "DRIVER"], {
+  rentType: z.enum(RENT_TYPES, {
     message: "Please select a rent type",
   }),
   rentPrice: z.coerce
@@ -51,7 +52,7 @@ export const rentInformationSchema = z.object({
     .number({ message: "Fuel price must be a number" })
     .min(1000, "Fuel price must be at least ₦1,000")
     .max(30000, "Fuel price is too high") as z.ZodNumber,
-  transmission: z.enum(["MANUAL", "AUTOMATIC", "ELECTRIC"], {
+  transmission: z.enum(TRANSMISSION_TYPES, {
     message: "Please select a transmission type",
   }),
   seats: z.string().refine((val) => ["1", "2", "3", "4"].includes(val), {

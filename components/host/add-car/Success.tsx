@@ -1,9 +1,17 @@
 import { Button } from "@/components/ui/Buttons";
+import { fadeIn } from "@/config/animation";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export function Success() {
   return (
-    <div className="flex flex-col items-center justify-center bg-white min-h-[100dvh] px-4">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="flex flex-col items-center justify-center bg-white min-h-[100dvh] px-4"
+    >
       {/* Image */}
       <div className="mb-10">
         <Image
@@ -40,6 +48,6 @@ export function Success() {
           View Car Details
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }

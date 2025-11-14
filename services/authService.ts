@@ -1,6 +1,6 @@
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
-import { UserRoles } from "@/constants/roles";
+import { UserRoles } from "@/constants/enums";
 
 export async function loginUser(data: { email: string; password: string }) {
   return apiClient(API_ROUTES.AUTH.LOGIN, {

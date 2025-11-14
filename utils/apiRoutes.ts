@@ -18,4 +18,11 @@ export const API_ROUTES = {
   HOST: {
     ME: "/api/v1/host-profiles/me", // get current host profile
   },
+
+  VEHICLES: {
+    CREATE: "/api/v1/vehicles",
+    UPLOAD_IMAGE: (vehicleId: string) => `/api/v1/vehicles/${vehicleId}/images`,
+    UPLOAD_DOCUMENT: (vehicleId: string) =>
+      `/api/v1/vehicles/${vehicleId}/documents`,
+  },
 };

@@ -1,3 +1,4 @@
+import { GENDER_TYPES } from "@/constants/enums";
 import { z } from "zod";
 
 export const completeProfileSchema = z.object({
@@ -15,7 +16,7 @@ export const completeProfileSchema = z.object({
     .refine((val) => val.length === 10, {
       message: "Phone number must be 10 digits",
     }),
-  gender: z.enum(["male", "female"], {
+  gender: z.enum(GENDER_TYPES, {
     message: "Please select a gender",
   }),
   profileImage: z

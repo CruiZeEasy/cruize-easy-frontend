@@ -16,7 +16,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "@/services/authService";
 import { usePageTransition } from "@/hooks/usePageTransition";
-import { UserRoles } from "@/constants/roles";
+import { UserRoles } from "@/constants/enums";
 import { useSearchParams } from "next/navigation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { normalizeString } from "@/utils/stringUtils";

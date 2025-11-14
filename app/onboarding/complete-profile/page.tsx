@@ -10,6 +10,7 @@ import { fadeUp } from "@/config/animation";
 import { FormInput } from "@/components/ui/FormInput";
 import { FormSelect } from "@/components/ui/FormSelect";
 import { ImageUpload } from "@/components/ui/ImageUpload";
+import { genderOptions } from "@/utils/selectOptions";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { normalizeString } from "@/utils/stringUtils";
@@ -49,7 +50,7 @@ export default function CompleteProfilePage() {
       const payload = {
         username: normalizeString(data.username),
         phoneN0: `+234${data.phoneNumber}`,
-        gender: data.gender.toUpperCase() as "MALE" | "FEMALE",
+        gender: data.gender,
         profileCompleted: true,
       };
 
@@ -172,10 +173,7 @@ export default function CompleteProfilePage() {
                   label="Gender"
                   labelFontFamily="gilroy-medium"
                   placeholder="Select Gender"
-                  options={[
-                    { value: "male", label: "Male" },
-                    { value: "female", label: "Female" },
-                  ]}
+                  options={genderOptions}
                   value={value}
                   placeholderVariant="light"
                   onChange={onChange}

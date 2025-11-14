@@ -1,5 +1,5 @@
 
-import { UserRoles } from "@/constants/roles";
+import { UserRoles } from "@/constants/enums";
 import { PATHS } from "@/utils/path";
 
 export function getNextOnboardingPath(user: any): string {
