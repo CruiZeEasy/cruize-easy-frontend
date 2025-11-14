@@ -835,15 +835,6 @@ export default function HostAddCarPage() {
 
       if (!vehicleId) throw new Error("Failed to get vehicleId from server");
 
-      // if (data.vehicleDocument) {
-      //   await uploadVehicleDocuments(vehicleId, [data.vehicleDocument]);
-      // }
-
-      // if (data.carImages?.length > 0) {
-      //   const compressedImages = await compressImages(data.carImages);
-      //   await uploadVehicleImages(vehicleId, compressedImages);
-      // }
-
       if (data.vehicleDocument || data.carImages?.length > 0) {
         await Promise.all([
           data.vehicleDocument
@@ -851,8 +842,8 @@ export default function HostAddCarPage() {
             : Promise.resolve(),
           data.carImages?.length > 0
             ? (async () => {
-                const compressedImages = await compressImages(data.carImages);
-                return uploadVehicleImages(vehicleId, compressedImages);
+                // const compressedImages = await compressImages(data.carImages);
+                return uploadVehicleImages(vehicleId, data.carImages);
               })()
             : Promise.resolve(),
         ]);
