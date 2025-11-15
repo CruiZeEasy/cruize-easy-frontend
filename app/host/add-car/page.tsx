@@ -645,7 +645,7 @@ import {
   transmissionOptions,
 } from "@/utils/selectOptions";
 
-import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
+// import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import { formatNumber } from "@/utils/formatNumber";
 
 export default function HostAddCarPage() {
