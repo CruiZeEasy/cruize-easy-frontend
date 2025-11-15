@@ -629,7 +629,7 @@ import { normalizeString } from "@/utils/stringUtils";
 import { Success } from "@/components/host/add-car/Success";
 import clsx from "clsx";
 import { Controller, useForm } from "react-hook-form";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Toast } from "@/components/ui/Toast";
@@ -645,8 +645,11 @@ import {
   transmissionOptions,
 } from "@/utils/selectOptions";
 
+import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
+import { formatNumber } from "@/utils/formatNumber";
+
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(3);
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
@@ -671,7 +674,7 @@ export default function HostAddCarPage() {
     if (formContainerRef.current) {
       const topPosition = formContainerRef.current.offsetTop;
       window.scrollTo({
-        top: topPosition - 20, // Small offset for better visual
+        top: topPosition - 120, // Small offset for better visual
         behavior: "smooth",
       });
     }
@@ -802,13 +805,7 @@ export default function HostAddCarPage() {
   // Handle Previous button click
   const handleBack = async () => {
     if (currentStep > 1) {
-      // Optionally validate current step before going back
-      // Remove this if you don't want validation on back button
-      const fieldsToValidate = getStepFields(currentStep);
-      await form.trigger(fieldsToValidate);
-
       setCurrentStep((prev) => prev - 1);
-      scrollToTop();
     }
   };
 
@@ -842,13 +839,53 @@ export default function HostAddCarPage() {
             : Promise.resolve(),
           data.carImages?.length > 0
             ? (async () => {
-                // const compressedImages = await compressImages(data.carImages);
-                return uploadVehicleImages(vehicleId, data.carImages);
+                const compressedImages = await compressImages(data.carImages);
+                return uploadVehicleImages(vehicleId, compressedImages);
               })()
             : Promise.resolve(),
         ]);
       }
     },
+
+    // mutationFn: async (data: AddCarFormData) => {
+    //   // 1. Compress images first (must be sequential)
+    //   const compressedImages = data.carImages?.length
+    //     ? await compressImages(data.carImages)
+    //     : [];
+
+    //   // 2. PARALLEL uploads (best performance)
+    //   const [documentUrl, imageUrls] = await Promise.all([
+    //     data.vehicleDocument
+    //       ? uploadToCloudinary(data.vehicleDocument)
+    //       : Promise.resolve(null),
+
+    //     compressedImages.length
+    //       ? Promise.all(compressedImages.map(uploadToCloudinary))
+    //       : Promise.resolve([]),
+    //   ]);
+
+    //   // 3. Create vehicle with URLs
+    //   const payload = {
+    //     name: normalizeString(data.carName),
+    //     brand: normalizeString(data.carBrand),
+    //     description: normalizeString(data.carDescription),
+    //     color: normalizeString(data.carColor),
+    //     licensePlate: normalizeString(data.plateNumber),
+    //     vin: normalizeString(data.carRegNo),
+    //     seats: Number(data.seats),
+    //     rentType: data.rentType,
+    //     pricePerDay: data.rentPrice.toFixed(2),
+    //     fuelPrice: data.fuelPrice.toFixed(2),
+    //     transmission: data.transmission,
+    //     isTinted: data.isTinted,
+    //     confirmPhoto: data.confirmPhotos,
+
+    //     imageUrls,
+    //     documentUrl,
+    //   };
+
+    //   return createVehicle(payload);
+    // },
 
     onSuccess: () => {
       setSuccess(true);
@@ -1046,33 +1083,48 @@ export default function HostAddCarPage() {
                 />
               )}
             />
-
-            <FormInput
-              id="rentPrice"
-              label="Rent Price (₦)"
-              type="number"
-              inputMode="numeric"
-              min={0}
-              autoComplete="off"
-              placeholder="Price per day"
-              labelFontFamily="gilroy-medium"
-              placeholderVariant="light"
-              {...form.register("rentPrice")}
-              error={form.formState.errors.rentPrice?.message}
+            <Controller
+              name="rentPrice"
+              control={form.control}
+              render={({ field }) => (
+                <FormInput
+                  id="rentPrice"
+                  label="Rent Price (₦)"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="Price per day"
+                  value={
+                    field.value ? formatNumber(field.value.toString()) : ""
+                  }
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/,/g, "");
+                    field.onChange(raw); // store clean number in form state
+                  }}
+                  error={form.formState.errors.rentPrice?.message}
+                />
+              )}
             />
 
-            <FormInput
-              id="fuelPrice"
-              label="Fuel Price (₦)"
-              type="number"
-              inputMode="numeric"
-              min={0}
-              autoComplete="off"
-              placeholder="Price per day"
-              labelFontFamily="gilroy-medium"
-              placeholderVariant="light"
-              {...form.register("fuelPrice")}
-              error={form.formState.errors.fuelPrice?.message}
+            <Controller
+              name="fuelPrice"
+              control={form.control}
+              render={({ field }) => (
+                <FormInput
+                  id="fuelPrice"
+                  label="Fuel Price (₦)"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="Price per day"
+                  value={
+                    field.value ? formatNumber(field.value.toString()) : ""
+                  }
+                  onChange={(e) => {
+                    const raw = e.target.value.replace(/,/g, "");
+                    field.onChange(raw);
+                  }}
+                  error={form.formState.errors.fuelPrice?.message}
+                />
+              )}
             />
 
             <Controller

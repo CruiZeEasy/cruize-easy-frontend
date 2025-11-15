@@ -1793,7 +1793,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
           ) : (
             <div className="flex flex-col items-center space-y-3">
               <div className="border border-blue-400 rounded-full size-7 flex justify-center items-center">
-                <span className="font-gilroy-light text-2xl text-blue-400">
+                <span className="font-gilroy-light text-2xl text-blue-400 mt-1  md:mt-0">
                   +
                 </span>
               </div>
