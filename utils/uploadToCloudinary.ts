@@ -1,4 +1,4 @@
-exasync function uploadToCloudinary(file: File) {
+async function uploadToCloudinary(file: File) {
   // Request signed parameters from backend
   const res = await fetch("/api/cloudinary/signature", { method: "POST" });
   const { timestamp, signature, apiKey, cloudName, folder } = await res.json();
