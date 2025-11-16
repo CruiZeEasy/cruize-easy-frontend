@@ -149,6 +149,7 @@ export default function HostAddCarPage() {
   // };
 
   // Focus first invalid field with enhanced mobile support
+  // Focus first invalid field with enhanced mobile support
   const focusFirstInvalidField = () => {
     const errors = form.formState.errors;
     const firstErrorField = Object.keys(errors)[0];
@@ -184,43 +185,34 @@ export default function HostAddCarPage() {
     for (const strategy of strategies) {
       const element = strategy() as HTMLElement | null;
       if (element && typeof element.focus === "function") {
-        // Use setTimeout to ensure DOM has updated and element is visible
-        setTimeout(() => {
-          try {
-            // Scroll into view first
-            if (element.scrollIntoView) {
-              element.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-            }
+        try {
+          // For mobile: Remove all timeouts and delays
+          // Scroll into view first (synchronously)
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
 
-            // Then focus with a slight delay for mobile
-            setTimeout(() => {
-              element.focus({ preventScroll: true });
+          // Focus immediately (synchronously)
+          element.focus({ preventScroll: true });
 
-              // For mobile: trigger click to ensure virtual keyboard appears
-              if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-                element.click();
-
-                // Force blur and refocus for stubborn mobile browsers
-                setTimeout(() => {
-                  element.blur();
-                  setTimeout(() => {
-                    element.focus({ preventScroll: true });
-                  }, 50);
-                }, 50);
-              }
-            }, 150);
-          } catch (e) {
-            console.warn(`Could not focus element: ${firstErrorField}`);
+          // For mobile browsers: trigger a synthetic click event
+          // This helps activate the input and show the keyboard
+          if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+            const clickEvent = new MouseEvent("click", {
+              view: window,
+              bubbles: true,
+              cancelable: true,
+            });
+            element.dispatchEvent(clickEvent);
           }
-        }, 100);
+        } catch (e) {
+          console.warn(`Could not focus element: ${firstErrorField}`);
+        }
         break;
       }
     }
   };
-
   // Handle Enter key press
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
