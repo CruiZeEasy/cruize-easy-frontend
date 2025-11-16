@@ -38,6 +38,7 @@ export default function HostAddCarPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [isMovingForward, setIsMovingForward] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -182,6 +183,7 @@ export default function HostAddCarPage() {
     const isValid = await form.trigger(fieldsToValidate);
 
     if (isValid) {
+      setIsMovingForward(true);
       setCurrentStep((prev) => prev + 1);
       // scrollToTop();
     } else {
@@ -192,6 +194,7 @@ export default function HostAddCarPage() {
   // Handle Previous button click
   const handleBack = async () => {
     if (currentStep > 1) {
+      setIsMovingForward(false);
       setCurrentStep((prev) => prev - 1);
     }
   };
@@ -735,7 +738,8 @@ export default function HostAddCarPage() {
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="md:px-4 mt-3"
                       onAnimationComplete={() => {
-                        if (formContainerRef.current) {
+                        // Only scroll if moving forward
+                        if (isMovingForward && formContainerRef.current) {
                           const topPosition =
                             formContainerRef.current.getBoundingClientRect()
                               .top + window.pageYOffset;
