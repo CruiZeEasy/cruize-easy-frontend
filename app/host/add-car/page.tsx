@@ -213,93 +213,7 @@ export default function HostAddCarPage() {
     }
   };
 
-  // // Handle Enter key press
-  // const handleKeyDown = async (e: React.KeyboardEvent<HTMLFormElement>) => {
-  //   if (e.key === "Enter") {
-  //     e.preventDefault();
-
-  //     // On step 4, submit the form
-  //     if (currentStep === 4) {
-  //       const isValid = await form.trigger(getStepFields(4));
-  //       if (isValid) {
-  //         form.handleSubmit((data) => addCarMutation.mutate(data))();
-  //       } else {
-  //         focusFirstInvalidField();
-  //       }
-  //       return;
-  //     }
-
-  //     // On steps 1-3, validate and advance
-  //     const fieldsToValidate = getStepFields(currentStep);
-  //     const isValid = await form.trigger(fieldsToValidate);
-
-  //     if (isValid) {
-  //       setCurrentStep((prev) => prev + 1);
-  //       scrollToTop();
-  //     } else {
-  //       focusFirstInvalidField();
-  //     }
-  //   }
-  // };
-
-  // // Handle Next button click
-  // const handleNext = async () => {
-  //   const fieldsToValidate = getStepFields(currentStep);
-  //   const isValid = await form.trigger(fieldsToValidate);
-
-  //   if (isValid) {
-  //     setIsMovingForward(true);
-  //     setCurrentStep((prev) => prev + 1);
-  //     // scrollToTop();
-  //   } else {
-  //     focusFirstInvalidField();
-  //   }
-  // };
-
-  // Handle Next button click - FIXED VERSION
-  const handleNext = async () => {
-    const fieldsToValidate = getStepFields(currentStep);
-    const isValid = await form.trigger(fieldsToValidate);
-
-    if (isValid) {
-      setIsMovingForward(true);
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      // Find and focus the first invalid field IMMEDIATELY (synchronously)
-      // Don't wait for state updates or re-renders
-      const errors = form.formState.errors;
-      const firstErrorField = Object.keys(errors)[0];
-
-      if (firstErrorField) {
-        // Small timeout just for the DOM to update with error states
-        requestAnimationFrame(() => {
-          const element =
-            document.getElementById(firstErrorField) ||
-            document.querySelector(`[name="${firstErrorField}"]`);
-
-          if (element && typeof (element as HTMLElement).focus === "function") {
-            const inputElement = element as HTMLElement;
-
-            // Scroll into view
-            inputElement.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
-
-            // Focus
-            inputElement.focus({ preventScroll: true });
-
-            // For mobile: trigger click to show keyboard
-            if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-              inputElement.click();
-            }
-          }
-        });
-      }
-    }
-  };
-
-  // Handle Enter key press - FIXED VERSION
+  // Handle Enter key press
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -310,33 +224,7 @@ export default function HostAddCarPage() {
         if (isValid) {
           form.handleSubmit((data) => addCarMutation.mutate(data))();
         } else {
-          // Same synchronous focus logic
-          const errors = form.formState.errors;
-          const firstErrorField = Object.keys(errors)[0];
-
-          if (firstErrorField) {
-            requestAnimationFrame(() => {
-              const element =
-                document.getElementById(firstErrorField) ||
-                document.querySelector(`[name="${firstErrorField}"]`);
-
-              if (
-                element &&
-                typeof (element as HTMLElement).focus === "function"
-              ) {
-                const inputElement = element as HTMLElement;
-                inputElement.scrollIntoView({
-                  behavior: "smooth",
-                  block: "center",
-                });
-                inputElement.focus({ preventScroll: true });
-
-                if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-                  inputElement.click();
-                }
-              }
-            });
-          }
+          focusFirstInvalidField();
         }
         return;
       }
@@ -349,34 +237,22 @@ export default function HostAddCarPage() {
         setCurrentStep((prev) => prev + 1);
         scrollToTop();
       } else {
-        // Same synchronous focus logic
-        const errors = form.formState.errors;
-        const firstErrorField = Object.keys(errors)[0];
-
-        if (firstErrorField) {
-          requestAnimationFrame(() => {
-            const element =
-              document.getElementById(firstErrorField) ||
-              document.querySelector(`[name="${firstErrorField}"]`);
-
-            if (
-              element &&
-              typeof (element as HTMLElement).focus === "function"
-            ) {
-              const inputElement = element as HTMLElement;
-              inputElement.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-              inputElement.focus({ preventScroll: true });
-
-              if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-                inputElement.click();
-              }
-            }
-          });
-        }
+        focusFirstInvalidField();
       }
+    }
+  };
+
+  // Handle Next button click
+  const handleNext = async () => {
+    const fieldsToValidate = getStepFields(currentStep);
+    const isValid = await form.trigger(fieldsToValidate);
+
+    if (isValid) {
+      setIsMovingForward(true);
+      setCurrentStep((prev) => prev + 1);
+      // scrollToTop();
+    } else {
+      focusFirstInvalidField();
     }
   };
 
