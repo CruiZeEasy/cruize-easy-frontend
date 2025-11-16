@@ -803,7 +803,6 @@ export default function HostAddCarPage() {
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="md:px-4 mt-3"
                       onAnimationComplete={() => {
-                        // Only scroll if moving forward
                         if (isMovingForward && formContainerRef.current) {
                           const topPosition =
                             formContainerRef.current.getBoundingClientRect()
@@ -812,6 +811,8 @@ export default function HostAddCarPage() {
                             top: topPosition - 120,
                             behavior: "smooth",
                           });
+
+                          setIsMovingForward(false);
                         }
                       }}
                     >
