@@ -540,6 +540,7 @@ export default function HostAddCarPage() {
                   label="Rent Price (₦)"
                   type="text"
                   inputMode="numeric"
+                  labelFontFamily="gilroy-medium"
                   placeholder="Price per day"
                   placeholderVariant="light"
                   value={
@@ -563,6 +564,7 @@ export default function HostAddCarPage() {
                   label="Fuel Price (₦)"
                   type="text"
                   inputMode="numeric"
+                  labelFontFamily="gilroy-medium"
                   placeholder="Price per day"
                   placeholderVariant="light"
                   value={
@@ -728,9 +730,7 @@ export default function HostAddCarPage() {
                 shadow="shadow-none"
                 className="mt-12 md:mt-6"
                 loading={isCompressing || addCarMutation.isPending}
-                loadingText={
-                  isCompressing ? "Compressing images..." : "Uploading..."
-                }
+                loadingText="Uploading..."
               >
                 Done
               </Button>
