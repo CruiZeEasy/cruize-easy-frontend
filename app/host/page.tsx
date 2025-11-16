@@ -41,8 +41,8 @@ export default function HostHomePage() {
             ) : (
               <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
                 <Image
-                  // src={user.profileImageUrl}
-                  src={"/images/me.jpg"}
+                  src={user.profileImageUrl}
+                  // src={"/images/me.jpg"}
                   alt="Profile Image"
                   fill
                   className="object-cover"

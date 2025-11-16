@@ -22,6 +22,11 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { useState } from "react";
 import { getNextOnboardingPath } from "@/utils/getNextOnboardingPath";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  getUserProfileImageSignature,
+  uploadToCloudinary,
+} from "@/utils/uploadToCloudinary";
+import { compressImages } from "@/utils/compressImage";
 
 export default function CompleteProfilePage() {
   const queryClient = useQueryClient();
@@ -42,15 +47,21 @@ export default function CompleteProfilePage() {
 
   const completeProfileMutation = useMutation({
     mutationFn: async (data: CompleteProfileFormData) => {
-      if (data.profileImage) {
-        const uploadRes = await uploadProfileImage(data.profileImage);
-        if (!uploadRes?.success) throw new Error("Image upload failed");
-      }
+      const compressedProfileImage = await compressImages([data.profileImage]);
+      const profileImageFile = compressedProfileImage[0];
+
+      const profileImgSig = await getUserProfileImageSignature();
+
+      const profileImageUrl = await uploadToCloudinary(
+        profileImageFile,
+        profileImgSig
+      );
 
       const payload = {
         username: normalizeString(data.username),
         phoneN0: `+234${data.phoneNumber}`,
         gender: data.gender,
+        profileImageUrl: profileImageUrl.url,
         profileCompleted: true,
       };
 

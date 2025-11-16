@@ -13,6 +13,7 @@ export async function updateUserProfile(data: {
   phoneNo?: string;
   gender?: "MALE" | "FEMALE";
   profileCompleted?: boolean;
+  profileImageUrl?: string;
   allowLocation?: boolean;
   emailNotificationsEnabled?: boolean;
 }) {

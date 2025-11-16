@@ -1,5 +1,21 @@
+import { RentType, TransmissionType } from "@/constants/enums";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
+
+interface VehicleImagePayload {
+  url: string;
+  publicId: string;
+  order: number;
+  uploadedAt: string;
+}
+
+interface VehicleDocumentPayload {
+  documentType: string;
+  documentUrl: string;
+  publicId: string;
+  size: number;
+  uploadedAt: string;
+}
 
 export async function createVehicle(data: {
   name: string;
@@ -7,39 +23,20 @@ export async function createVehicle(data: {
   description: string;
   color: string;
   licensePlate: string;
-  rentType: "SELF_DRIVE" | "DRIVER";
+  rentType: RentType;
   vin: string;
   isTinted?: boolean;
   pricePerDay: string;
-  transmission: "AUTOMATIC" | "MANUAL" | "ELECTRIC";
+  transmission: TransmissionType;
   seats: number;
   fuelPrice: string;
   confirmPhoto: boolean;
+
+  images: VehicleImagePayload[];
+  documents: VehicleDocumentPayload[];
 }) {
   return apiClient(API_ROUTES.VEHICLES.CREATE, {
     method: "POST",
     body: JSON.stringify(data),
-  });
-}
-
-export async function uploadVehicleDocuments(vehicleId: string, files: File[]) {
-  const formData = new FormData();
-  files.forEach((file) => formData.append("documents", file));
-
-  return apiClient(API_ROUTES.VEHICLES.UPLOAD_DOCUMENT(vehicleId), {
-    method: "POST",
-    body: formData,
-    timeout: 60000,
-  });
-}
-
-export async function uploadVehicleImages(vehicleId: string, files: File[]) {
-  const formData = new FormData();
-  files.forEach((file) => formData.append("images", file));
-
-  return apiClient(API_ROUTES.VEHICLES.UPLOAD_IMAGE(vehicleId), {
-    method: "POST",
-    body: formData,
-    timeout: 60000,
   });
 }

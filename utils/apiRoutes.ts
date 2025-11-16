@@ -21,8 +21,11 @@ export const API_ROUTES = {
 
   VEHICLES: {
     CREATE: "/api/v1/vehicles",
-    UPLOAD_IMAGE: (vehicleId: string) => `/api/v1/vehicles/${vehicleId}/images`,
-    UPLOAD_DOCUMENT: (vehicleId: string) =>
-      `/api/v1/vehicles/${vehicleId}/documents`,
+  },
+
+  CLOUDINARY: {
+    PROFILE_IMAGE_SIGNATURE: "/api/v1/cloudinary/signature/profile-image",
+    DOCUMENT_SIGNATURE: "/api/v1/cloudinary/signature/documents",
+    IMAGE_SIGNATURE: "/api/v1/cloudinary/signature/images",
   },
 };

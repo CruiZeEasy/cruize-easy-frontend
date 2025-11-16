@@ -633,23 +633,22 @@ import { useState, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Toast } from "@/components/ui/Toast";
-import {
-  createVehicle,
-  uploadVehicleDocuments,
-  uploadVehicleImages,
-} from "@/services/vehicleService";
+import { createVehicle } from "@/services/vehicleService";
 import { compressImages } from "@/utils/compressImage";
 import {
   rentTypeOptions,
   seatOptions,
   transmissionOptions,
 } from "@/utils/selectOptions";
-
-// import { uploadToCloudinary } from "@/utils/uploadToCloudinary";
 import { formatNumber } from "@/utils/formatNumber";
+import {
+  getDocumentSignature,
+  getImageSignature,
+  uploadToCloudinary,
+} from "@/utils/uploadToCloudinary";
 
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(3);
+  const [currentStep, setCurrentStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
@@ -811,6 +810,42 @@ export default function HostAddCarPage() {
 
   const addCarMutation = useMutation({
     mutationFn: async (data: AddCarFormData) => {
+      const compressedImages = await compressImages(data.carImages || []);
+
+      const [docSig, imgSig] = await Promise.all([
+        getDocumentSignature(),
+        getImageSignature(),
+      ]);
+
+      const [documentObj, imageObjList] = await Promise.all([
+        data.vehicleDocument
+          ? uploadToCloudinary(data.vehicleDocument, docSig)
+          : null,
+
+        Promise.all(
+          compressedImages.map((img) => uploadToCloudinary(img, imgSig))
+        ),
+      ]);
+
+      const images = imageObjList.map((img, index) => ({
+        url: img.url,
+        publicId: img.publicId,
+        order: index,
+        uploadedAt: img.uploadedAt,
+      }));
+
+      const documents = documentObj
+        ? [
+            {
+              documentType: "OTHERS",
+              documentUrl: documentObj.url,
+              publicId: documentObj.publicId,
+              size: documentObj.size,
+              uploadedAt: documentObj.uploadedAt,
+            },
+          ]
+        : [];
+
       const payload = {
         name: normalizeString(data.carName),
         brand: normalizeString(data.carBrand),
@@ -825,70 +860,18 @@ export default function HostAddCarPage() {
         transmission: data.transmission,
         isTinted: data.isTinted,
         confirmPhoto: data.confirmPhotos,
+
+        images,
+        documents,
       };
 
-      const createRes = await createVehicle(payload);
-      const vehicleId = createRes?.vehicleId;
-
-      if (!vehicleId) throw new Error("Failed to get vehicleId from server");
-
-      if (data.vehicleDocument || data.carImages?.length > 0) {
-        await Promise.all([
-          data.vehicleDocument
-            ? uploadVehicleDocuments(vehicleId, [data.vehicleDocument])
-            : Promise.resolve(),
-          data.carImages?.length > 0
-            ? (async () => {
-                const compressedImages = await compressImages(data.carImages);
-                return uploadVehicleImages(vehicleId, compressedImages);
-              })()
-            : Promise.resolve(),
-        ]);
-      }
+      return createVehicle(payload);
     },
 
-    // mutationFn: async (data: AddCarFormData) => {
-    //   // 1. Compress images first (must be sequential)
-    //   const compressedImages = data.carImages?.length
-    //     ? await compressImages(data.carImages)
-    //     : [];
+    onSuccess: (res) => {
+      // setSuccess(true);
 
-    //   // 2. PARALLEL uploads (best performance)
-    //   const [documentUrl, imageUrls] = await Promise.all([
-    //     data.vehicleDocument
-    //       ? uploadToCloudinary(data.vehicleDocument)
-    //       : Promise.resolve(null),
-
-    //     compressedImages.length
-    //       ? Promise.all(compressedImages.map(uploadToCloudinary))
-    //       : Promise.resolve([]),
-    //   ]);
-
-    //   // 3. Create vehicle with URLs
-    //   const payload = {
-    //     name: normalizeString(data.carName),
-    //     brand: normalizeString(data.carBrand),
-    //     description: normalizeString(data.carDescription),
-    //     color: normalizeString(data.carColor),
-    //     licensePlate: normalizeString(data.plateNumber),
-    //     vin: normalizeString(data.carRegNo),
-    //     seats: Number(data.seats),
-    //     rentType: data.rentType,
-    //     pricePerDay: data.rentPrice.toFixed(2),
-    //     fuelPrice: data.fuelPrice.toFixed(2),
-    //     transmission: data.transmission,
-    //     isTinted: data.isTinted,
-    //     confirmPhoto: data.confirmPhotos,
-
-    //     imageUrls,
-    //     documentUrl,
-    //   };
-
-    //   return createVehicle(payload);
-    // },
-
-    onSuccess: () => {
-      setSuccess(true);
+      console.log("Success:", res);
     },
 
     onError: (err: any) => {
