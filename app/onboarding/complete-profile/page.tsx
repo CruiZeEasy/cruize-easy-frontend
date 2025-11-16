@@ -47,13 +47,13 @@ export default function CompleteProfilePage() {
 
   const completeProfileMutation = useMutation({
     mutationFn: async (data: CompleteProfileFormData) => {
-      const compressedProfileImage = await compressImages([data.profileImage]);
-      const profileImageFile = compressedProfileImage[0];
+      // const compressedProfileImage = await compressImages([data.profileImage]);
+      // const profileImageFile = compressedProfileImage[0];
 
       const profileImgSig = await getUserProfileImageSignature();
 
       const profileImageUrl = await uploadToCloudinary(
-        profileImageFile,
+        data.profileImage,
         profileImgSig
       );
 

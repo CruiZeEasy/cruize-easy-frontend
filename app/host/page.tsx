@@ -8,6 +8,7 @@ import { activityCards } from "@/data/hostActivityCards";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useHostProfile } from "@/hooks/useHostProfile";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { getOptimizedImage } from "@/utils/cloudinary";
 import { PATHS } from "@/utils/path";
 import Image from "next/image";
 
@@ -15,6 +16,8 @@ export default function HostHomePage() {
   const { data: user, isLoading: userLoading } = useCurrentUser();
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
+
+  console.log(getOptimizedImage(user.profileImageUrl, "eco"));
   // const user = {};
   // const host = {};
   // const userLoading = true;
@@ -41,7 +44,8 @@ export default function HostHomePage() {
             ) : (
               <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
                 <Image
-                  src={user.profileImageUrl}
+                  // src={user.profileImageUrl}
+                  src={getOptimizedImage(user.profileImageUrl, "low")}
                   // src={"/images/me.jpg"}
                   alt="Profile Image"
                   fill

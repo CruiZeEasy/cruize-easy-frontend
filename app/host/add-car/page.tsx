@@ -196,6 +196,7 @@ export default function HostAddCarPage() {
 
   const addCarMutation = useMutation({
     mutationFn: async (data: AddCarFormData) => {
+      // I removed compression here
       // const compressedImages = await compressImages(data.carImages || []);
 
       const imagesToUpload = data.carImages || [];
