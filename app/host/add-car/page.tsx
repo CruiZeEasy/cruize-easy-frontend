@@ -35,7 +35,7 @@ import {
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState<{
