@@ -91,64 +91,6 @@ export default function HostAddCarPage() {
   };
 
   // Focus first invalid field with cross-browser compatibility
-  // const focusFirstInvalidField = () => {
-  //   const errors = form.formState.errors;
-  //   const firstErrorField = Object.keys(errors)[0];
-
-  //   if (!firstErrorField) return;
-
-  //   // Try multiple selection strategies for maximum compatibility
-  //   const strategies = [
-  //     // Strategy 1: Direct ID match
-  //     () => document.getElementById(firstErrorField),
-
-  //     // Strategy 2: Name attribute match
-  //     () => document.querySelector(`[name="${firstErrorField}"]`),
-
-  //     // Strategy 3: Look for focusable elements within a container with matching ID
-  //     () => {
-  //       const container = document.getElementById(firstErrorField);
-  //       if (container) {
-  //         return container.querySelector<HTMLElement>(
-  //           'input, select, textarea, button, [tabindex]:not([tabindex="-1"])'
-  //         );
-  //       }
-  //       return null;
-  //     },
-
-  //     // Strategy 4: Look for any focusable element with data-field attribute
-  //     () =>
-  //       document.querySelector<HTMLElement>(
-  //         `[data-field="${firstErrorField}"]`
-  //       ),
-  //   ];
-
-  //   for (const strategy of strategies) {
-  //     // const element = strategy();
-  //     const element = strategy() as HTMLElement | null;
-  //     if (element && typeof element.focus === "function") {
-  //       // Use setTimeout to ensure DOM has updated and element is visible
-  //       setTimeout(() => {
-  //         try {
-  //           element.focus({ preventScroll: false });
-  //           // For mobile devices, also try to scroll element into view
-  //           if (element.scrollIntoView) {
-  //             element.scrollIntoView({
-  //               behavior: "smooth",
-  //               block: "center",
-  //             });
-  //           }
-  //         } catch (e) {
-  //           // Silently fail if focus is not possible
-  //           console.warn(`Could not focus element: ${firstErrorField}`);
-  //         }
-  //       }, 100);
-  //       break;
-  //     }
-  //   }
-  // };
-
-  // Focus first invalid field with enhanced mobile support
   const focusFirstInvalidField = () => {
     const errors = form.formState.errors;
     const firstErrorField = Object.keys(errors)[0];
@@ -182,36 +124,94 @@ export default function HostAddCarPage() {
     ];
 
     for (const strategy of strategies) {
+      // const element = strategy();
       const element = strategy() as HTMLElement | null;
       if (element && typeof element.focus === "function") {
-        try {
-          // For mobile: Remove all timeouts and delays
-          // Scroll into view first (synchronously)
-          element.scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-
-          // Focus immediately (synchronously)
-          element.focus({ preventScroll: true });
-
-          // For mobile browsers: trigger a synthetic click event
-          // This helps activate the input and show the keyboard
-          if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
-            const clickEvent = new MouseEvent("click", {
-              view: window,
-              bubbles: true,
-              cancelable: true,
-            });
-            element.dispatchEvent(clickEvent);
+        // Use setTimeout to ensure DOM has updated and element is visible
+        setTimeout(() => {
+          try {
+            element.focus({ preventScroll: false });
+            // For mobile devices, also try to scroll element into view
+            if (element.scrollIntoView) {
+              element.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+          } catch (e) {
+            // Silently fail if focus is not possible
+            console.warn(`Could not focus element: ${firstErrorField}`);
           }
-        } catch (e) {
-          console.warn(`Could not focus element: ${firstErrorField}`);
-        }
+        }, 100);
         break;
       }
     }
   };
+
+  // // Focus first invalid field with enhanced mobile support
+  // const focusFirstInvalidField = () => {
+  //   const errors = form.formState.errors;
+  //   const firstErrorField = Object.keys(errors)[0];
+
+  //   if (!firstErrorField) return;
+
+  //   // Try multiple selection strategies for maximum compatibility
+  //   const strategies = [
+  //     // Strategy 1: Direct ID match
+  //     () => document.getElementById(firstErrorField),
+
+  //     // Strategy 2: Name attribute match
+  //     () => document.querySelector(`[name="${firstErrorField}"]`),
+
+  //     // Strategy 3: Look for focusable elements within a container with matching ID
+  //     () => {
+  //       const container = document.getElementById(firstErrorField);
+  //       if (container) {
+  //         return container.querySelector<HTMLElement>(
+  //           'input, select, textarea, button, [tabindex]:not([tabindex="-1"])'
+  //         );
+  //       }
+  //       return null;
+  //     },
+
+  //     // Strategy 4: Look for any focusable element with data-field attribute
+  //     () =>
+  //       document.querySelector<HTMLElement>(
+  //         `[data-field="${firstErrorField}"]`
+  //       ),
+  //   ];
+
+  //   for (const strategy of strategies) {
+  //     const element = strategy() as HTMLElement | null;
+  //     if (element && typeof element.focus === "function") {
+  //       try {
+  //         // For mobile: Remove all timeouts and delays
+  //         // Scroll into view first (synchronously)
+  //         element.scrollIntoView({
+  //           behavior: "smooth",
+  //           block: "center",
+  //         });
+
+  //         // Focus immediately (synchronously)
+  //         element.focus({ preventScroll: true });
+
+  //         // For mobile browsers: trigger a synthetic click event
+  //         // This helps activate the input and show the keyboard
+  //         if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+  //           const clickEvent = new MouseEvent("click", {
+  //             view: window,
+  //             bubbles: true,
+  //             cancelable: true,
+  //           });
+  //           element.dispatchEvent(clickEvent);
+  //         }
+  //       } catch (e) {
+  //         console.warn(`Could not focus element: ${firstErrorField}`);
+  //       }
+  //       break;
+  //     }
+  //   }
+  // };
 
   // Handle Enter key press
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLFormElement>) => {
