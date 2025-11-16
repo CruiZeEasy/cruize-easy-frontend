@@ -36,7 +36,6 @@ import {
 export default function HostAddCarPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [success, setSuccess] = useState(false);
-  const [isCompressing, setIsCompressing] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -195,147 +194,71 @@ export default function HostAddCarPage() {
     }
   };
 
-  // const addCarMutation = useMutation({
-  //   mutationFn: async (data: AddCarFormData) => {
-  //     const compressedImages = await compressImages(data.carImages || []);
-
-  //     const [docSig, imgSig] = await Promise.all([
-  //       getDocumentSignature(),
-  //       getImageSignature(),
-  //     ]);
-
-  //     const [documentObj, imageObjList] = await Promise.all([
-  //       data.vehicleDocument
-  //         ? uploadToCloudinary(data.vehicleDocument, docSig)
-  //         : null,
-
-  //       Promise.all(
-  //         compressedImages.map((img) => uploadToCloudinary(img, imgSig))
-  //       ),
-  //     ]);
-
-  //     const images = imageObjList.map((img, index) => ({
-  //       url: img.url,
-  //       publicId: img.publicId,
-  //       order: index,
-  //       uploadedAt: img.uploadedAt,
-  //     }));
-
-  //     const documents = documentObj
-  //       ? [
-  //           {
-  //             documentType: "OTHERS",
-  //             documentUrl: documentObj.url,
-  //             publicId: documentObj.publicId,
-  //             size: documentObj.size,
-  //             uploadedAt: documentObj.uploadedAt,
-  //           },
-  //         ]
-  //       : [];
-
-  //     const payload = {
-  //       name: normalizeString(data.carName),
-  //       brand: normalizeString(data.carBrand),
-  //       description: normalizeString(data.carDescription),
-  //       color: normalizeString(data.carColor),
-  //       licensePlate: normalizeString(data.plateNumber),
-  //       vin: normalizeString(data.carRegNo),
-  //       seats: Number(data.seats),
-  //       rentType: data.rentType,
-  //       pricePerDay: data.rentPrice.toFixed(2),
-  //       fuelPrice: data.fuelPrice.toFixed(2),
-  //       transmission: data.transmission,
-  //       isTinted: data.isTinted,
-  //       confirmPhoto: data.confirmPhotos,
-
-  //       images,
-  //       documents,
-  //     };
-
-  //     return createVehicle(payload);
-  //   },
-
-  //   onSuccess: (res) => {
-  //     // setSuccess(true);
-
-  //     console.log("Success:", res);
-  //   },
-
-  //   onError: (err: any) => {
-  //     setToast({
-  //       message: err?.message || "Failed to create vehicle.",
-  //       type: "error",
-  //     });
-  //   },
-  // });
-
   const addCarMutation = useMutation({
     mutationFn: async (data: AddCarFormData) => {
-      setIsCompressing(true);
+      // const compressedImages = await compressImages(data.carImages || []);
 
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      const imagesToUpload = data.carImages || [];
 
-      try {
-        const compressedImages = await compressImages(data.carImages || []);
+      const [docSig, imgSig] = await Promise.all([
+        getDocumentSignature(),
+        getImageSignature(),
+      ]);
 
-        const [docSig, imgSig] = await Promise.all([
-          getDocumentSignature(),
-          getImageSignature(),
-        ]);
+      const [documentObj, imageObjList] = await Promise.all([
+        data.vehicleDocument
+          ? uploadToCloudinary(data.vehicleDocument, docSig)
+          : null,
 
-        const [documentObj, imageObjList] = await Promise.all([
-          data.vehicleDocument
-            ? uploadToCloudinary(data.vehicleDocument, docSig)
-            : null,
-          Promise.all(
-            compressedImages.map((img) => uploadToCloudinary(img, imgSig))
-          ),
-        ]);
+        Promise.all(
+          imagesToUpload.map((img) => uploadToCloudinary(img, imgSig))
+        ),
+      ]);
 
-        const images = imageObjList.map((img, index) => ({
-          url: img.url,
-          publicId: img.publicId,
-          order: index,
-          uploadedAt: img.uploadedAt,
-        }));
+      const images = imageObjList.map((img, index) => ({
+        url: img.url,
+        publicId: img.publicId,
+        order: index,
+        uploadedAt: img.uploadedAt,
+      }));
 
-        const documents = documentObj
-          ? [
-              {
-                documentType: "OTHERS",
-                documentUrl: documentObj.url,
-                publicId: documentObj.publicId,
-                size: documentObj.size,
-                uploadedAt: documentObj.uploadedAt,
-              },
-            ]
-          : [];
+      const documents = documentObj
+        ? [
+            {
+              documentType: "OTHERS",
+              documentUrl: documentObj.url,
+              publicId: documentObj.publicId,
+              size: documentObj.size,
+              uploadedAt: documentObj.uploadedAt,
+            },
+          ]
+        : [];
 
-        const payload = {
-          name: normalizeString(data.carName),
-          brand: normalizeString(data.carBrand),
-          description: normalizeString(data.carDescription),
-          color: normalizeString(data.carColor),
-          licensePlate: normalizeString(data.plateNumber),
-          vin: normalizeString(data.carRegNo),
-          seats: Number(data.seats),
-          rentType: data.rentType,
-          pricePerDay: data.rentPrice.toFixed(2),
-          fuelPrice: data.fuelPrice.toFixed(2),
-          transmission: data.transmission,
-          isTinted: data.isTinted,
-          confirmPhoto: data.confirmPhotos,
-          images,
-          documents,
-        };
+      const payload = {
+        name: normalizeString(data.carName),
+        brand: normalizeString(data.carBrand),
+        description: normalizeString(data.carDescription),
+        color: normalizeString(data.carColor),
+        licensePlate: normalizeString(data.plateNumber),
+        vin: normalizeString(data.carRegNo),
+        seats: Number(data.seats),
+        rentType: data.rentType,
+        pricePerDay: data.rentPrice.toFixed(2),
+        fuelPrice: data.fuelPrice.toFixed(2),
+        transmission: data.transmission,
+        isTinted: data.isTinted,
+        confirmPhoto: data.confirmPhotos,
 
-        return createVehicle(payload);
-      } finally {
-        setIsCompressing(false);
-      }
+        images,
+        documents,
+      };
+
+      return createVehicle(payload);
     },
 
     onSuccess: (res) => {
+      // setSuccess(true);
+
       console.log("Success:", res);
     },
 
@@ -538,9 +461,9 @@ export default function HostAddCarPage() {
                 <FormInput
                   id="rentPrice"
                   label="Rent Price (₦)"
+                  labelFontFamily="gilroy-medium"
                   type="text"
                   inputMode="numeric"
-                  labelFontFamily="gilroy-medium"
                   placeholder="Price per day"
                   placeholderVariant="light"
                   value={
@@ -562,9 +485,9 @@ export default function HostAddCarPage() {
                 <FormInput
                   id="fuelPrice"
                   label="Fuel Price (₦)"
+                  labelFontFamily="gilroy-medium"
                   type="text"
                   inputMode="numeric"
-                  labelFontFamily="gilroy-medium"
                   placeholder="Price per day"
                   placeholderVariant="light"
                   value={
@@ -709,7 +632,7 @@ export default function HostAddCarPage() {
               >
                 Previous
               </Button>
-              {/* <Button
+              <Button
                 type="submit"
                 variant="dark-primary"
                 fontFamily="inter"
@@ -718,19 +641,6 @@ export default function HostAddCarPage() {
                 className="mt-12 md:mt-6"
                 loading={addCarMutation.isPending}
                 loadingText="Finalizing..."
-              >
-                Done
-              </Button> */}
-
-              <Button
-                type="submit"
-                variant="dark-primary"
-                fontFamily="inter"
-                fullWidth
-                shadow="shadow-none"
-                className="mt-12 md:mt-6"
-                loading={isCompressing || addCarMutation.isPending}
-                loadingText="Uploading..."
               >
                 Done
               </Button>

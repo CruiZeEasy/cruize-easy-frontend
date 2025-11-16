@@ -35,16 +35,13 @@ const Spinner = ({ variant }: { variant?: string }) => {
       className={clsx(
         "inline-block w-4 h-4 border-2 rounded-full",
         spinnerColor,
-        "border-t-transparent will-change-transform"
+        "border-t-transparent"
       )}
       animate={{ rotate: 360 }}
       transition={{
         duration: 1,
         repeat: Infinity,
         ease: "linear",
-      }}
-      style={{
-        transform: "translateZ(0)",
       }}
     />
   );
@@ -80,7 +77,7 @@ export function Button({
       transition={{ type: "spring", stiffness: 300, damping: 15 }}
       disabled={isDisabled}
       className={clsx(
-        `text-sm cursor-pointer ${fontClass}  antialiased`,
+        `text-sm cursor-pointer ${fontClass} transform-gpu antialiased`,
         shadow,
         fullWidth && "w-full",
         rounded === "lg" && "rounded-lg",
@@ -100,7 +97,7 @@ export function Button({
       )}
       {...props}
     >
-      {/* <motion.span
+      <motion.span
         className="flex items-center justify-center gap-2"
         initial={false}
         animate={{ opacity: 1 }}
@@ -110,14 +107,7 @@ export function Button({
         <span>
           {(loading && loadingText ? loadingText : children) as React.ReactNode}
         </span>
-      </motion.span> */}
-
-      <span className="flex items-center justify-center gap-2">
-        {loading && <Spinner variant={variant} />}
-        <span>
-          {(loading && loadingText ? loadingText : children) as React.ReactNode}
-        </span>
-      </span>
+      </motion.span>
     </motion.button>
   );
 }
