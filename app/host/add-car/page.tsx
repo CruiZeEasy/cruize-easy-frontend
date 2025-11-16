@@ -183,7 +183,7 @@ export default function HostAddCarPage() {
 
     if (isValid) {
       setCurrentStep((prev) => prev + 1);
-      scrollToTop();
+      // scrollToTop();
     } else {
       focusFirstInvalidField();
     }
@@ -596,6 +596,7 @@ export default function HostAddCarPage() {
                       maxImages={12}
                       onImagesSelect={onChange}
                       error={form.formState.errors.carImages?.message}
+                      disabled={addCarMutation.isPending}
                     />
                   )}
                 />
@@ -622,6 +623,7 @@ export default function HostAddCarPage() {
                 labelFontFamily="gilroy-medium"
                 {...form.register("confirmPhotos")}
                 error={form.formState.errors.confirmPhotos?.message}
+                disabled={addCarMutation.isPending}
               />
             </div>
 
@@ -701,6 +703,25 @@ export default function HostAddCarPage() {
             onSubmit={form.handleSubmit((data) => addCarMutation.mutate(data))}
             onKeyDown={handleKeyDown}
           >
+            {/* <AnimatePresence mode="wait">
+              {steps.map(
+                (step, index) =>
+                  currentStep === index + 1 && (
+                    <motion.section
+                      key={step.key}
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={fadeUp}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="md:px-4 mt-3"
+                    >
+                      {step.content}
+                    </motion.section>
+                  )
+              )}
+            </AnimatePresence> */}
+
             <AnimatePresence mode="wait">
               {steps.map(
                 (step, index) =>
@@ -713,6 +734,17 @@ export default function HostAddCarPage() {
                       variants={fadeUp}
                       transition={{ duration: 0.25, ease: "easeOut" }}
                       className="md:px-4 mt-3"
+                      onAnimationComplete={() => {
+                        if (formContainerRef.current) {
+                          const topPosition =
+                            formContainerRef.current.getBoundingClientRect()
+                              .top + window.pageYOffset;
+                          window.scrollTo({
+                            top: topPosition - 120,
+                            behavior: "smooth",
+                          });
+                        }
+                      }}
                     >
                       {step.content}
                     </motion.section>
