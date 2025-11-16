@@ -32,9 +32,11 @@ import {
   getImageSignature,
   uploadToCloudinary,
 } from "@/utils/uploadToCloudinary";
+import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
+  const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
@@ -257,10 +259,13 @@ export default function HostAddCarPage() {
       return createVehicle(payload);
     },
 
-    onSuccess: (res) => {
-      // setSuccess(true);
+    onSuccess: () => {
+      setShowSpinner(true);
 
-      console.log("Success:", res);
+      setTimeout(() => {
+        setShowSpinner(false);
+        setSuccess(true);
+      }, 1500);
     },
 
     onError: (err: any) => {
@@ -655,68 +660,73 @@ export default function HostAddCarPage() {
   if (success) return <Success />;
 
   return (
-    <div className="md:pt-6 md:px-12 pb-28 bg-white md:bg-neutral-100">
-      <div className="p-4 sticky top-0 z-10 bg-white shadow-sm md:hidden">
-        <HostHeader />
-      </div>
-
-      <div
-        ref={formContainerRef}
-        className="bg-white md:border md:border-neutral-300 px-4 md:p-12 rounded-[30px] mt-10 md:mt-0"
-      >
-        <div className="flex flex-col">
-          <span className="font-gilroy-bold text-2xl md:text-3xl">Add Car</span>
-          <span className="font-gilroy-medium text-primary-soft text-sm md:text-base">
-            Step {currentStep}/4
-          </span>
+    <>
+      <div className="md:pt-6 md:px-12 pb-28 bg-white md:bg-neutral-100">
+        <div className="p-4 sticky top-0 z-10 bg-white shadow-sm md:hidden">
+          <HostHeader />
         </div>
 
         <div
-          className={clsx(
-            "flex items-center justify-center",
-            currentStep === 4 ? "hidden" : "block"
-          )}
+          ref={formContainerRef}
+          className="bg-white md:border md:border-neutral-300 px-4 md:p-12 rounded-[30px] mt-10 md:mt-0"
         >
-          <div className="relative size-[150px]">
-            <Image
-              src="/images/robots/robot-with-question-mark.webp"
-              alt="Robot With Question Mark"
-              fill
-              preload
-              quality={100}
-              className="object-contain"
-            />
+          <div className="flex flex-col">
+            <span className="font-gilroy-bold text-2xl md:text-3xl">
+              Add Car
+            </span>
+            <span className="font-gilroy-medium text-primary-soft text-sm md:text-base">
+              Step {currentStep}/4
+            </span>
           </div>
+
+          <div
+            className={clsx(
+              "flex items-center justify-center",
+              currentStep === 4 ? "hidden" : "block"
+            )}
+          >
+            <div className="relative size-[150px]">
+              <Image
+                src="/images/robots/robot-with-question-mark.webp"
+                alt="Robot With Question Mark"
+                fill
+                preload
+                quality={100}
+                className="object-contain"
+              />
+            </div>
+          </div>
+
+          <form
+            onSubmit={form.handleSubmit((data) => addCarMutation.mutate(data))}
+            onKeyDown={handleKeyDown}
+          >
+            <AnimatePresence mode="wait">
+              {steps.map(
+                (step, index) =>
+                  currentStep === index + 1 && (
+                    <motion.section
+                      key={step.key}
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={fadeUp}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="md:px-4 mt-3"
+                    >
+                      {step.content}
+                    </motion.section>
+                  )
+              )}
+            </AnimatePresence>
+          </form>
         </div>
 
-        <form
-          onSubmit={form.handleSubmit((data) => addCarMutation.mutate(data))}
-          onKeyDown={handleKeyDown}
-        >
-          <AnimatePresence mode="wait">
-            {steps.map(
-              (step, index) =>
-                currentStep === index + 1 && (
-                  <motion.section
-                    key={step.key}
-                    initial="hidden"
-                    animate="visible"
-                    exit="hidden"
-                    variants={fadeUp}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
-                    className="md:px-4 mt-3"
-                  >
-                    {step.content}
-                  </motion.section>
-                )
-            )}
-          </AnimatePresence>
-        </form>
+        <div className="flex justify-center">
+          {toast && <Toast {...toast} onClose={() => setToast(null)} />}
+        </div>
       </div>
-
-      <div className="flex justify-center">
-        {toast && <Toast {...toast} onClose={() => setToast(null)} />}
-      </div>
-    </div>
+      <PageTransitionSpinner isVisible={showSpinner} />
+    </>
   );
 }

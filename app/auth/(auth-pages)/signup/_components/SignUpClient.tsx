@@ -213,13 +213,7 @@ export function SignUpClient() {
         </motion.form>
 
         {/* Toast */}
-        {toast && (
-          <Toast
-            message={toast.message}
-            type={toast.type}
-            onClose={() => setToast(null)}
-          />
-        )}
+        {toast && <Toast {...toast} onClose={() => setToast(null)} />}
       </motion.div>
 
       {/* Page Transition Spinner */}

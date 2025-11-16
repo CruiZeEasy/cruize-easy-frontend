@@ -1272,6 +1272,16 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
       Array<{ file: File; preview: string; id: string }>
     >([]);
 
+    const [hasInitialized, setHasInitialized] = useState(false);
+    const shouldNotifyParent = useRef(false);
+
+    useEffect(() => {
+      if (variant === "gallery" && shouldNotifyParent.current) {
+        onImagesSelect?.(images.map((img) => img.file));
+        shouldNotifyParent.current = false; // Reset flag
+      }
+    }, [images, variant, onImagesSelect]);
+
     // Single file (document or profile)
     useEffect(() => {
       if (variant !== "gallery" && defaultImage instanceof File) {
@@ -1288,26 +1298,73 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
     }, [defaultImage]);
 
     // Gallery (multiple images)
+    // useEffect(() => {
+    //   if (variant === "gallery" && Array.isArray(defaultImage)) {
+    //     const files = defaultImage as File[];
+    //     const previews: typeof images = [];
+    //     files.forEach((file) => {
+    //       if (file.type.startsWith("image/")) {
+    //         const reader = new FileReader();
+    //         reader.onloadend = () => {
+    //           previews.push({
+    //             file,
+    //             preview: reader.result as string,
+    //             id: `${Date.now()}-${Math.random()}`,
+    //           });
+    //           if (previews.length === files.length) setImages(previews);
+    //         };
+    //         reader.readAsDataURL(file);
+    //       }
+    //     });
+    //   }
+    // }, [defaultImage]);
+
     useEffect(() => {
       if (variant === "gallery" && Array.isArray(defaultImage)) {
         const files = defaultImage as File[];
-        const previews: typeof images = [];
-        files.forEach((file) => {
-          if (file.type.startsWith("image/")) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              previews.push({
-                file,
-                preview: reader.result as string,
-                id: `${Date.now()}-${Math.random()}`,
-              });
-              if (previews.length === files.length) setImages(previews);
-            };
-            reader.readAsDataURL(file);
-          }
-        });
+
+        // ✅ Only load if we have files AND haven't initialized yet
+        if (files.length > 0 && !hasInitialized) {
+          const previews: Array<{ file: File; preview: string; id: string }> =
+            [];
+          let loadedCount = 0;
+
+          files.forEach((file) => {
+            if (file.type.startsWith("image/")) {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                previews.push({
+                  file,
+                  preview: reader.result as string,
+                  id: `${file.name}-${file.size}-${file.lastModified}`, // ✅ Stable ID
+                });
+                loadedCount++;
+
+                if (loadedCount === files.length) {
+                  setImages(previews);
+                  setHasInitialized(true); // ✅ Mark as initialized
+                }
+              };
+              reader.readAsDataURL(file);
+            } else {
+              loadedCount++;
+            }
+          });
+        }
       }
-    }, [defaultImage]);
+    }, [defaultImage, variant, hasInitialized]);
+
+    useEffect(() => {
+      if (
+        variant === "gallery" &&
+        Array.isArray(defaultImage) &&
+        defaultImage.length === 0 &&
+        images.length > 0
+      ) {
+        setHasInitialized(false);
+        setImages([]);
+      }
+    }, [defaultImage, variant, images.length]);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -1432,12 +1489,19 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
             });
             processedCount++;
 
+            // if (processedCount === filesToProcess.length) {
+            //   setImages((prev) => {
+            //     const updated = [...prev, ...newImages];
+            //     onImagesSelect?.(updated.map((img) => img.file));
+            //     return updated;
+            //   });
+            // }
+
             if (processedCount === filesToProcess.length) {
-              setImages((prev) => {
-                const updated = [...prev, ...newImages];
-                onImagesSelect?.(updated.map((img) => img.file));
-                return updated;
-              });
+              // ✅ FIXED: Just update state, don't call onImagesSelect here
+              shouldNotifyParent.current = true; //
+              setImages((prev) => [...prev, ...newImages]);
+              // useEffect will handle calling onImagesSelect
             }
           };
           reader.readAsDataURL(file);
@@ -1448,11 +1512,13 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
     };
 
     const removeImage = (id: string) => {
-      setImages((prev) => {
-        const updated = prev.filter((img) => img.id !== id);
-        onImagesSelect?.(updated.map((img) => img.file));
-        return updated;
-      });
+      // setImages((prev) => {
+      //   const updated = prev.filter((img) => img.id !== id);
+      //   onImagesSelect?.(updated.map((img) => img.file));
+      //   return updated;
+      // });
+      shouldNotifyParent.current = true;
+      setImages((prev) => prev.filter((img) => img.id !== id));
     };
 
     const handleClick = () => {
@@ -1578,12 +1644,19 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
                 className="grid grid-cols-3 md:grid-cols-4 gap-3"
               >
                 {images.map((image, index) => (
+                  // <motion.div
+                  //   key={image.id}
+                  //   initial={{ opacity: 0, scale: 0.8 }}
+                  //   animate={{ opacity: 1, scale: 1 }}
+                  //   exit={{ opacity: 0, scale: 0.8 }}
+                  //   transition={{ delay: index * 0.05 }}
+                  //   className="relative aspect-square rounded-lg overflow-hidden group"
+                  // >
                   <motion.div
                     key={image.id}
-                    initial={{ opacity: 0, scale: 0.8 }}
+                    initial={false} // ✅ Disable entry animation
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ delay: index * 0.05 }}
                     className="relative aspect-square rounded-lg overflow-hidden group"
                   >
                     <img
