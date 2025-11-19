@@ -33,9 +33,55 @@ import {
   uploadToCloudinary,
 } from "@/utils/uploadToCloudinary";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { DaySchedule } from "@/components/host/add-car/DaySchedule";
+
+const defaultWorkingHours = [
+  {
+    day: "Monday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Tuesday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Wednesday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Thursday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Friday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Saturday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+  {
+    day: "Sunday",
+    isActive: false,
+    startTime: "09:00 AM",
+    endTime: "09:00 PM",
+  },
+];
 
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(5);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isMovingForward, setIsMovingForward] = useState(false);
@@ -54,6 +100,7 @@ export default function HostAddCarPage() {
       isTinted: false,
       carImages: [],
       confirmPhotos: false,
+      workingHours: defaultWorkingHours,
     },
   });
 
@@ -725,6 +772,77 @@ export default function HostAddCarPage() {
         </>
       ),
     },
+    {
+      key: "step-5",
+      content: (
+        <>
+          <span className="font-gilroy-bold text-lg md:text-xl">
+            Car Working Hours
+          </span>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6 mt-6">
+            <Controller
+              name="workingHours"
+              control={form.control}
+              render={({ field }) => (
+                <>
+                  {field.value.map((schedule, index) => (
+                    <DaySchedule
+                      key={schedule.day}
+                      day={schedule.day}
+                      isActive={schedule.isActive}
+                      startTime={schedule.startTime}
+                      endTime={schedule.endTime}
+                      onToggle={() => {
+                        const updated = [...field.value];
+                        updated[index].isActive = !updated[index].isActive;
+                        field.onChange(updated);
+                      }}
+                      onStartTimeChange={(time) => {
+                        const updated = [...field.value];
+                        updated[index].startTime = time;
+                        field.onChange(updated);
+                      }}
+                      onEndTimeChange={(time) => {
+                        const updated = [...field.value];
+                        updated[index].endTime = time;
+                        field.onChange(updated);
+                      }}
+                      disabled={addCarMutation.isPending}
+                    />
+                  ))}
+                </>
+              )}
+            />
+
+            <div className="flex items-end gap-4">
+              <Button
+                type="button"
+                onClick={handleBack}
+                variant="step-back"
+                fontFamily="inter"
+                fullWidth
+                shadow="shadow-none"
+                className="mt-12 md:mt-0 md:p-[18.8px]"
+              >
+                Previous
+              </Button>
+              <Button
+                type="button"
+                onClick={handleNext}
+                variant="dark-primary"
+                fontFamily="inter"
+                fullWidth
+                shadow="shadow-none"
+                className="mt-12 md:mt-0 md:p-[18.8px]"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
+      ),
+    },
   ];
 
   if (success) return <Success />;
@@ -745,7 +863,7 @@ export default function HostAddCarPage() {
               Add Car
             </span>
             <span className="font-gilroy-medium text-primary-soft text-sm md:text-base">
-              Step {currentStep}/4
+              Step {currentStep}/5
             </span>
           </div>
 
@@ -771,25 +889,6 @@ export default function HostAddCarPage() {
             onSubmit={form.handleSubmit((data) => addCarMutation.mutate(data))}
             onKeyDown={handleKeyDown}
           >
-            {/* <AnimatePresence mode="wait">
-              {steps.map(
-                (step, index) =>
-                  currentStep === index + 1 && (
-                    <motion.section
-                      key={step.key}
-                      initial="hidden"
-                      animate="visible"
-                      exit="hidden"
-                      variants={fadeUp}
-                      transition={{ duration: 0.25, ease: "easeOut" }}
-                      className="md:px-4 mt-3"
-                    >
-                      {step.content}
-                    </motion.section>
-                  )
-              )}
-            </AnimatePresence> */}
-
             <AnimatePresence mode="wait">
               {steps.map(
                 (step, index) =>

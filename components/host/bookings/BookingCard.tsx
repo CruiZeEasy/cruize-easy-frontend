@@ -66,7 +66,6 @@ export function BookingCard({
                   width={20}
                   alt="Message Icon"
                   priority
-                  className="size-[20px]"
                 />
               </button>
             </div>
@@ -224,7 +223,9 @@ export function BookingCard({
                 Find Car
               </Button>
             ) : (
-              <span className="font-gilroy-bold text-green py-2">Completed</span>
+              <span className="font-gilroy-bold text-green py-2">
+                Completed
+              </span>
             )}
           </div>
         </div>

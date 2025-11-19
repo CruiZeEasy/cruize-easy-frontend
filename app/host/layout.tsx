@@ -12,7 +12,7 @@ export default function HostLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, isLoading, isError } = useCurrentUser();
+  const { data: user, isLoading } = useCurrentUser();
   const { navigate, isNavigating } = usePageTransition();
 
   const isHost = user?.roles?.includes("ROLE_HOST");

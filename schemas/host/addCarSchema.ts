@@ -78,12 +78,29 @@ export const carImagesSchema = z.object({
   }),
 });
 
+export const workingHoursSchema = z.object({
+  workingHours: z
+    .array(
+      z.object({
+        day: z.string(),
+        isActive: z.boolean(),
+        startTime: z.string(),
+        endTime: z.string(),
+      })
+    )
+    .refine(
+      (hours) => hours.some((h) => h.isActive),
+      "Please select at least one working day"
+    ),
+});
+
 // Combined schema
 export const addCarSchema = z.object({
   ...vehicleInformationSchema.shape,
   ...vehicleLicensesSchema.shape,
   ...rentInformationSchema.shape,
   ...carImagesSchema.shape,
+  ...workingHoursSchema.shape,
 });
 
 export type AddCarFormData = z.infer<typeof addCarSchema>;

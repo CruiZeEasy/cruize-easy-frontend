@@ -8,8 +8,11 @@ import clsx from "clsx";
 import { hostSidebarLinks } from "@/data/sidebarLinks";
 import { PATHS } from "@/utils/path";
 import { usePathname } from "next/navigation";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getOptimizedImage } from "@/utils/cloudinary";
 
 export default function HostSidebar() {
+  const { data: user } = useCurrentUser();
   const pathname = usePathname();
   const [expanded, setExpanded] = useState(false);
   const desktopLinks = hostSidebarLinks.filter((l) => l.showOnDesktop);
@@ -111,7 +114,7 @@ export default function HostSidebar() {
         >
           <div className="size-11 bg-white rounded-full overflow-hidden relative">
             <Image
-              src="/images/me.jpg"
+              src={getOptimizedImage(user.profileImageUrl, "low")}
               alt="Profile Image"
               fill
               className="object-cover"
