@@ -222,7 +222,7 @@ export default function LoginPage() {
             fontFamily="inter"
             fullWidth
             shadow="shadow-none"
-            className="p-4 text-xs"
+            className="p-4"
             disabled={loading}
             loading={loading}
             loadingText="Signing In..."

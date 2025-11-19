@@ -201,7 +201,7 @@ export default function CompleteProfilePage() {
               fontFamily="inter"
               fullWidth
               shadow="shadow-none"
-              className="p-4 sm:p-[21px] text-xs self-end mt-12 sm:mt-0"
+              className="p-4 sm:p-[21px] self-end mt-12 sm:mt-0"
               disabled={completeProfileMutation.isPending}
               loading={completeProfileMutation.isPending}
               loadingText="Setting Up Account..."
