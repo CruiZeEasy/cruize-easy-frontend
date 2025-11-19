@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/Buttons";
 import {
   CompleteProfileFormData,
-  completeProfileSchema,
+  createCompleteProfileSchema,
 } from "@/schemas/profile/completeProfileSchema";
 import { Controller, useForm } from "react-hook-form";
 import { fadeUp } from "@/config/animation";
@@ -26,10 +26,14 @@ import {
   getUserProfileImageSignature,
   uploadToCloudinary,
 } from "@/utils/uploadToCloudinary";
-import { compressImages } from "@/utils/compressImage";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function CompleteProfilePage() {
   const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+  const isHost = user?.roles?.includes("ROLE_HOST");
+  const schema = createCompleteProfileSchema(isHost ? "HOST" : "USER");
+
   const { navigate, isNavigating } = usePageTransition();
   const [toast, setToast] = useState<{
     message: string;
@@ -42,14 +46,11 @@ export default function CompleteProfilePage() {
     control,
     formState: { errors },
   } = useForm<CompleteProfileFormData>({
-    resolver: zodResolver(completeProfileSchema),
+    resolver: zodResolver(schema),
   });
 
   const completeProfileMutation = useMutation({
     mutationFn: async (data: CompleteProfileFormData) => {
-      // const compressedProfileImage = await compressImages([data.profileImage]);
-      // const profileImageFile = compressedProfileImage[0];
-
       const profileImgSig = await getUserProfileImageSignature();
 
       const profileImageUrl = await uploadToCloudinary(
@@ -152,10 +153,10 @@ export default function CompleteProfilePage() {
           >
             <FormInput
               id="username"
-              label="Username"
+              label={isHost ? "Host Name" : "Username"}
               type="text"
               autoComplete="username"
-              placeholder="Username"
+              placeholder={isHost ? "Host Name" : "Username"}
               labelFontFamily="gilroy-medium"
               placeholderVariant="light"
               disabled={completeProfileMutation.isPending}

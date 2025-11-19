@@ -100,9 +100,11 @@ export default function HostBookingsPage() {
                 >
                   <span>{label}</span>
                   <div
-                    className={`${indicatorClass} absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity ${
+                    className={clsx(
+                      " absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
+                      indicatorClass,
                       selectedStatus === status ? "opacity-100" : "opacity-0"
-                    }`}
+                    )}
                   />
                 </button>
               ))}
@@ -111,11 +113,11 @@ export default function HostBookingsPage() {
         </div>
       </div>
 
-      <section className="p-4 md:px-10 flex items-center justify-center">
+      <section className="p-4 md:px-10  flex items-center justify-center">
         {filteredBookings.length > 0 ? (
           <div className="w-full">
             {filteredBookings.map((booking) => (
-              <div key={booking.id} className="mt-5">
+              <div key={booking.id} className="mt-6">
                 <BookingCard
                   booking={booking}
                   onAccept={handleAccept}

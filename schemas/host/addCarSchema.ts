@@ -90,7 +90,7 @@ export const workingHoursSchema = z.object({
     )
     .refine(
       (hours) => hours.some((h) => h.isActive),
-      "Please select at least one working day"
+      "Please select at least one working day for car availability"
     ),
 });
 

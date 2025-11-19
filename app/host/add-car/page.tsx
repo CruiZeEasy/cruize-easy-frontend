@@ -20,7 +20,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Toast } from "@/components/ui/Toast";
 import { createVehicle } from "@/services/vehicleService";
-import { compressImages } from "@/utils/compressImage";
 import {
   rentTypeOptions,
   seatOptions,
@@ -81,7 +80,7 @@ const defaultWorkingHours = [
 ];
 
 export default function HostAddCarPage() {
-  const [currentStep, setCurrentStep] = useState(5);
+  const [currentStep, setCurrentStep] = useState(1);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isMovingForward, setIsMovingForward] = useState(false);
@@ -132,6 +131,8 @@ export default function HostAddCarPage() {
         ] as const;
       case 4:
         return ["carImages", "confirmPhotos"] as const;
+      case 5:
+        return ["workingHours"] as const;
       default:
         return [];
     }
@@ -265,9 +266,9 @@ export default function HostAddCarPage() {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      // On step 4, submit the form
-      if (currentStep === 4) {
-        const isValid = await form.trigger(getStepFields(4));
+      // On step 5, submit the form
+      if (currentStep === 5) {
+        const isValid = await form.trigger(["workingHours"]);
         if (isValid) {
           form.handleSubmit((data) => addCarMutation.mutate(data))();
         } else {
@@ -276,7 +277,19 @@ export default function HostAddCarPage() {
         return;
       }
 
-      // On steps 1-3, validate and advance
+      // // On step 4, move to step 5
+      // if (currentStep === 4) {
+      //   const isValid = await form.trigger(getStepFields(4));
+      //   if (isValid) {
+      //     setCurrentStep(5);
+      //     scrollToTop();
+      //   } else {
+      //     focusFirstInvalidField();
+      //   }
+      //   return;
+      // }
+
+      // On steps 1-4, validate and advance
       const fieldsToValidate = getStepFields(currentStep);
       const isValid = await form.trigger(fieldsToValidate);
 
@@ -313,44 +326,41 @@ export default function HostAddCarPage() {
 
   const addCarMutation = useMutation({
     mutationFn: async (data: AddCarFormData) => {
-      // I removed compression here
-      // const compressedImages = await compressImages(data.carImages || []);
+      // const imagesToUpload = data.carImages || [];
 
-      const imagesToUpload = data.carImages || [];
+      // const [docSig, imgSig] = await Promise.all([
+      //   getDocumentSignature(),
+      //   getImageSignature(),
+      // ]);
 
-      const [docSig, imgSig] = await Promise.all([
-        getDocumentSignature(),
-        getImageSignature(),
-      ]);
+      // const [documentObj, imageObjList] = await Promise.all([
+      //   data.vehicleDocument
+      //     ? uploadToCloudinary(data.vehicleDocument, docSig)
+      //     : null,
 
-      const [documentObj, imageObjList] = await Promise.all([
-        data.vehicleDocument
-          ? uploadToCloudinary(data.vehicleDocument, docSig)
-          : null,
+      //   Promise.all(
+      //     imagesToUpload.map((img) => uploadToCloudinary(img, imgSig))
+      //   ),
+      // ]);
 
-        Promise.all(
-          imagesToUpload.map((img) => uploadToCloudinary(img, imgSig))
-        ),
-      ]);
+      // const images = imageObjList.map((img, index) => ({
+      //   url: img.url,
+      //   publicId: img.publicId,
+      //   order: index,
+      //   uploadedAt: img.uploadedAt,
+      // }));
 
-      const images = imageObjList.map((img, index) => ({
-        url: img.url,
-        publicId: img.publicId,
-        order: index,
-        uploadedAt: img.uploadedAt,
-      }));
-
-      const documents = documentObj
-        ? [
-            {
-              documentType: "OTHERS",
-              documentUrl: documentObj.url,
-              publicId: documentObj.publicId,
-              size: documentObj.size,
-              uploadedAt: documentObj.uploadedAt,
-            },
-          ]
-        : [];
+      // const documents = documentObj
+      //   ? [
+      //       {
+      //         documentType: "OTHERS",
+      //         documentUrl: documentObj.url,
+      //         publicId: documentObj.publicId,
+      //         size: documentObj.size,
+      //         uploadedAt: documentObj.uploadedAt,
+      //       },
+      //     ]
+      //   : [];
 
       const payload = {
         name: normalizeString(data.carName),
@@ -367,11 +377,18 @@ export default function HostAddCarPage() {
         isTinted: data.isTinted,
         confirmPhoto: data.confirmPhotos,
 
-        images,
-        documents,
+        // images,
+        // documents,
+
+        images: data.carImages || [],
+        documents: data.vehicleDocument || null,
+
+        workingHours: data.workingHours,
       };
 
-      return createVehicle(payload);
+      console.log("🧾 FINAL PAYLOAD SENT TO API:", payload);
+
+      // return createVehicle(payload);
     },
 
     onSuccess: () => {
@@ -755,17 +772,17 @@ export default function HostAddCarPage() {
               >
                 Previous
               </Button>
+
               <Button
-                type="submit"
+                type="button"
+                onClick={handleNext}
                 variant="dark-primary"
                 fontFamily="inter"
                 fullWidth
                 shadow="shadow-none"
                 className="mt-12 md:mt-6"
-                loading={addCarMutation.isPending}
-                loadingText="Finalizing..."
               >
-                Done
+                Next
               </Button>
             </div>
           </div>
@@ -815,29 +832,46 @@ export default function HostAddCarPage() {
               )}
             />
 
-            <div className="flex items-end gap-4">
-              <Button
-                type="button"
-                onClick={handleBack}
-                variant="step-back"
-                fontFamily="inter"
-                fullWidth
-                shadow="shadow-none"
-                className="mt-12 md:mt-0 md:p-[18.8px]"
-              >
-                Previous
-              </Button>
-              <Button
-                type="button"
-                onClick={handleNext}
-                variant="dark-primary"
-                fontFamily="inter"
-                fullWidth
-                shadow="shadow-none"
-                className="mt-12 md:mt-0 md:p-[18.8px]"
-              >
-                Next
-              </Button>
+            <div className="flex flex-col justify-end">
+              <AnimatePresence>
+                {form.formState.errors.workingHours && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -2 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -2 }}
+                    className="col-span-1 lg:col-span-2 text-sm font-source-sans text-red"
+                  >
+                    {form.formState.errors.workingHours.message}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <div className="flex gap-4">
+                <Button
+                  type="button"
+                  onClick={handleBack}
+                  variant="step-back"
+                  fontFamily="inter"
+                  fullWidth
+                  shadow="shadow-none"
+                  className="mt-12 md:mt-6"
+                  disabled={addCarMutation.isPending}
+                >
+                  Previous
+                </Button>
+
+                <Button
+                  type="submit"
+                  variant="dark-primary"
+                  fontFamily="inter"
+                  fullWidth
+                  shadow="shadow-none"
+                  className="mt-12 md:mt-6"
+                  loading={addCarMutation.isPending}
+                  loadingText="Finalizing..."
+                >
+                  Done
+                </Button>
+              </div>
             </div>
           </div>
         </>

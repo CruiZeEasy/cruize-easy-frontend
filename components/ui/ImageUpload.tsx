@@ -14,6 +14,7 @@ interface ImageUploadProps {
   error?: string;
   label?: string;
   uploadLabel?: string;
+  showUploadLabel?: boolean;
   accept?: string;
   labelFontFamily?: "gilroy-medium" | "gilroy-bold";
   fileType?: "image" | "pdf" | "both";
@@ -32,6 +33,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
       error,
       label,
       uploadLabel,
+      showUploadLabel = true,
       accept,
       labelFontFamily = "gilroy-medium",
       fileType = "image",
@@ -540,11 +542,13 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
             disabled={disabled}
           />
 
-          <p className="text-xs text-neutral-500 mt-3 text-center">
-            Click to upload or drag and drop
-            <br />
-            <span className="text-neutral-400">PNG, JPG (max. 5MB)</span>
-          </p>
+          {showUploadLabel && (
+            <p className="text-xs text-neutral-500 mt-3 text-center">
+              Click to upload or drag and drop
+              <br />
+              <span className="text-neutral-400">PNG, JPG (max. 5MB)</span>
+            </p>
+          )}
 
           <AnimatePresence>
             {error && (

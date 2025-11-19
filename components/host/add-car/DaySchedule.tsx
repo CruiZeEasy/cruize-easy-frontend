@@ -28,7 +28,7 @@ export const DaySchedule: React.FC<DayScheduleProps> = ({
   return (
     <div className="shadow-[0_1.62px_6.5px_0_rgba(0,0,0,0.25)] rounded-[17.86px] space-y-4 p-4">
       <div className="flex items-center">
-        <span className="font-gilroy-bold flex-1">{day}</span>
+        <span className="font-gilroy-bold flex-1 text-sm">{day}</span>
         <RadioButton
           checked={isActive}
           onChange={onToggle}
