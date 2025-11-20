@@ -29,7 +29,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
-import { useRef, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
 export default function HostProfilePage() {
@@ -214,7 +214,7 @@ export default function HostProfilePage() {
         </section>
 
         <section className="md:bg-white rounded-[20px] pb-4 mt-6">
-          <div className="sticky top-[74px] md:top-[70px] bg-white  px-4">
+          <div className="sticky top-[73px] md:top-[70px] bg-white  px-4">
             <div className="grid grid-cols-2 border-b border-neutral-275">
               {(
                 [
