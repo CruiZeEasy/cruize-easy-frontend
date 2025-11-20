@@ -151,14 +151,15 @@ export default function HostProfilePage() {
 
   return (
     <div className="pb-28">
-      <div className="sticky md:relative top-0 z-10 bg-white md:bg-neutral-100 shadow-sm md:shadow-none md:pt-2 md:px-10">
+      <div className="sticky top-0 z-10 bg-white  md:pt-2 md:mx-12">
         <div className="px-4 py-4 md:px-0">
           <HostHeader />
         </div>
       </div>
 
-      <div className="p-4 md:px-12 mt-8 md:mt-10">
-        <section className="flex flex-col xl:flex-row space-x-4">
+      {/* p-4 */}
+      <div className="md:px-12 md:py-4 mt-8 md:mt-10">
+        <section className="flex flex-col xl:flex-row space-x-4 p-4 md:p-0">
           <div className="flex items-start xl:bg-white font-gilroy-medium xl:px-4 xl:py-8 space-x-4 rounded-[20px]">
             <ImageUpload
               defaultImage={getOptimizedImage(user.profileImageUrl, "low")}
@@ -212,33 +213,38 @@ export default function HostProfilePage() {
           </div>
         </section>
 
-        <section className="md:bg-white rounded-[20px] md:px-4 pb-4 mt-6">
-          <div className="grid grid-cols-2 border-b border-b-neutral-275">
-            {(
-              [
-                { status: "about", label: "About" },
-                { status: "cars", label: "Cars" },
-              ] as const
-            ).map(({ status, label }) => (
-              <button
-                key={status}
-                onClick={() => setSelectedStatus(status)}
-                className="font-gilroy-medium text-sm text-neutral-475 relative py-4 cursor-pointer transition-colors hover:text-black"
-              >
-                <span>{label}</span>
-                <div
-                  className={clsx(
-                    "bg-primary-soft absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
-                    selectedStatus === status ? "opacity-100" : "opacity-0"
-                  )}
-                />
-              </button>
-            ))}
+        <section className="md:bg-white rounded-[20px] pb-4 mt-6">
+          <div className="sticky top-[74px] md:top-[70px] bg-white  px-4">
+            <div className="grid grid-cols-2 border-b border-neutral-275">
+              {(
+                [
+                  { status: "about", label: "About" },
+                  { status: "cars", label: "Cars" },
+                ] as const
+              ).map(({ status, label }) => (
+                <button
+                  key={status}
+                  onClick={() => setSelectedStatus(status)}
+                  className="font-gilroy-medium text-sm text-neutral-475 relative py-4 cursor-pointer transition-colors hover:text-black"
+                >
+                  <span>{label}</span>
+                  <div
+                    className={clsx(
+                      "bg-primary-soft absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
+                      selectedStatus === status ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* About Section */}
           <section
-            className={clsx(selectedStatus === "about" ? "block" : "hidden")}
+            className={clsx(
+              "min-h-[200vh] px-4 md:px-0",
+              selectedStatus === "about" ? "block" : "hidden"
+            )}
           >
             <form
               onSubmit={handleSubmit((data) =>
@@ -383,7 +389,7 @@ export default function HostProfilePage() {
                     fontFamily="inter"
                     fullWidth
                     shadow="shadow-none"
-                    className="mt-12 md:mt-6 max-w-md"
+                    className="mt-12 md:mt-6 w-full md:max-w-md"
                   >
                     Edit Profile
                   </Button>

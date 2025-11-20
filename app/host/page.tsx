@@ -9,6 +9,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useHostProfile } from "@/hooks/useHostProfile";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { getOptimizedImage } from "@/utils/cloudinary";
+import { formatName } from "@/utils/formatters";
 import { PATHS } from "@/utils/path";
 import Image from "next/image";
 
@@ -49,7 +50,10 @@ export default function HostHomePage() {
 
             <div className="space-y-1">
               <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
-              <span className="font-gilroy-medium">{user.fullName}</span>
+              <span className="font-gilroy-medium">
+                {" "}
+                {formatName(user.fullName)}
+              </span>
             </div>
           </section>
 
