@@ -34,7 +34,6 @@ export async function uploadToCloudinary(
 ) {
   const { timestamp, signature, api_key, folder, uploadUrl } = signatureData;
 
-  console.log(signatureData);
   const formData = new FormData();
   formData.append("file", file);
   formData.append("api_key", api_key);

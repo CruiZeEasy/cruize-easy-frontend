@@ -1,155 +1,5 @@
-// "use client";
-// import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
-// import { HostHeader } from "@/components/host/HostHeader";
-// import { Button } from "@/components/ui/Buttons";
-// import { ImageUpload } from "@/components/ui/ImageUpload";
-// import { activityCards } from "@/data/hostActivityCards";
-// import clsx from "clsx";
-// import Image from "next/image";
-// import { useState } from "react";
-
-// export default function HostProfilePage() {
-//   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
-//     "about"
-//   );
-//   return (
-//     <div className="pb-28">
-//       <div className="sticky md:relative top-0 z-10 bg-white md:bg-neutral-100 shadow-sm md:shadow-none md:pt-2 md:px-10">
-//         <div className=" px-4 py-4 md:px-0 ">
-//           <HostHeader />
-//         </div>
-//       </div>
-
-//       <div className="p-4 md:px-12 mt-8 md:mt-10">
-//         <section className="flex flex-col xl:flex-row space-x-4">
-//           <div className="flex items-start xl:bg-white font-gilroy-medium xl:px-4 xl:py-8 space-x-4 rounded-[20px]">
-//             <ImageUpload
-//               onImageSelect={() => {}}
-//               // error={errors.profileImage?.message}
-//               showUploadLabel={false}
-//               disabled={false}
-//             />
-
-//             <div className="flex flex-col">
-//               <div className="flex items-center space-x-1">
-//                 <span className="text-base md:text-lg">Bayo Autos</span>
-//                 <span>
-//                   <Image
-//                     src="/images/icons/verification-badge.png"
-//                     alt="Verification Badge"
-//                     width={20}
-//                     height={20}
-//                   />
-//                 </span>
-//               </div>
-
-//               <span className="text-neutral-475 text-sm my-1">Host</span>
-//               <span className="text-neutral-475 text-sm">
-//                 Jl. Sultan Iskandar Muda, Jakarta selatan
-//               </span>
-//             </div>
-//           </div>
-
-//           <div className="bg-neutral-150 h-[1px] w-full mt-4 xl:hidden" />
-
-//           <div className="mt-4 xl:mt-0 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-1 items-center bg-white rounded-[20px] p-4">
-//             {activityCards.map((card) => (
-//               <ActivityCard
-//                 key={card.id}
-//                 icon={card.icon}
-//                 label={card.label}
-//                 value={0}
-//                 variant="compact"
-//               />
-//             ))}
-//           </div>
-//         </section>
-
-//         <section className="md:bg-white rounded-[20px] md:px-4 pb-4 mt-6">
-//           <div className="grid grid-cols-2 border-b border-b-neutral-275">
-//             {(
-//               [
-//                 {
-//                   status: "about",
-//                   label: "About",
-//                 },
-//                 {
-//                   status: "cars",
-//                   label: "Cars",
-//                 },
-//               ] as const
-//             ).map(({ status, label }) => (
-//               <button
-//                 key={status}
-//                 onClick={() => setSelectedStatus(status)}
-//                 className="font-gilroy-medium text-sm text-neutral-475 relative py-4 cursor-pointer transition-colors hover:text-black"
-//               >
-//                 <span>{label}</span>
-//                 <div
-//                   className={clsx(
-//                     "bg-primary-soft absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
-//                     selectedStatus === status ? "opacity-100" : "opacity-0"
-//                   )}
-//                 />
-//               </button>
-//             ))}
-//           </div>
-
-//           <div className="mt-10 font-gilroy-medium space-y-4">
-//             <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-//               <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-//                 <span className="text-black/50 text-sm">Full Name</span>
-//                 <span>Adewale Segun</span>
-//               </div>
-//               <div className="flex flex-col">
-//                 <span className="text-black/50 text-sm">Host Name</span>
-//                 <span>Bayo Autos</span>
-//               </div>
-//             </div>
-
-//             <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-//               <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-//                 <span className="text-black/50 text-sm">Phone Number</span>
-//                 <span>0803 *** ****</span>
-//               </div>
-//               <div className="flex flex-col">
-//                 <span className="text-black/50 text-sm">Email Address</span>
-//                 <span>adewalesegun@gmail.com</span>
-//               </div>
-//             </div>
-
-//             <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-//               <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-//                 <span className="text-black/50 text-sm">Date of Birth</span>
-//                 <span>24/06/21</span>
-//               </div>
-//               <div className="flex flex-col">
-//                 <span className="text-black/50 text-sm">Gender</span>
-//                 <span>Male</span>
-//               </div>
-//             </div>
-
-//             <div className="md:flex md:justify-center">
-//               <Button
-//                 type="button"
-//                 // onClick={handleNext}
-//                 variant="dark-primary"
-//                 fontFamily="inter"
-//                 fullWidth
-//                 shadow="shadow-none"
-//                 className="mt-12 md:mt-6 max-w-md"
-//               >
-//                 Edit Profile
-//               </Button>
-//             </div>
-//           </div>
-//         </section>
-//       </div>
-//     </div>
-//   );
-// }
-
 "use client";
+
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostHeader } from "@/components/host/HostHeader";
 import { Button } from "@/components/ui/Buttons";
@@ -157,26 +7,36 @@ import { FormInput } from "@/components/ui/FormInput";
 import { ImageUpload } from "@/components/ui/ImageUpload";
 import { Toast } from "@/components/ui/Toast";
 import { activityCards } from "@/data/hostActivityCards";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useHostProfile } from "@/hooks/useHostProfile";
+import {
+  EditProfileFormData,
+  editProfileSchema,
+} from "@/schemas/host/editProfileSchema";
+import { updateUserProfile } from "@/services/userService";
+import { getOptimizedImage } from "@/utils/cloudinary";
+import {
+  formatName,
+  formatPhoneForDisplay,
+  formatPhoneForInput,
+} from "@/utils/formatters";
+import { normalizeString } from "@/utils/stringUtils";
+import {
+  getUserProfileImageSignature,
+  uploadToCloudinary,
+} from "@/utils/uploadToCloudinary";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-// Schema for edit profile
-const editProfileSchema = z.object({
-  fullName: z.string().min(2, "Full name is required"),
-  hostName: z.string().min(2, "Host name is required"),
-  phoneNumber: z
-    .string()
-    .min(10, "Phone number must be at least 10 digits")
-    .max(10, "Phone number must be 10 digits"),
-});
-
-type EditProfileFormData = z.infer<typeof editProfileSchema>;
 
 export default function HostProfilePage() {
+  const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+  const { data: host, isLoading: hostLoading } = useHostProfile();
+
   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
     "about"
   );
@@ -186,71 +46,113 @@ export default function HostProfilePage() {
     type: "success" | "error";
   } | null>(null);
 
-  // Simulated host data
-  const [hostData, setHostData] = useState({
-    fullName: "Adewale Segun",
-    hostName: "Bayo Autos",
-    phoneNumber: "8031234567",
-    email: "adewalesegun@gmail.com",
-    dateOfBirth: "24/06/21",
-    gender: "Male",
-    location: "Jl. Sultan Iskandar Muda, Jakarta selatan",
-    profileImageUrl: null as string | null,
-  });
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<EditProfileFormData>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
-      fullName: hostData.fullName,
-      hostName: hostData.hostName,
-      phoneNumber: hostData.phoneNumber,
+      fullName: user.fullName,
+      hostName: user.username,
+      phoneNumber: formatPhoneForInput(user.phoneNo),
     },
   });
 
+  // Watch all form fields
+  const watchedValues = watch();
+
+  // Check if form has changes
+  const hasChanges = useMemo(() => {
+    const normalizedCurrentFullName = normalizeString(
+      watchedValues.fullName || ""
+    );
+    const normalizedOriginalFullName = normalizeString(user.fullName || "");
+
+    const normalizedCurrentHostName = normalizeString(
+      watchedValues.hostName || ""
+    );
+    const normalizedOriginalHostName = normalizeString(user.username || "");
+
+    const currentPhone = watchedValues.phoneNumber || "";
+    const originalPhone = formatPhoneForInput(user.phoneNo) || "";
+
+    return (
+      normalizedCurrentFullName !== normalizedOriginalFullName ||
+      normalizedCurrentHostName !== normalizedOriginalHostName ||
+      currentPhone !== originalPhone
+    );
+  }, [watchedValues, user]);
+
   const handleEditToggle = () => {
     if (isEditing) {
-      // Cancel editing - reset form
       reset({
-        fullName: hostData.fullName,
-        hostName: hostData.hostName,
-        phoneNumber: hostData.phoneNumber,
+        fullName: user.fullName,
+        hostName: user.username,
+        phoneNumber: formatPhoneForInput(user.phoneNo),
       });
     }
     setIsEditing(!isEditing);
   };
 
-  const onSubmit = (data: EditProfileFormData) => {
-    // Simulate API call
-    setTimeout(() => {
-      setHostData((prev) => ({
-        ...prev,
-        fullName: data.fullName,
-        hostName: data.hostName,
-        phoneNumber: data.phoneNumber,
-      }));
-      setIsEditing(false);
+  const uploadProfileImageMutation = useMutation({
+    mutationFn: async (file: File) => {
+      const profileImgSig = await getUserProfileImageSignature();
+      const profileImageUrl = await uploadToCloudinary(file, profileImgSig);
+
+      const payload = { profileImageUrl: profileImageUrl.url };
+
+      return updateUserProfile(payload);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(["currentUser"], data);
+      queryClient.invalidateQueries({ queryKey: ["hostProfile"] });
+
       setToast({
-        message: "Profile updated successfully!",
+        message: "Profile image updated successfully!",
         type: "success",
       });
-    }, 500);
-  };
+    },
+    onError: (err: any) => {
+      setToast({
+        message: err.message || "Failed to upload profile image",
+        type: "error",
+      });
+    },
+  });
 
-  // Format phone number for display (masked)
-  const formatPhoneForDisplay = (phone: string) => {
-    if (!phone) return "";
-    return `0${phone.slice(0, 3)} *** ****`;
-  };
+  const editProfileMutation = useMutation({
+    mutationFn: async (data: EditProfileFormData) => {
+      const payload = {
+        fullName: normalizeString(data.fullName),
+        username: normalizeString(data.hostName),
+        phoneN0: `+234${data.phoneNumber}`,
+      };
+
+      return updateUserProfile(payload);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.setQueryData(["currentUser"], data);
+      queryClient.invalidateQueries({ queryKey: ["hostProfile"] });
+
+      setToast({ message: "Profile updated successfully!", type: "success" });
+      setIsEditing(false);
+    },
+    onError: (err: any) => {
+      setToast({
+        message: err.message || "Something went wrong.",
+        type: "error",
+      });
+    },
+  });
 
   return (
     <div className="pb-28">
       <div className="sticky md:relative top-0 z-10 bg-white md:bg-neutral-100 shadow-sm md:shadow-none md:pt-2 md:px-10">
-        <div className=" px-4 py-4 md:px-0 ">
+        <div className="px-4 py-4 md:px-0">
           <HostHeader />
         </div>
       </div>
@@ -259,29 +161,29 @@ export default function HostProfilePage() {
         <section className="flex flex-col xl:flex-row space-x-4">
           <div className="flex items-start xl:bg-white font-gilroy-medium xl:px-4 xl:py-8 space-x-4 rounded-[20px]">
             <ImageUpload
-              onImageSelect={() => {}}
+              defaultImage={getOptimizedImage(user.profileImageUrl, "low")}
+              onImageSelect={(file) => {
+                if (!file) return;
+                uploadProfileImageMutation.mutate(file);
+              }}
               showUploadLabel={false}
-              disabled={false}
+              isLoading={uploadProfileImageMutation.isPending}
+              disabled={uploadProfileImageMutation.isPending}
             />
 
             <div className="flex flex-col">
               <div className="flex items-center space-x-1">
-                <span className="text-base md:text-lg">
-                  {hostData.hostName}
-                </span>
-                <span>
-                  <Image
-                    src="/images/icons/verification-badge.png"
-                    alt="Verification Badge"
-                    width={20}
-                    height={20}
-                  />
-                </span>
+                <span className="text-base md:text-lg">{user.username}</span>
+                <Image
+                  src="/images/icons/verification-badge.png"
+                  alt="Verification Badge"
+                  width={20}
+                  height={20}
+                />
               </div>
-
               <span className="text-neutral-475 text-sm my-1">Host</span>
               <span className="text-neutral-475 text-sm">
-                {hostData.location}
+                Jl. Sultan Iskandar Muda, Jakarta selatan
               </span>
             </div>
           </div>
@@ -289,15 +191,24 @@ export default function HostProfilePage() {
           <div className="bg-neutral-150 h-[1px] w-full mt-4 xl:hidden" />
 
           <div className="mt-4 xl:mt-0 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-1 items-center bg-white rounded-[20px] p-4">
-            {activityCards.map((card) => (
-              <ActivityCard
-                key={card.id}
-                icon={card.icon}
-                label={card.label}
-                value={0}
-                variant="compact"
-              />
-            ))}
+            {activityCards.map((card) => {
+              let value: number | string;
+              if (card.label === "Cars") value = host?.totalVehicles;
+              else if (card.label === "Rating") value = host?.averageRating;
+              else if (card.label === "Reviews") value = host?.totalReviews;
+              else value = 0;
+
+              return (
+                <ActivityCard
+                  key={card.id}
+                  icon={card.icon}
+                  label={card.label}
+                  value={value}
+                  variant="compact"
+                  isLoading={hostLoading}
+                />
+              );
+            })}
           </div>
         </section>
 
@@ -305,14 +216,8 @@ export default function HostProfilePage() {
           <div className="grid grid-cols-2 border-b border-b-neutral-275">
             {(
               [
-                {
-                  status: "about",
-                  label: "About",
-                },
-                {
-                  status: "cars",
-                  label: "Cars",
-                },
+                { status: "about", label: "About" },
+                { status: "cars", label: "Cars" },
               ] as const
             ).map(({ status, label }) => (
               <button
@@ -331,128 +236,163 @@ export default function HostProfilePage() {
             ))}
           </div>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-10 font-gilroy-medium space-y-4"
+          {/* About Section */}
+          <section
+            className={clsx(selectedStatus === "about" ? "block" : "hidden")}
           >
-            <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-              <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-                {isEditing ? (
-                  <FormInput
-                    id="fullName"
-                    label="Full Name"
-                    type="text"
-                    placeholder="Full Name"
-                    labelFontFamily="gilroy-medium"
-                    placeholderVariant="light"
-                    {...register("fullName")}
-                    error={errors.fullName?.message}
-                  />
-                ) : (
-                  <>
-                    <span className="text-black/50 text-sm">Full Name</span>
-                    <span>{hostData.fullName}</span>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-col">
-                {isEditing ? (
-                  <FormInput
-                    id="hostName"
-                    label="Host Name"
-                    type="text"
-                    placeholder="Host Name"
-                    labelFontFamily="gilroy-medium"
-                    placeholderVariant="light"
-                    {...register("hostName")}
-                    error={errors.hostName?.message}
-                  />
-                ) : (
-                  <>
-                    <span className="text-black/50 text-sm">Host Name</span>
-                    <span>{hostData.hostName}</span>
-                  </>
-                )}
-              </div>
-            </div>
+            <form
+              onSubmit={handleSubmit((data) =>
+                editProfileMutation.mutate(data)
+              )}
+              className="mt-10 font-gilroy-medium space-y-4"
+            >
+              <div className="grid md:grid-cols-2 md:gap-x-4 pb-4 md:px-10 space-y-4 md:space-y-0 border-b border-neutral-275">
+                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                  {isEditing ? (
+                    <FormInput
+                      id="fullName"
+                      label="Full Name"
+                      type="text"
+                      placeholder="Full Name"
+                      labelFontFamily="gilroy-medium"
+                      placeholderVariant="light"
+                      {...register("fullName")}
+                      error={errors.fullName?.message}
+                      disabled={
+                        editProfileMutation.isPending ||
+                        uploadProfileImageMutation.isPending
+                      }
+                    />
+                  ) : (
+                    <>
+                      <span className="text-black/50 text-sm">Full Name</span>
+                      <span className="capitalize">
+                        {formatName(user.fullName)}
+                      </span>
+                    </>
+                  )}
+                </div>
 
-            <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-              <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                <div className="flex flex-col">
+                  {isEditing ? (
+                    <FormInput
+                      id="hostName"
+                      label="Host Name"
+                      type="text"
+                      placeholder="Host Name"
+                      labelFontFamily="gilroy-medium"
+                      placeholderVariant="light"
+                      {...register("hostName")}
+                      error={errors.hostName?.message}
+                      disabled={
+                        editProfileMutation.isPending ||
+                        uploadProfileImageMutation.isPending
+                      }
+                    />
+                  ) : (
+                    <>
+                      <span className="text-black/50 text-sm">Host Name</span>
+                      <span>{user.username}</span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 md:gap-x-4 md:px-10 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
+                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                  {isEditing ? (
+                    <FormInput
+                      id="phoneNumber"
+                      label="Phone Number"
+                      variant="phone"
+                      placeholder="812 345 6789"
+                      labelFontFamily="gilroy-medium"
+                      placeholderVariant="light"
+                      {...register("phoneNumber")}
+                      error={errors.phoneNumber?.message}
+                      disabled={
+                        editProfileMutation.isPending ||
+                        uploadProfileImageMutation.isPending
+                      }
+                    />
+                  ) : (
+                    <>
+                      <span className="text-black/50 text-sm">
+                        Phone Number
+                      </span>
+                      <span>{formatPhoneForDisplay(user.phoneNo)}</span>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-black/50 text-sm">Email Address</span>
+                  <span>{user.email}</span>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 pb-4 space-y-4 md:gap-x-4 md:px-10  md:space-y-0 border-b border-neutral-275">
+                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                  <span className="text-black/50 text-sm">Date of Birth</span>
+                  <span>{user.dateOfBirth || "--/--/--"}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-black/50 text-sm">Gender</span>
+                  <span className="capitalize">{user.gender}</span>
+                </div>
+              </div>
+
+              <div className="md:flex md:justify-center md:gap-4">
                 {isEditing ? (
-                  <FormInput
-                    id="phoneNumber"
-                    label="Phone Number"
-                    variant="phone"
-                    placeholder="812 345 6789"
-                    labelFontFamily="gilroy-medium"
-                    placeholderVariant="light"
-                    {...register("phoneNumber")}
-                    error={errors.phoneNumber?.message}
-                  />
+                  <div className="w-full flex justify-center mt-12 md:mt-6 gap-4 md:px-10">
+                    <Button
+                      type="button"
+                      onClick={handleEditToggle}
+                      variant="step-back"
+                      fontFamily="inter"
+                      fullWidth
+                      shadow="shadow-none"
+                      disabled={
+                        editProfileMutation.isPending ||
+                        uploadProfileImageMutation.isPending
+                      }
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="dark-primary"
+                      fontFamily="inter"
+                      fullWidth
+                      shadow="shadow-none"
+                      loading={editProfileMutation.isPending}
+                      disabled={
+                        !hasChanges ||
+                        editProfileMutation.isPending ||
+                        uploadProfileImageMutation.isPending
+                      }
+                      loadingText="Saving Changes..."
+                    >
+                      Save Changes
+                    </Button>
+                  </div>
                 ) : (
-                  <>
-                    <span className="text-black/50 text-sm">Phone Number</span>
-                    <span>{formatPhoneForDisplay(hostData.phoneNumber)}</span>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-col">
-                <span className="text-black/50 text-sm">Email Address</span>
-                <span>{hostData.email}</span>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-              <div className="flex flex-col md:px-10 pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-                <span className="text-black/50 text-sm">Date of Birth</span>
-                <span>{hostData.dateOfBirth}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-black/50 text-sm">Gender</span>
-                <span>{hostData.gender}</span>
-              </div>
-            </div>
-
-            <div className="md:flex md:justify-center md:gap-4">
-              {isEditing ? (
-                <>
                   <Button
                     type="button"
                     onClick={handleEditToggle}
-                    variant="step-back"
-                    fontFamily="inter"
-                    fullWidth
-                    shadow="shadow-none"
-                    className="mt-6 max-w-md"
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
                     variant="dark-primary"
                     fontFamily="inter"
                     fullWidth
                     shadow="shadow-none"
-                    className="mt-6 max-w-md"
+                    className="mt-12 md:mt-6 max-w-md"
                   >
-                    Save Changes
+                    Edit Profile
                   </Button>
-                </>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={handleEditToggle}
-                  variant="dark-primary"
-                  fontFamily="inter"
-                  fullWidth
-                  shadow="shadow-none"
-                  className="mt-12 md:mt-6 max-w-md"
-                >
-                  Edit Profile
-                </Button>
-              )}
-            </div>
-          </form>
+                )}
+              </div>
+            </form>
+          </section>
+
+          {/* Car Section */}
         </section>
       </div>
 

@@ -11,6 +11,7 @@ interface ImageUploadProps {
   onImageSelect?: (file: File | null) => void;
   onImagesSelect?: (files: File[]) => void;
   disabled?: boolean;
+  isLoading?: boolean;
   error?: string;
   label?: string;
   uploadLabel?: string;
@@ -32,6 +33,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
       disabled = false,
       error,
       label,
+      isLoading = false,
       uploadLabel,
       showUploadLabel = true,
       accept,
@@ -513,6 +515,12 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
                 className="w-4 h-auto"
               />
             </motion.div>
+
+            {isLoading && (
+              <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-full z-10">
+                <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
 
             <AnimatePresence>
               {isDragging && (

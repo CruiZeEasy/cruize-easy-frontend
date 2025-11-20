@@ -13,11 +13,10 @@ import { PATHS } from "@/utils/path";
 import Image from "next/image";
 
 export default function HostHomePage() {
-  const { data: user, isLoading: userLoading } = useCurrentUser();
+  const { data: user } = useCurrentUser();
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
 
-  console.log(getOptimizedImage(user.profileImageUrl, "eco"));
   // const user = {};
   // const host = {};
   // const userLoading = true;
@@ -39,36 +38,18 @@ export default function HostHomePage() {
         <div className="p-4 md:py-6 md:px-12">
           {/* Greeting Section */}
           <section className=" flex items-center space-x-4 mt-10 md:mt-0">
-            {userLoading ? (
-              <div className="bg-neutral-300 rounded-full size-20 animate-pulse overflow-hidden md:hidden relative" />
-            ) : (
-              <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
-                <Image
-                  // src={user.profileImageUrl}
-                  src={getOptimizedImage(user.profileImageUrl, "low")}
-                  // src={"/images/me.jpg"}
-                  alt="Profile Image"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
+            <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
+              <Image
+                src={getOptimizedImage(user.profileImageUrl, "low")}
+                alt="Profile Image"
+                fill
+                className="object-cover"
+              />
+            </div>
 
             <div className="space-y-1">
-              <h1 className="font-gilroy-bold text-4xl md:text-5xl">
-                {userLoading ? (
-                  <span className="bg-neutral-300 w-32 h-8 block animate-pulse" />
-                ) : (
-                  "Welcome"
-                )}
-              </h1>
-              <span className="font-gilroy-medium">
-                {userLoading ? (
-                  <span className="bg-neutral-300 w-40 h-5 block animate-pulse rounded" />
-                ) : (
-                  user.fullName
-                )}
-              </span>
+              <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
+              <span className="font-gilroy-medium">{user.fullName}</span>
             </div>
           </section>
 
@@ -133,6 +114,7 @@ export default function HostHomePage() {
                 let value: number | string;
                 if (card.label === "Cars") value = host?.totalVehicles;
                 else if (card.label === "Rating") value = host?.averageRating;
+                else if (card.label === "Reviews") value = host?.totalReviews;
                 else value = 0;
 
                 return (

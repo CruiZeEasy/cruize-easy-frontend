@@ -17,6 +17,13 @@ interface VehicleDocumentPayload {
   uploadedAt: string;
 }
 
+interface WorkingHoursPayload {
+  day: string;
+  isActive: boolean;
+  startTime: string;
+  endTime: string;
+}
+
 export async function createVehicle(data: {
   name: string;
   brand: string;
@@ -34,6 +41,8 @@ export async function createVehicle(data: {
 
   images: VehicleImagePayload[];
   documents: VehicleDocumentPayload[];
+
+  workingHours: WorkingHoursPayload[];
 }) {
   return apiClient(API_ROUTES.VEHICLES.CREATE, {
     method: "POST",

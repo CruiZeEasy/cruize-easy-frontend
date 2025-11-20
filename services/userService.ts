@@ -10,7 +10,7 @@ export async function getCurrentUser() {
 export async function updateUserProfile(data: {
   fullName?: string;
   username?: string;
-  phoneNo?: string;
+  phoneN0?: string;
   gender?: "MALE" | "FEMALE";
   profileCompleted?: boolean;
   profileImageUrl?: string;

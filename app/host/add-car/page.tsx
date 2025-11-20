@@ -25,7 +25,7 @@ import {
   seatOptions,
   transmissionOptions,
 } from "@/utils/selectOptions";
-import { formatNumber } from "@/utils/formatNumber";
+import { formatNumber } from "@/utils/formatters";
 import {
   getDocumentSignature,
   getImageSignature,
@@ -326,41 +326,41 @@ export default function HostAddCarPage() {
 
   const addCarMutation = useMutation({
     mutationFn: async (data: AddCarFormData) => {
-      // const imagesToUpload = data.carImages || [];
+      const imagesToUpload = data.carImages || [];
 
-      // const [docSig, imgSig] = await Promise.all([
-      //   getDocumentSignature(),
-      //   getImageSignature(),
-      // ]);
+      const [docSig, imgSig] = await Promise.all([
+        getDocumentSignature(),
+        getImageSignature(),
+      ]);
 
-      // const [documentObj, imageObjList] = await Promise.all([
-      //   data.vehicleDocument
-      //     ? uploadToCloudinary(data.vehicleDocument, docSig)
-      //     : null,
+      const [documentObj, imageObjList] = await Promise.all([
+        data.vehicleDocument
+          ? uploadToCloudinary(data.vehicleDocument, docSig)
+          : null,
 
-      //   Promise.all(
-      //     imagesToUpload.map((img) => uploadToCloudinary(img, imgSig))
-      //   ),
-      // ]);
+        Promise.all(
+          imagesToUpload.map((img) => uploadToCloudinary(img, imgSig))
+        ),
+      ]);
 
-      // const images = imageObjList.map((img, index) => ({
-      //   url: img.url,
-      //   publicId: img.publicId,
-      //   order: index,
-      //   uploadedAt: img.uploadedAt,
-      // }));
+      const images = imageObjList.map((img, index) => ({
+        url: img.url,
+        publicId: img.publicId,
+        order: index,
+        uploadedAt: img.uploadedAt,
+      }));
 
-      // const documents = documentObj
-      //   ? [
-      //       {
-      //         documentType: "OTHERS",
-      //         documentUrl: documentObj.url,
-      //         publicId: documentObj.publicId,
-      //         size: documentObj.size,
-      //         uploadedAt: documentObj.uploadedAt,
-      //       },
-      //     ]
-      //   : [];
+      const documents = documentObj
+        ? [
+            {
+              documentType: "OTHERS",
+              documentUrl: documentObj.url,
+              publicId: documentObj.publicId,
+              size: documentObj.size,
+              uploadedAt: documentObj.uploadedAt,
+            },
+          ]
+        : [];
 
       const payload = {
         name: normalizeString(data.carName),
@@ -377,18 +377,13 @@ export default function HostAddCarPage() {
         isTinted: data.isTinted,
         confirmPhoto: data.confirmPhotos,
 
-        // images,
-        // documents,
-
-        images: data.carImages || [],
-        documents: data.vehicleDocument || null,
+        images,
+        documents,
 
         workingHours: data.workingHours,
       };
 
-      console.log("🧾 FINAL PAYLOAD SENT TO API:", payload);
-
-      // return createVehicle(payload);
+      return createVehicle(payload);
     },
 
     onSuccess: () => {
