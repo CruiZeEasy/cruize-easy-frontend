@@ -151,7 +151,7 @@ export default function HostProfilePage() {
 
   return (
     <div className="pb-28">
-      <div className="sticky top-0 z-10 bg-white  md:pt-2 md:mx-12">
+      <div className="sticky top-0 z-40 bg-white md:pt-2 md:mx-12">
         <div className="px-4 py-4 md:px-0">
           <HostHeader />
         </div>
@@ -214,7 +214,7 @@ export default function HostProfilePage() {
         </section>
 
         <section className="md:bg-white rounded-[20px] pb-4 mt-6">
-          <div className="sticky top-[73px] md:top-[70px] bg-white  px-4">
+          <div className="sticky z-30 top-[73px] md:top-[70px] bg-white px-4">
             <div className="grid grid-cols-2 border-b border-neutral-275">
               {(
                 [
