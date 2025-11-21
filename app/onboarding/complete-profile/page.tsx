@@ -16,7 +16,7 @@ import { motion } from "framer-motion";
 import { normalizeString } from "@/utils/stringUtils";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Toast } from "@/components/ui/Toast";
-import { updateUserProfile, uploadProfileImage } from "@/services/userService";
+import { updateUserProfile } from "@/services/userService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { useState } from "react";
@@ -27,11 +27,12 @@ import {
   uploadToCloudinary,
 } from "@/utils/uploadToCloudinary";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { UserRoles } from "@/constants/enums";
 
 export default function CompleteProfilePage() {
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
-  const isHost = user?.roles?.includes("ROLE_HOST");
+  const isHost = user?.roles?.includes(UserRoles.HOST);
   const schema = createCompleteProfileSchema(isHost ? "HOST" : "USER");
 
   const { navigate, isNavigating } = usePageTransition();

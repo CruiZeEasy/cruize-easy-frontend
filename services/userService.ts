@@ -23,13 +23,3 @@ export async function updateUserProfile(data: {
     body: JSON.stringify(data),
   });
 }
-
-export async function uploadProfileImage(file: File) {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  return apiClient(API_ROUTES.USER.UPLOAD_PROFILE_IMAGE, {
-    method: "POST",
-    body: formData,
-  });
-}

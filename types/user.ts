@@ -1,4 +1,4 @@
-import { UserRoles } from "@/constants/enums";
+import { GenderType, UserRoles } from "@/constants/enums";
 
 export interface User {
   id: string;
@@ -8,7 +8,7 @@ export interface User {
   roles: UserRoles[];
   phoneNo?: string;
   dateOfBirth?: string;
-  gender?: "MALE" | "FEMALE" | null;
+  gender?: GenderType;
   profileImageUrl?: string;
   profileCompleted?: boolean;
   allowLocation?: boolean;

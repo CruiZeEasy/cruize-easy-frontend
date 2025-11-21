@@ -194,10 +194,10 @@ export default function HostProfilePage() {
 
           <div className="mt-4 xl:mt-0 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-1 items-center bg-white rounded-[20px] p-4">
             {activityCards.map((card) => {
-              let value: number | string;
-              if (card.label === "Cars") value = host?.totalVehicles;
-              else if (card.label === "Rating") value = host?.averageRating;
-              else if (card.label === "Reviews") value = host?.totalReviews;
+              let value: number;
+              if (card.label === "Cars") value = host?.totalVehicles!;
+              else if (card.label === "Rating") value = host?.averageRating!;
+              else if (card.label === "Reviews") value = host?.totalReviews!;
               else value = 0;
 
               return (
