@@ -103,7 +103,6 @@ export function PopularCarsSection() {
                   height={24}
                   alt="heart icon"
                   className="size-6"
-                  quality={75}
                 />
               </button>
             </span>
@@ -140,7 +139,6 @@ export function PopularCarsSection() {
                       alt="Star"
                       width={20}
                       height={20}
-                      quality={75}
                     />
                   </div>
                 </div>
@@ -156,7 +154,6 @@ export function PopularCarsSection() {
                         alt="Fuel"
                         width={20}
                         height={20}
-                        quality={75}
                       />
                       <span className="font-gilroy-medium text-neutral-450">
                         {car.fuel}
@@ -168,7 +165,6 @@ export function PopularCarsSection() {
                         alt="Transmission"
                         width={20}
                         height={20}
-                        quality={75}
                       />
                       <span className="font-gilroy-medium text-neutral-450">
                         {car.transmission}
@@ -180,7 +176,6 @@ export function PopularCarsSection() {
                         alt="Capacity"
                         width={20}
                         height={20}
-                        quality={75}
                       />
                       <span className="font-gilroy-medium text-neutral-450">
                         {car.capacity}

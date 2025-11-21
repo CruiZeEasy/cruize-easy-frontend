@@ -2,6 +2,7 @@
 
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostHeader } from "@/components/host/HostHeader";
+import { HostCarsSection } from "@/components/host/profile/HostCarsSection";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import { ImageUpload } from "@/components/ui/ImageUpload";
@@ -38,7 +39,7 @@ export default function HostProfilePage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
 
   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
-    "about"
+    "cars"
   );
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState<{
@@ -239,166 +240,162 @@ export default function HostProfilePage() {
             </div>
           </div>
 
-          {/* About Section */}
-          <section
-            className={clsx(
-              "min-h-[200vh] px-4 md:px-0",
-              selectedStatus === "about" ? "block" : "hidden"
-            )}
-          >
-            <form
-              onSubmit={handleSubmit((data) =>
-                editProfileMutation.mutate(data)
-              )}
-              className="mt-10 font-gilroy-medium space-y-4"
-            >
-              <div className="grid md:grid-cols-2 md:gap-x-4 pb-4 md:px-10 space-y-4 md:space-y-0 border-b border-neutral-275">
-                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+          <div className="px-4 md:px-0 mt-10">
+            {selectedStatus === "about" ? (
+              <form
+                onSubmit={handleSubmit((data) =>
+                  editProfileMutation.mutate(data)
+                )}
+                className="font-gilroy-medium space-y-4"
+              >
+                <div className="grid md:grid-cols-2 md:gap-x-4 pb-4 md:px-10 space-y-4 md:space-y-0 border-b border-neutral-275">
+                  <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                    {isEditing ? (
+                      <FormInput
+                        id="fullName"
+                        label="Full Name"
+                        type="text"
+                        placeholder="Full Name"
+                        labelFontFamily="gilroy-medium"
+                        placeholderVariant="light"
+                        {...register("fullName")}
+                        error={errors.fullName?.message}
+                        disabled={
+                          editProfileMutation.isPending ||
+                          uploadProfileImageMutation.isPending
+                        }
+                      />
+                    ) : (
+                      <>
+                        <span className="text-black/50 text-sm">Full Name</span>
+                        <span className="capitalize">
+                          {formatName(user.fullName)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col">
+                    {isEditing ? (
+                      <FormInput
+                        id="hostName"
+                        label="Host Name"
+                        type="text"
+                        placeholder="Host Name"
+                        labelFontFamily="gilroy-medium"
+                        placeholderVariant="light"
+                        {...register("hostName")}
+                        error={errors.hostName?.message}
+                        disabled={
+                          editProfileMutation.isPending ||
+                          uploadProfileImageMutation.isPending
+                        }
+                      />
+                    ) : (
+                      <>
+                        <span className="text-black/50 text-sm">Host Name</span>
+                        <span>{user.username}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 md:gap-x-4 md:px-10 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
+                  <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                    {isEditing ? (
+                      <FormInput
+                        id="phoneNumber"
+                        label="Phone Number"
+                        variant="phone"
+                        placeholder="812 345 6789"
+                        labelFontFamily="gilroy-medium"
+                        placeholderVariant="light"
+                        {...register("phoneNumber")}
+                        error={errors.phoneNumber?.message}
+                        disabled={
+                          editProfileMutation.isPending ||
+                          uploadProfileImageMutation.isPending
+                        }
+                      />
+                    ) : (
+                      <>
+                        <span className="text-black/50 text-sm">
+                          Phone Number
+                        </span>
+                        <span>{formatPhoneForDisplay(user.phoneNo)}</span>
+                      </>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-black/50 text-sm">Email Address</span>
+                    <span>{user.email}</span>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 pb-4 space-y-4 md:gap-x-4 md:px-10  md:space-y-0 border-b border-neutral-275">
+                  <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
+                    <span className="text-black/50 text-sm">Date of Birth</span>
+                    <span>{user.dateOfBirth || "--/--/--"}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-black/50 text-sm">Gender</span>
+                    <span className="capitalize">{user.gender}</span>
+                  </div>
+                </div>
+
+                <div className="md:flex md:justify-center md:gap-4">
                   {isEditing ? (
-                    <FormInput
-                      id="fullName"
-                      label="Full Name"
-                      type="text"
-                      placeholder="Full Name"
-                      labelFontFamily="gilroy-medium"
-                      placeholderVariant="light"
-                      {...register("fullName")}
-                      error={errors.fullName?.message}
-                      disabled={
-                        editProfileMutation.isPending ||
-                        uploadProfileImageMutation.isPending
-                      }
-                    />
+                    <div className="w-full flex justify-center mt-12 md:mt-6 gap-4 md:px-10">
+                      <Button
+                        type="button"
+                        onClick={handleEditToggle}
+                        variant="step-back"
+                        fontFamily="inter"
+                        fullWidth
+                        shadow="shadow-none"
+                        disabled={
+                          editProfileMutation.isPending ||
+                          uploadProfileImageMutation.isPending
+                        }
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="dark-primary"
+                        fontFamily="inter"
+                        fullWidth
+                        shadow="shadow-none"
+                        loading={editProfileMutation.isPending}
+                        disabled={
+                          !hasChanges ||
+                          editProfileMutation.isPending ||
+                          uploadProfileImageMutation.isPending
+                        }
+                        loadingText="Saving Changes..."
+                      >
+                        Save Changes
+                      </Button>
+                    </div>
                   ) : (
-                    <>
-                      <span className="text-black/50 text-sm">Full Name</span>
-                      <span className="capitalize">
-                        {formatName(user.fullName)}
-                      </span>
-                    </>
-                  )}
-                </div>
-
-                <div className="flex flex-col">
-                  {isEditing ? (
-                    <FormInput
-                      id="hostName"
-                      label="Host Name"
-                      type="text"
-                      placeholder="Host Name"
-                      labelFontFamily="gilroy-medium"
-                      placeholderVariant="light"
-                      {...register("hostName")}
-                      error={errors.hostName?.message}
-                      disabled={
-                        editProfileMutation.isPending ||
-                        uploadProfileImageMutation.isPending
-                      }
-                    />
-                  ) : (
-                    <>
-                      <span className="text-black/50 text-sm">Host Name</span>
-                      <span>{user.username}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 md:gap-x-4 md:px-10 pb-4 space-y-4 md:space-y-0 border-b border-neutral-275">
-                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-                  {isEditing ? (
-                    <FormInput
-                      id="phoneNumber"
-                      label="Phone Number"
-                      variant="phone"
-                      placeholder="812 345 6789"
-                      labelFontFamily="gilroy-medium"
-                      placeholderVariant="light"
-                      {...register("phoneNumber")}
-                      error={errors.phoneNumber?.message}
-                      disabled={
-                        editProfileMutation.isPending ||
-                        uploadProfileImageMutation.isPending
-                      }
-                    />
-                  ) : (
-                    <>
-                      <span className="text-black/50 text-sm">
-                        Phone Number
-                      </span>
-                      <span>{formatPhoneForDisplay(user.phoneNo)}</span>
-                    </>
-                  )}
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-black/50 text-sm">Email Address</span>
-                  <span>{user.email}</span>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 pb-4 space-y-4 md:gap-x-4 md:px-10  md:space-y-0 border-b border-neutral-275">
-                <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
-                  <span className="text-black/50 text-sm">Date of Birth</span>
-                  <span>{user.dateOfBirth || "--/--/--"}</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-black/50 text-sm">Gender</span>
-                  <span className="capitalize">{user.gender}</span>
-                </div>
-              </div>
-
-              <div className="md:flex md:justify-center md:gap-4">
-                {isEditing ? (
-                  <div className="w-full flex justify-center mt-12 md:mt-6 gap-4 md:px-10">
                     <Button
                       type="button"
                       onClick={handleEditToggle}
-                      variant="step-back"
-                      fontFamily="inter"
-                      fullWidth
-                      shadow="shadow-none"
-                      disabled={
-                        editProfileMutation.isPending ||
-                        uploadProfileImageMutation.isPending
-                      }
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      type="submit"
                       variant="dark-primary"
                       fontFamily="inter"
                       fullWidth
                       shadow="shadow-none"
-                      loading={editProfileMutation.isPending}
-                      disabled={
-                        !hasChanges ||
-                        editProfileMutation.isPending ||
-                        uploadProfileImageMutation.isPending
-                      }
-                      loadingText="Saving Changes..."
+                      className="mt-12 md:mt-6 w-full md:max-w-md"
                     >
-                      Save Changes
+                      Edit Profile
                     </Button>
-                  </div>
-                ) : (
-                  <Button
-                    type="button"
-                    onClick={handleEditToggle}
-                    variant="dark-primary"
-                    fontFamily="inter"
-                    fullWidth
-                    shadow="shadow-none"
-                    className="mt-12 md:mt-6 w-full md:max-w-md"
-                  >
-                    Edit Profile
-                  </Button>
-                )}
-              </div>
-            </form>
-          </section>
-
-          {/* Car Section */}
+                  )}
+                </div>
+              </form>
+            ) : (
+              <HostCarsSection />
+            )}
+          </div>
         </section>
       </div>
 
