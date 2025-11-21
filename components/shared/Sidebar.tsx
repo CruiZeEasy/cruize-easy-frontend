@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
-import { hostSidebarLinks } from "@/data/sidebarLinks";
+import { hostSidebarLinks, userSidebarLinks } from "@/data/sidebarLinks";
 import { PATHS } from "@/utils/path";
 import { usePathname } from "next/navigation";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
@@ -15,22 +15,24 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function HostSidebar() {
+export  function Sidebar({ role }: { role: "host" | "user" }) {
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
   const pathname = usePathname();
   const { navigate, isNavigating } = usePageTransition();
   const [expanded, setExpanded] = useState(false);
-  const desktopLinks = hostSidebarLinks.filter((l) => l.showOnDesktop);
 
-  function handleLogout() {
+  const links = role === "host" ? hostSidebarLinks : userSidebarLinks;
+  const homePath = role === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
+
+  const handleLogout = () => {
     Cookies.remove("access_token", { path: "/" });
     Cookies.remove("refresh_token", { path: "/" });
 
     queryClient.clear();
 
     navigate(PATHS.AUTH.LOGIN);
-  }
+  };
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function HostSidebar() {
       >
         {/* Logo */}
         <Link
-          href={PATHS.HOST.HOME}
+          href={homePath}
           className={clsx(
             "flex items-center transition-all mb-12",
             expanded ? "justify-start pl-4" : "justify-center"
@@ -77,8 +79,8 @@ export default function HostSidebar() {
           </button>
 
           <nav className="flex-1 flex flex-col space-y-3 overflow-y-auto overflow-x-hidden">
-            {hostSidebarLinks.map((link) => {
-              const isActive = pathname?.startsWith(link.href);
+            {links.map((link) => {
+              const isActive = pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.id}
@@ -152,21 +154,23 @@ export default function HostSidebar() {
           </button>
 
           {/* User Profile Photo */}
-          <div
-            className={clsx(
-              "flex transition-all",
-              expanded ? "pl-4" : "justify-center"
-            )}
-          >
-            <div className="size-11 bg-white rounded-full overflow-hidden relative">
-              <Image
-                src={getOptimizedImage(user?.profileImageUrl!, 10)}
-                alt="Profile Image"
-                fill
-                className="object-cover"
-              />
+          {user?.profileImageUrl && (
+            <div
+              className={clsx(
+                "flex transition-all",
+                expanded ? "pl-4" : "justify-center"
+              )}
+            >
+              <div className="size-11 bg-white rounded-full overflow-hidden relative">
+                <Image
+                  src={getOptimizedImage(user.profileImageUrl, 10)}
+                  alt="Profile Image"
+                  fill
+                  className="object-cover"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </motion.aside>
 

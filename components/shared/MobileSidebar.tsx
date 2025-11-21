@@ -1,17 +1,35 @@
 "use client";
 
 import { useState } from "react";
+import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { hostSidebarLinks } from "@/data/sidebarLinks";
+import { hostSidebarLinks, userSidebarLinks } from "@/data/sidebarLinks";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { PATHS } from "@/utils/path";
+import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 
-export function HostMobileSidebar() {
+export function MobileSidebar({ role }: { role: "host" | "user" }) {
+  const queryClient = useQueryClient();
   const pathname = usePathname();
+  const { navigate, isNavigating } = usePageTransition();
   const [expanded, setExpanded] = useState(false);
-  const mobileLinks = hostSidebarLinks.filter((l) => l.showOnMobile);
+
+  const links = role === "host" ? hostSidebarLinks : userSidebarLinks;
+  const homePath = role === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
+
+  const handleLogout = () => {
+    Cookies.remove("access_token", { path: "/" });
+    Cookies.remove("refresh_token", { path: "/" });
+
+    queryClient.clear();
+
+    navigate(PATHS.AUTH.LOGIN);
+  };
 
   return (
     <>
@@ -58,15 +76,11 @@ export function HostMobileSidebar() {
                   height={40}
                   priority
                 />
-
-                {/* <span className="text-xs font-gilroy-medium">
-                  Joshua Bamidele
-                </span> */}
               </div>
 
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4">
-                {hostSidebarLinks.map((link) => {
+                {links.map((link) => {
                   const isActive = pathname.startsWith(link.href);
                   return (
                     <Link
@@ -94,7 +108,10 @@ export function HostMobileSidebar() {
 
               {/* Log Out Button */}
               <div className="px-4 mt-auto font-gilroy-semibold text-sm">
-                <button className="flex items-center gap-3">
+                <button
+                  className="flex items-center gap-3"
+                  onClick={handleLogout}
+                >
                   <Image
                     src={`/images/icons/logout.svg`}
                     alt="logout icon"
@@ -110,6 +127,9 @@ export function HostMobileSidebar() {
           </>
         )}
       </AnimatePresence>
+
+      {/* Page Transition Spinner */}
+      <PageTransitionSpinner isVisible={isNavigating} />
     </>
   );
 }

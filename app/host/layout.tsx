@@ -5,7 +5,7 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { PATHS } from "@/utils/path";
 import { useEffect } from "react";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
-import HostSidebar from "@/components/shared/HostSidebar";
+import { Sidebar } from "@/components/shared/Sidebar";
 import { UserRoles } from "@/constants/enums";
 
 export default function HostLayout({
@@ -33,7 +33,7 @@ export default function HostLayout({
 
   return (
     <div className="flex md:h-screen bg-neutral-100">
-      <HostSidebar />
+      <Sidebar role="host" />
       <main className="flex-1 md:overflow-y-auto">
         <div className="max-w-[1440px] w-full mx-auto">{children}</div>
       </main>

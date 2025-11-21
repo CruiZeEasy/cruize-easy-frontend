@@ -2,7 +2,9 @@
 import { usePathname } from "next/navigation";
 import { BackButton } from "../ui/BackButton";
 import { PATHS } from "@/utils/path";
-import { HostMobileSidebar } from "../shared/HostMobileSidebar";
+import { MobileSidebar } from "../shared/MobileSidebar";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { UserRoles } from "@/constants/enums";
 
 const PAGE_CONFIG = {
   [PATHS.HOST.BOOKINGS]: {
@@ -28,6 +30,9 @@ interface HostHeaderProps {
 }
 
 export function HostHeader({ notificationCount = 3 }: HostHeaderProps) {
+  const { data: user } = useCurrentUser();
+  const isHost = user?.roles?.includes(UserRoles.HOST);
+
   const pathname = usePathname();
 
   const currentPage = Object.entries(PAGE_CONFIG).find(([path]) =>
@@ -56,7 +61,7 @@ export function HostHeader({ notificationCount = 3 }: HostHeaderProps) {
         <>
           {/* Mobile sidebar on small screens */}
           <div className="md:hidden">
-            <HostMobileSidebar />
+            <MobileSidebar role={isHost ? "host" : "user"} />
           </div>
           {/* Empty spacer on desktop for layout balance */}
           <div className="hidden md:block w-[88px]" />{" "}

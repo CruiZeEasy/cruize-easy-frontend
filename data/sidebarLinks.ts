@@ -16,8 +16,6 @@ export const hostSidebarLinks: SidebarLink[] = [
     label: "Profile",
     href: PATHS.HOST.PROFILE,
     icon: "user-profile-light",
-    // showOnMobile: true,
-    // showOnDesktop: true,
   },
   // {
   //   id: 2,
@@ -31,7 +29,6 @@ export const hostSidebarLinks: SidebarLink[] = [
   //   label: "Listings",
   //   href: "#",
   //   icon: "line-chart-light",
-  //   // showOnDesktop: true,
   // },
   {
     id: 4,
@@ -39,28 +36,50 @@ export const hostSidebarLinks: SidebarLink[] = [
     href: PATHS.HOST.BOOKINGS,
     icon: "bookings-light",
     // showOnMobile: true,
-    // showOnDesktop: true,
   },
   {
     id: 5,
     label: "My Cars",
     href: `${PATHS.HOST.PROFILE}?tab=cars`,
     icon: "driving-light",
-    // showOnMobile: true,
   },
   {
     id: 6,
     label: "Notification",
     href: PATHS.HOST.NOTIFICATION,
     icon: "message-notif-light",
-    // showOnMobile: true,
   },
   {
     id: 7,
     label: "Settings",
     href: "#",
     icon: "settings-light",
-    // showOnMobile: true,
-    // showOnDesktop: true,
+  },
+];
+
+export const userSidebarLinks: SidebarLink[] = [
+  {
+    id: 1,
+    label: "Profile",
+    href: "#",
+    icon: "user-profile-light",
+  },
+  {
+    id: 2,
+    label: "Listings",
+    href: "#",
+    icon: "line-chart-light",
+  },
+  {
+    id: 3,
+    label: "Bookings",
+    href: "#",
+    icon: "bookings-light",
+  },
+  {
+    id: 4,
+    label: "Settings",
+    href: "#",
+    icon: "settings-light",
   },
 ];

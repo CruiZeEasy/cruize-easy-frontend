@@ -1,7 +1,7 @@
 "use client";
 
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
-import { HostMobileSidebar } from "@/components/shared/HostMobileSidebar";
+import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { Button } from "@/components/ui/Buttons";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { activityCards } from "@/data/hostActivityCards";
@@ -18,7 +18,6 @@ export default function HostHomePage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
 
-  // const hostLoading = true;
   return (
     <>
       <div className="pb-28">
@@ -30,7 +29,7 @@ export default function HostHomePage() {
             height={32}
             priority
           />
-          <HostMobileSidebar />
+          <MobileSidebar role="host" />
         </div>
 
         <div className="p-4 md:py-6 md:px-12">
