@@ -114,7 +114,7 @@ export default function HostSidebar() {
         >
           <div className="size-11 bg-white rounded-full overflow-hidden relative">
             <Image
-              src={getOptimizedImage(user.profileImageUrl, "low")}
+              src={getOptimizedImage(user?.profileImageUrl!, 10)}
               alt="Profile Image"
               fill
               className="object-cover"

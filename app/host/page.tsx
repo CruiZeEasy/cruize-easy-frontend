@@ -18,9 +18,6 @@ export default function HostHomePage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
 
-  // const user = {};
-  // const host = {};
-  // const userLoading = true;
   // const hostLoading = true;
   return (
     <>
@@ -41,18 +38,18 @@ export default function HostHomePage() {
           <section className=" flex items-center space-x-4 mt-10 md:mt-0">
             <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
               <Image
-                src={getOptimizedImage(user.profileImageUrl, "low")}
+                src={getOptimizedImage(user?.profileImageUrl!, 10)}
                 alt="Profile Image"
                 fill
                 className="object-cover"
+                unoptimized
               />
             </div>
 
             <div className="space-y-1">
               <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
               <span className="font-gilroy-medium">
-                {" "}
-                {formatName(user.fullName)}
+                {formatName(user?.fullName!)}
               </span>
             </div>
           </section>

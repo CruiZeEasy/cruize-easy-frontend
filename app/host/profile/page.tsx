@@ -39,7 +39,7 @@ export default function HostProfilePage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
 
   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
-    "cars"
+    "about"
   );
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState<{
@@ -56,9 +56,9 @@ export default function HostProfilePage() {
   } = useForm<EditProfileFormData>({
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
-      fullName: user.fullName,
-      hostName: user.username,
-      phoneNumber: formatPhoneForInput(user.phoneNo),
+      fullName: user?.fullName,
+      hostName: user?.username,
+      phoneNumber: formatPhoneForInput(user?.phoneNo!),
     },
   });
 
@@ -70,15 +70,15 @@ export default function HostProfilePage() {
     const normalizedCurrentFullName = normalizeString(
       watchedValues.fullName || ""
     );
-    const normalizedOriginalFullName = normalizeString(user.fullName || "");
+    const normalizedOriginalFullName = normalizeString(user?.fullName || "");
 
     const normalizedCurrentHostName = normalizeString(
       watchedValues.hostName || ""
     );
-    const normalizedOriginalHostName = normalizeString(user.username || "");
+    const normalizedOriginalHostName = normalizeString(user?.username || "");
 
     const currentPhone = watchedValues.phoneNumber || "";
-    const originalPhone = formatPhoneForInput(user.phoneNo) || "";
+    const originalPhone = formatPhoneForInput(user?.phoneNo!) || "";
 
     return (
       normalizedCurrentFullName !== normalizedOriginalFullName ||
@@ -90,9 +90,9 @@ export default function HostProfilePage() {
   const handleEditToggle = () => {
     if (isEditing) {
       reset({
-        fullName: user.fullName,
-        hostName: user.username,
-        phoneNumber: formatPhoneForInput(user.phoneNo),
+        fullName: user?.fullName,
+        hostName: user?.username,
+        phoneNumber: formatPhoneForInput(user?.phoneNo!),
       });
     }
     setIsEditing(!isEditing);
@@ -163,7 +163,7 @@ export default function HostProfilePage() {
         <section className="flex flex-col xl:flex-row space-x-4 p-4 md:p-0">
           <div className="flex items-start xl:bg-white font-gilroy-medium xl:px-4 xl:py-8 space-x-4 rounded-[20px]">
             <ImageUpload
-              defaultImage={getOptimizedImage(user.profileImageUrl, "low")}
+              defaultImage={getOptimizedImage(user?.profileImageUrl!, 10)}
               onImageSelect={(file) => {
                 if (!file) return;
                 uploadProfileImageMutation.mutate(file);
@@ -175,7 +175,7 @@ export default function HostProfilePage() {
 
             <div className="flex flex-col">
               <div className="flex items-center space-x-1">
-                <span className="text-base md:text-lg">{user.username}</span>
+                <span className="text-base md:text-lg">{user?.username}</span>
                 <Image
                   src="/images/icons/verification-badge.png"
                   alt="Verification Badge"
@@ -269,7 +269,7 @@ export default function HostProfilePage() {
                       <>
                         <span className="text-black/50 text-sm">Full Name</span>
                         <span className="capitalize">
-                          {formatName(user.fullName)}
+                          {formatName(user?.fullName!)}
                         </span>
                       </>
                     )}
@@ -294,7 +294,7 @@ export default function HostProfilePage() {
                     ) : (
                       <>
                         <span className="text-black/50 text-sm">Host Name</span>
-                        <span>{user.username}</span>
+                        <span>{user?.username}</span>
                       </>
                     )}
                   </div>
@@ -322,24 +322,24 @@ export default function HostProfilePage() {
                         <span className="text-black/50 text-sm">
                           Phone Number
                         </span>
-                        <span>{formatPhoneForDisplay(user.phoneNo)}</span>
+                        <span>{formatPhoneForDisplay(user?.phoneNo!)}</span>
                       </>
                     )}
                   </div>
                   <div className="flex flex-col">
                     <span className="text-black/50 text-sm">Email Address</span>
-                    <span>{user.email}</span>
+                    <span>{user?.email}</span>
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 pb-4 space-y-4 md:gap-x-4 md:px-10  md:space-y-0 border-b border-neutral-275">
                   <div className="flex flex-col pb-4 md:pb-0 border-b border-neutral-275 md:border-b-0">
                     <span className="text-black/50 text-sm">Date of Birth</span>
-                    <span>{user.dateOfBirth || "--/--/--"}</span>
+                    <span>{user?.dateOfBirth || "--/--/--"}</span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-black/50 text-sm">Gender</span>
-                    <span className="capitalize">{user.gender}</span>
+                    <span className="capitalize">{user?.gender}</span>
                   </div>
                 </div>
 

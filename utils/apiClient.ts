@@ -51,10 +51,10 @@ export async function fetchWithTimeout(
   }
 }
 
-export async function apiClient(
+export async function apiClient<T = any>(
   endpoint: string,
   options: FetchOptions & { skipAuthHandling?: boolean } = {}
-) {
+): Promise<T> {
   let token = Cookies.get("access_token");
 
   const isOriginalFormData = options.body instanceof FormData;

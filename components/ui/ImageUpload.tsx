@@ -488,6 +488,7 @@ export const ImageUpload = React.forwardRef<HTMLInputElement, ImageUploadProps>(
                   alt="Profile Preview"
                   fill
                   className="object-cover"
+                  unoptimized
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center" />

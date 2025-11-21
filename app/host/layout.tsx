@@ -6,6 +6,7 @@ import { PATHS } from "@/utils/path";
 import { useEffect } from "react";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import HostSidebar from "@/components/shared/HostSidebar";
+import { UserRoles } from "@/constants/enums";
 
 export default function HostLayout({
   children,
@@ -15,7 +16,7 @@ export default function HostLayout({
   const { data: user, isLoading } = useCurrentUser();
   const { navigate, isNavigating } = usePageTransition();
 
-  const isHost = user?.roles?.includes("ROLE_HOST");
+  const isHost = user?.roles?.includes(UserRoles.HOST);
 
   // Redirect if authenticated but not host
   useEffect(() => {
