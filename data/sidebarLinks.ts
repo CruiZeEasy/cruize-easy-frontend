@@ -19,13 +19,13 @@ export const hostSidebarLinks: SidebarLink[] = [
     // showOnMobile: true,
     // showOnDesktop: true,
   },
-  {
-    id: 2,
-    label: "My Earnings",
-    href: "#",
-    icon: "wallet-light",
-    // showOnMobile: true,
-  },
+  // {
+  //   id: 2,
+  //   label: "My Earnings",
+  //   href: "#",
+  //   icon: "wallet-light",
+  //   // showOnMobile: true,
+  // },
   // {
   //   id: 3,
   //   label: "Listings",

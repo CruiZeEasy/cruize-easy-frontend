@@ -243,6 +243,7 @@ export default function LoginPage() {
             onClick={() =>
               (window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}`)
             }
+            disabled={loading}
           >
             <span>
               <Image
