@@ -1,51 +1,16 @@
-import { RentType, TransmissionType } from "@/constants/enums";
+import { CreateVehiclePayload } from "@/types/vehicle";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
 
-interface VehicleImagePayload {
-  url: string;
-  publicId: string;
-  order: number;
-  uploadedAt: string;
-}
-
-interface VehicleDocumentPayload {
-  documentType: string;
-  documentUrl: string;
-  publicId: string;
-  size: number;
-  uploadedAt: string;
-}
-
-interface WorkingHoursPayload {
-  day: string;
-  isActive: boolean;
-  startTime: string;
-  endTime: string;
-}
-
-export async function createVehicle(data: {
-  name: string;
-  brand: string;
-  description: string;
-  color: string;
-  licensePlate: string;
-  rentType: RentType;
-  vin: string;
-  isTinted?: boolean;
-  pricePerDay: string;
-  transmission: TransmissionType;
-  seats: number;
-  fuelPrice: string;
-  confirmPhoto: boolean;
-
-  images: VehicleImagePayload[];
-  documents: VehicleDocumentPayload[];
-
-  workingHours: WorkingHoursPayload[];
-}) {
+export async function createVehicle(data: CreateVehiclePayload) {
   return apiClient(API_ROUTES.VEHICLES.CREATE, {
     method: "POST",
     body: JSON.stringify(data),
+  });
+}
+
+export async function getHostVehicles() {
+  return apiClient(API_ROUTES.VEHICLES.ME, {
+    method: "GET",
   });
 }

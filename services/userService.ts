@@ -1,4 +1,4 @@
-import { User } from "@/types/user";
+import { UpdateUserProfilePayload, User } from "@/types/user";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
 
@@ -8,16 +8,7 @@ export async function getCurrentUser() {
   });
 }
 
-export async function updateUserProfile(data: {
-  fullName?: string;
-  username?: string;
-  phoneN0?: string;
-  gender?: "MALE" | "FEMALE";
-  profileCompleted?: boolean;
-  profileImageUrl?: string;
-  allowLocation?: boolean;
-  emailNotificationsEnabled?: boolean;
-}) {
+export async function updateUserProfile(data: UpdateUserProfilePayload) {
   return apiClient(API_ROUTES.USER.ME, {
     method: "PATCH",
     body: JSON.stringify(data),

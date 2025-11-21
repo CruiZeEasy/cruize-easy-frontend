@@ -14,3 +14,14 @@ export interface User {
   allowLocation?: boolean;
   emailNotificationsEnabled?: boolean;
 }
+
+export interface UpdateUserProfilePayload {
+  fullName?: string;
+  username?: string;
+  phoneN0?: string;
+  gender?: GenderType;
+  profileCompleted?: boolean;
+  profileImageUrl?: string;
+  allowLocation?: boolean;
+  emailNotificationsEnabled?: boolean;
+}
