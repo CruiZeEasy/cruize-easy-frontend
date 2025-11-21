@@ -91,6 +91,28 @@ export const workingHoursSchema = z.object({
     .refine(
       (hours) => hours.some((h) => h.isActive),
       "Please select at least one working day for car availability"
+    )
+    .refine(
+      (hours) => {
+        const toMinutes = (time: string) => {
+          const [hour, minute, period] = time.split(/[:\s]/);
+          let hr = Number(hour);
+
+          if (period === "PM" && hr !== 12) hr += 12;
+          if (period === "AM" && hr === 12) hr = 0;
+
+          return hr * 60 + Number(minute);
+        };
+
+        return hours.every((h) => {
+          if (!h.isActive) return true;
+
+          return toMinutes(h.startTime) < toMinutes(h.endTime);
+        });
+      },
+      {
+        message: "Start time must be earlier than end time on all active days",
+      }
     ),
 });
 

@@ -44,7 +44,7 @@ export const hostSidebarLinks: SidebarLink[] = [
   {
     id: 5,
     label: "My Cars",
-    href: "#",
+    href: `${PATHS.HOST.PROFILE}?tab=cars`,
     icon: "driving-light",
     // showOnMobile: true,
   },

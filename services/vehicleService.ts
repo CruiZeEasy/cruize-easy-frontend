@@ -1,4 +1,4 @@
-import { CreateVehiclePayload } from "@/types/vehicle";
+import { CreateVehiclePayload, Vehicle } from "@/types/vehicle";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
 
@@ -10,7 +10,7 @@ export async function createVehicle(data: CreateVehiclePayload) {
 }
 
 export async function getHostVehicles() {
-  return apiClient(API_ROUTES.VEHICLES.ME, {
+  return apiClient<Vehicle[]>(API_ROUTES.VEHICLES.ME, {
     method: "GET",
   });
 }

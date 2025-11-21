@@ -30,7 +30,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useState, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 export default function HostProfilePage() {
@@ -38,9 +39,13 @@ export default function HostProfilePage() {
   const { data: user } = useCurrentUser();
   const { data: host, isLoading: hostLoading } = useHostProfile();
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isCars = searchParams.get("tab") === "cars";
   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
-    "about"
+    isCars ? "cars" : "about"
   );
+
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
@@ -61,6 +66,10 @@ export default function HostProfilePage() {
       phoneNumber: formatPhoneForInput(user?.phoneNo!),
     },
   });
+
+  useEffect(() => {
+    setSelectedStatus(isCars ? "cars" : "about");
+  }, [isCars]);
 
   // Watch all form fields
   const watchedValues = watch();
@@ -86,6 +95,14 @@ export default function HostProfilePage() {
       currentPhone !== originalPhone
     );
   }, [watchedValues, user]);
+
+  const handleTabSwitch = (status: "about" | "cars") => {
+    if (status === "cars") {
+      router.push("?tab=cars", { scroll: false });
+    } else {
+      router.push("/host/profile", { scroll: false });
+    }
+  };
 
   const handleEditToggle = () => {
     if (isEditing) {
@@ -225,7 +242,7 @@ export default function HostProfilePage() {
               ).map(({ status, label }) => (
                 <button
                   key={status}
-                  onClick={() => setSelectedStatus(status)}
+                  onClick={() => handleTabSwitch(status)}
                   className="font-gilroy-medium text-sm text-neutral-475 relative py-4 cursor-pointer transition-colors hover:text-black"
                 >
                   <span>{label}</span>
