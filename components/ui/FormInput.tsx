@@ -15,7 +15,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   showPasswordRules?: boolean;
   showPasswordRulesBelow?: boolean;
   watchValue?: string;
-  variant?: "default" | "phone";
+  variant?: "default" | "phone" | "search";
   placeholderVariant?: "light" | "dark";
 }
 
@@ -79,7 +79,12 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
       typeof watchValue === "string" ? watchValue : String(watchValue ?? "");
 
     return (
-      <div className={clsx("flex flex-col space-y-2", fullWidth && "w-full")}>
+      <div
+        className={clsx(
+          variant === "search" ? "flex w-full" : "flex flex-col space-y-2",
+          fullWidth && "w-full"
+        )}
+      >
         {/* Label */}
         <label
           htmlFor={id}
@@ -92,8 +97,29 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
           {label}
         </label>
 
-        {/* Default input or phone input */}
-        {variant === "phone" ? (
+        {/* Default input, search input or phone input */}
+
+        {variant === "search" ? (
+          <input
+            ref={(el) => {
+              if (typeof ref === "function") ref(el);
+              else if (ref)
+                (ref as React.RefObject<HTMLInputElement | null>).current = el;
+              inputRef.current = el;
+            }}
+            id={id}
+            type="search"
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            className={clsx(
+              "p-4 border border-primary-dark/25 placeholder:text-neutral-425",
+              "outline-none rounded-[20px] font-gilroy-medium w-full md:w-64",
+              "transition-all duration-200 ease-in-out focus:border-primary-dark",
+              className
+            )}
+            {...props}
+          />
+        ) : variant === "phone" ? (
           <div className="flex gap-2">
             {/* Country Code */}
             <input

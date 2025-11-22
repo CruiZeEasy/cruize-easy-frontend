@@ -32,7 +32,7 @@ export default function UserLayout({
   if (!isUser) return <PageTransitionSpinner isVisible />;
 
   return (
-    <div className="flex md:h-screen bg-neutral-100">
+    <div className="flex md:h-screen bg-white md:bg-neutral-100">
       <Sidebar role="user" />
       <main className="flex-1 md:overflow-y-auto">
         <div className="max-w-[1440px] w-full mx-auto">{children}</div>
