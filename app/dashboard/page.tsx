@@ -45,7 +45,7 @@ export default function UserDashboard() {
                 <input
                   type="search"
                   placeholder="Search here"
-                  className="p-4 border border-primary-dark/25 placeholder:text-neutral-425 outline-none rounded-[20px] font-gilroy-medium text-sm w-full md:w-64"
+                  className="p-4 border border-primary-dark/25 placeholder:text-neutral-425 outline-none rounded-[20px] font-gilroy-medium  w-full md:w-64"
                 />
               </div>
             </div>
