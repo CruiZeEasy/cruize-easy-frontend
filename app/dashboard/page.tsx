@@ -1,3 +1,6 @@
+import { Notifications } from "@/components/dashboard/Notifications";
+import { PopularCarsSection } from "@/components/dashboard/PopularCarsSection";
+import { TopBrands } from "@/components/dashboard/TopBrands";
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
@@ -54,43 +57,53 @@ export default function UserDashboard() {
             </div>
           </section>
 
-          {/* My Wallets Section */}
-          <section className="mt-8 md:mt-6">
-            <h2 className="font-gilroy-bold text-sm md:hidden">
-              Wallet Balance
-            </h2>
-            <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
-              <div className="flex justify-between items-center">
-                <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
-                  {new Date().toLocaleString("en-US", { month: "long" })}
-                </span>
-                <h2 className="font-gilroy-bold hidden md:block">Wallet</h2>
-                <span className="font-gilroy-medium text-xs text-black-transparent hidden md:block ">
-                  {new Date().toLocaleString("en-US", { month: "long" })}
-                </span>
-              </div>
+          <div className="mt-8 md:mt-6 grid md:grid-cols-5 gap-x-8">
+            <div className="md:col-span-2">
+              {/* My Wallets Section */}
+              <section>
+                <h2 className="font-gilroy-bold text-sm md:hidden">
+                  Wallet Balance
+                </h2>
+                <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
+                  <div className="flex justify-between items-center">
+                    <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
+                      {new Date().toLocaleString("en-US", { month: "long" })}
+                    </span>
+                    <h2 className="font-gilroy-bold hidden md:block">Wallet</h2>
+                    <span className="font-gilroy-medium text-xs text-black-transparent hidden md:block ">
+                      {new Date().toLocaleString("en-US", { month: "long" })}
+                    </span>
+                  </div>
 
-              <div className="mt-8">
-                <span className="font-gilroy-bold text-4xl text-neutral-700">
-                  <span className="font-source-sans font-bold text-[2.5rem]">
-                    ₦
-                  </span>
-                  0.00
-                </span>
+                  <div className="mt-8">
+                    <span className="font-gilroy-bold text-4xl text-neutral-700">
+                      <span className="font-source-sans font-bold text-[2.5rem]">
+                        ₦
+                      </span>
+                      0.00
+                    </span>
 
-                <div className="flex justify-end items-center mt-1">
-                  <Button
-                    variant="dark-primary"
-                    fontFamily="gilroy-medium"
-                    shadow="shadow-none"
-                    className="py-3 md:px-6 text-xs"
-                  >
-                    Create Wallet
-                  </Button>
+                    <div className="flex justify-end items-center mt-1">
+                      <Button
+                        variant="dark-primary"
+                        fontFamily="gilroy-medium"
+                        shadow="shadow-none"
+                        className="py-3 md:px-6 text-xs"
+                      >
+                        Create Wallet
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </section>
+
+              <TopBrands />
+
+              <Notifications />
             </div>
-          </section>
+
+            <PopularCarsSection />
+          </div>
         </div>
       </div>
     </>
