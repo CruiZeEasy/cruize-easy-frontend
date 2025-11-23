@@ -58,7 +58,7 @@ export default function HostHomePage() {
           {/* My Earnings Section */}
           <section className="mt-4 md:mt-6">
             <h2 className="font-gilroy-bold text-sm md:hidden">My Earnings</h2>
-            <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
+            <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 md:border-none shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)] md:shadow-none">
               <div className="flex justify-between items-center">
                 <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
                   Total Balance

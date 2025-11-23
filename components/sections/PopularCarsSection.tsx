@@ -125,7 +125,7 @@ export function PopularCarsSection() {
                 <span className="font-gilroy-bold ">{car.price}</span>
                 <span className="font-gilroy-medium text-neutral-450">day</span>
               </div>
-              <div className="flex items-center justify-between">
+
                 <div className="flex items-center justify-between sm:justify-start w-full sm:w-auto space-x-4 sm:-mt-2">
                   <span className="font-gilroy-bold text-base sm:text-[22px]">
                     {car.title}
@@ -142,8 +142,6 @@ export function PopularCarsSection() {
                     />
                   </div>
                 </div>
-              </div>
-
               {/* Specs + Button */}
               <div className="flex items-stretch justify-between">
                 <div className="flex flex-col justify-between flex-1">
@@ -184,7 +182,7 @@ export function PopularCarsSection() {
                   </div>
 
                   {/* Divider */}
-                  <div className="h-[1px] mt-4 sm:mt-0 sm:w-[16rem] bg-[#D3D3D3]" />
+                  <div className="h-[1px] mt-4 sm:mt-0 sm:w-[16rem] bg-neutral-270" />
 
                   {/* Mobile price + button */}
                   <div className="flex items-stretch justify-between sm:hidden mt-4">

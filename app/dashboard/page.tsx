@@ -1,15 +1,15 @@
 import { Notifications } from "@/components/dashboard/Notifications";
-import { PopularCarsSection } from "@/components/dashboard/PopularCarsSection";
+import { ListingsOverview } from "@/components/dashboard/ListingsOverview";
 import { TopBrands } from "@/components/dashboard/TopBrands";
+import { WalletSection } from "@/components/dashboard/WalletSection";
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
-import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 
 export default function UserDashboard() {
   return (
     <>
-      <div className="pb-28">
+      <div className="pb-28 min-w-0">
         <div className="sticky top-0 z-10 flex items-baseline justify-between w-full bg-white p-4 md:hidden shadow-sm">
           <Image
             src="/images/logo/cruize-easy-logo-dark.svg"
@@ -21,8 +21,8 @@ export default function UserDashboard() {
           <MobileSidebar role="user" />
         </div>
 
-        <div className="p-4 md:py-6 md:px-12">
-          <section className="flex items-center justify-between">
+        <div className="p-4 md:p-0 md:px-12 min-w-0">
+          <section className="sticky top-0 z-10 md:pt-6 md:pb-4 hidden md:flex items-center justify-between bg-neutral-100">
             <h1 className="font-gilroy-bold text-4xl md:text-5xl hidden md:block">
               Welcome
             </h1>
@@ -58,51 +58,17 @@ export default function UserDashboard() {
           </section>
 
           <div className="mt-8 md:mt-6 grid md:grid-cols-5 gap-x-8">
-            <div className="md:col-span-2">
-              {/* My Wallets Section */}
-              <section>
-                <h2 className="font-gilroy-bold text-sm md:hidden">
-                  Wallet Balance
-                </h2>
-                <div className="rounded-[20px] mt-2 md:mt-0 p-4 bg-white border border-neutral-150 shadow-[0_6px_17.9px_0_rgba(0,0,0,0.1)]">
-                  <div className="flex justify-between items-center">
-                    <span className="font-gilroy-medium text-xs text-black-transparent md:hidden">
-                      {new Date().toLocaleString("en-US", { month: "long" })}
-                    </span>
-                    <h2 className="font-gilroy-bold hidden md:block">Wallet</h2>
-                    <span className="font-gilroy-medium text-xs text-black-transparent hidden md:block ">
-                      {new Date().toLocaleString("en-US", { month: "long" })}
-                    </span>
-                  </div>
-
-                  <div className="mt-8">
-                    <span className="font-gilroy-bold text-4xl text-neutral-700">
-                      <span className="font-source-sans font-bold text-[2.5rem]">
-                        ₦
-                      </span>
-                      0.00
-                    </span>
-
-                    <div className="flex justify-end items-center mt-1">
-                      <Button
-                        variant="dark-primary"
-                        fontFamily="gilroy-medium"
-                        shadow="shadow-none"
-                        className="py-3 md:px-6 text-xs"
-                      >
-                        Create Wallet
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </section>
+            <div className="md:col-span-2  min-w-0">
+              <WalletSection />
 
               <TopBrands />
+
+              {/* <Map /> Future Update */}
 
               <Notifications />
             </div>
 
-            <PopularCarsSection />
+            <ListingsOverview />
           </div>
         </div>
       </div>
