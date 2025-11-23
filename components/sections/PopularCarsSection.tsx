@@ -91,7 +91,7 @@ export function PopularCarsSection() {
             initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: i * 0.15 }}
-            className="bg-white border-[#e4e4e4] shadow-lg p-4 rounded-lg flex-shrink-0 
+            className="bg-white border-[#e4e4e4] shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] p-4 rounded-lg flex-shrink-0 
               transition-transform duration-300 hover:scale-[1.02]"
           >
             {/* Favorite button */}
@@ -126,22 +126,22 @@ export function PopularCarsSection() {
                 <span className="font-gilroy-medium text-neutral-450">day</span>
               </div>
 
-                <div className="flex items-center justify-between sm:justify-start w-full sm:w-auto space-x-4 sm:-mt-2">
-                  <span className="font-gilroy-bold text-base sm:text-[22px]">
-                    {car.title}
+              <div className="flex items-center justify-between sm:justify-start w-full sm:w-auto space-x-4 sm:-mt-2">
+                <span className="font-gilroy-bold text-base sm:text-[22px]">
+                  {car.title}
+                </span>
+                <div className="flex items-center space-x-2">
+                  <span className="font-gilroy-medium text-neutral-450 text-[18px]">
+                    {car.rating}
                   </span>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-gilroy-medium text-neutral-450 text-[18px]">
-                      {car.rating}
-                    </span>
-                    <Image
-                      src="/images/icons/star-1.svg"
-                      alt="Star"
-                      width={20}
-                      height={20}
-                    />
-                  </div>
+                  <Image
+                    src="/images/icons/star-1.svg"
+                    alt="Star"
+                    width={20}
+                    height={20}
+                  />
                 </div>
+              </div>
               {/* Specs + Button */}
               <div className="flex items-stretch justify-between">
                 <div className="flex flex-col justify-between flex-1">

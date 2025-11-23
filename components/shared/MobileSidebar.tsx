@@ -81,7 +81,9 @@ export function MobileSidebar({ role }: { role: "host" | "user" }) {
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4">
                 {links.map((link) => {
-                  const isActive = pathname.startsWith(link.href);
+                  const isActive =
+                    pathname === link.href
+
                   return (
                     <Link
                       key={link.id}

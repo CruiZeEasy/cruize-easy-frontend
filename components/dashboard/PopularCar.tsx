@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
-import React from "react";
 import { Button } from "../ui/Buttons";
+import { CarCard } from "../ui/CarCard";
 
 interface CarProps {
   id: number;
@@ -57,15 +58,35 @@ const cars: CarProps[] = [
 ];
 
 export function PopularCar() {
+  const handleRent = (id: number) => {
+    console.log("Rent car:", id);
+    // Add your rent logic here
+  };
+
+  const handleFavorite = (id: number) => {
+    console.log("Toggle favorite:", id);
+    // Add your favorite logic here
+  };
   return (
     <section>
-      <h2 className="font-gilroy-bold text-sm md:hidden">Popular Car</h2>
+      <h2 className="font-gilroy-bold text-sm xl:hidden ">Popular Car</h2>
 
       {/* Desktop Version  */}
-      <div className="rounded-[20px] p-4 bg-white hidden md:block">
-        <h2 className="font-gilroy-bold hidden md:block">Popular Cars</h2>
+      <div className="rounded-[20px] p-4 bg-white hidden lg:block mt-2 xl:mt-0">
+        <h2 className="font-gilroy-bold hidden xl:block">Popular Cars</h2>
 
-        <div className="mt-4 grid grid-cols-2 gap-x-4 items-center">
+        <div className="mt-4 grid xl:grid-cols-2 gap-x-4 items-center">
+          <span className="flex justify-end xl:hidden mb-4">
+            <button className="transition duration-20 hover:scale-[1.05] active:scale-95 cursor-pointer ">
+              <Image
+                src="/images/icons/heart.svg"
+                width={24}
+                height={24}
+                alt="heart icon"
+                className="size-6"
+              />
+            </button>
+          </span>
           <div className="relative h-[247px] overflow-hidden rounded-[20px]">
             <Image
               src={`/images/cars/1.webp`}
@@ -79,7 +100,7 @@ export function PopularCar() {
           <div className="flex flex-col justify-between">
             <div>
               <span className="flex justify-end">
-                <button className="transition duration-20 hover:scale-[1.05] active:scale-95 cursor-pointer mb-4 sm:mb-0">
+                <button className="transition duration-20 hover:scale-[1.05] active:scale-95 cursor-pointer hidden xl:block">
                   <Image
                     src="/images/icons/heart.svg"
                     width={24}
@@ -169,116 +190,16 @@ export function PopularCar() {
 
       <div
         className="
-          flex gap-4 mt-2 overflow-x-auto pb-4 scrollbar-hide md:hidden
+          flex gap-4 mt-2 overflow-x-auto pb-4 scrollbar-hide lg:hidden
         "
       >
         {cars.map((car) => (
-          <div
+          <CarCard
             key={car.id}
-            className="bg-white border-[#e4e4e4] shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] p-4 rounded-lg flex-shrink-0 
-              "
-          >
-            <span className="flex justify-end">
-              <button className="transition duration-20 hover:scale-[1.05] active:scale-95 cursor-pointer mb-4 sm:mb-0">
-                <Image
-                  src="/images/icons/heart.svg"
-                  width={24}
-                  height={24}
-                  alt="heart icon"
-                  className="size-6"
-                />
-              </button>
-            </span>
-
-            {/* Car image */}
-            <div className="flex justify-center mb-2">
-              <Image
-                src={`/images/cars/${car.src}.webp`}
-                width={300}
-                height={193}
-                alt={`${car.title} car`}
-                quality={75}
-                sizes="(max-width: 640px) 300px, (max-width: 1024px) 400px, 500px"
-              />
-            </div>
-
-            {/* Details */}
-            <div className="pb-2 text-sm">
-              <div className="flex justify-between w-full">
-                <span className="font-gilroy-bold">{car.title}</span>
-                <div className="flex items-center space-x-2">
-                  <span className="font-gilroy-medium text-neutral-450">
-                    {car.rating}
-                  </span>
-                  <Image
-                    src="/images/icons/star-1.svg"
-                    alt="Star"
-                    width={20}
-                    height={20}
-                  />
-                </div>
-              </div>
-
-              {/* Specs + Button */}
-              <div className="flex items-stretch justify-between">
-                <div className="flex flex-col justify-between flex-1">
-                  <div className="flex items-center justify-between space-x-4 mt-4">
-                    <div className="flex items-center space-x-2">
-                      <Image
-                        src="/images/icons/gas-station.svg"
-                        alt="Fuel"
-                        width={20}
-                        height={20}
-                      />
-                      <span className="font-gilroy-medium text-neutral-450">
-                        {car.fuel}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Image
-                        src="/images/icons/steering-wheel.svg"
-                        alt="Transmission"
-                        width={20}
-                        height={20}
-                      />
-                      <span className="font-gilroy-medium text-neutral-450">
-                        {car.transmission}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Image
-                        src="/images/icons/user-profile.svg"
-                        alt="Capacity"
-                        width={20}
-                        height={20}
-                      />
-                      <span className="font-gilroy-medium text-neutral-450">
-                        {car.capacity}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div className="h-[1px] mt-4 bg-neutral-270" />
-
-                  {/* Price + button */}
-                  <div className="flex items-stretch justify-between sm:hidden mt-4">
-                    <div className="flex flex-col flex-1 justify-end">
-                      <div className="text-base">
-                        <span className="font-gilroy-bold ">{car.price}</span>
-                        <span className="font-gilroy-medium text-neutral-450">
-                          day
-                        </span>
-                      </div>
-                    </div>
-                    <Button variant="primary" fontFamily="gilroy-medium">
-                      Rent Now
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            {...car}
+            onRentClick={handleRent}
+            onFavoriteClick={handleFavorite}
+          />
         ))}
       </div>
     </section>

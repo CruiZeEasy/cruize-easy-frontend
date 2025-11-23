@@ -34,8 +34,12 @@ export default function UserLayout({
   return (
     <div className="flex md:h-screen bg-white md:bg-neutral-100">
       <Sidebar role="user" />
-      <main className="flex-1 md:overflow-y-auto min-w-0">
+      {/* <main className="flex-1 md:overflow-y-auto min-w-0">
         <div className="max-w-[1440px] w-full mx-auto">{children}</div>
+      </main> */}
+
+      <main className="flex-1 md:overflow-y-auto min-w-0">
+        <div className="max-w-[1440px] w-full mx-auto h-full">{children}</div>
       </main>
     </div>
   );

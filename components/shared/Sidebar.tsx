@@ -15,7 +15,7 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { useQueryClient } from "@tanstack/react-query";
 
-export  function Sidebar({ role }: { role: "host" | "user" }) {
+export function Sidebar({ role }: { role: "host" | "user" }) {
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
   const pathname = usePathname();
@@ -80,7 +80,10 @@ export  function Sidebar({ role }: { role: "host" | "user" }) {
 
           <nav className="flex-1 flex flex-col space-y-3 overflow-y-auto overflow-x-hidden">
             {links.map((link) => {
-              const isActive = pathname.startsWith(link.href);
+              const isActive = pathname === link.href;
+              const isHome =
+                link.href === PATHS.HOST.HOME || link.href === PATHS.USER.HOME;
+
               return (
                 <Link
                   key={link.id}
@@ -89,7 +92,8 @@ export  function Sidebar({ role }: { role: "host" | "user" }) {
                     "relative flex items-center py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all duration-300 ease-in-out",
                     expanded ? "gap-3 pl-4" : "justify-center",
                     isActive &&
-                      "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white"
+                      "bg-primary-light-transparent before:content-[''] before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-white",
+                    isHome && "hidden"
                   )}
                 >
                   <Image

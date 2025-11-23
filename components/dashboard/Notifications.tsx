@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function Notifications() {
   return (
-    <section className="mt-4 md:mt-6 hidden md:block">
+    <section className="mt-4 md:mt-6 hidden lg:block">
       <div className="rounded-[20px] mt-2 md:mt-0 p-4 h-56 bg-white">
         <div className="flex items-center pb-2 space-x-1 border-b border-b-neutral-165">
           <Image
