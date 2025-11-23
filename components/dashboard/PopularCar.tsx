@@ -175,7 +175,7 @@ export function PopularCar() {
         {cars.map((car) => (
           <div
             key={car.id}
-            className="bg-white border-[#e4e4e4] shadow-lg p-4 rounded-lg flex-shrink-0 
+            className="bg-white border-[#e4e4e4] shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] p-4 rounded-lg flex-shrink-0 
               "
           >
             <span className="flex justify-end">
