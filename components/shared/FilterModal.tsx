@@ -45,7 +45,7 @@ export function FilterModal({ isOpen, onClose }: FilterModalProps) {
               </span>
             </div>
 
-            <div className="overflow-y-auto max-h-[calc(85vh-140px)] space-y-6">
+            <div className="overflow-y-auto max-h-[calc(85dvh-140px)] space-y-6">
               <div>
                 <span>Type</span>
 
