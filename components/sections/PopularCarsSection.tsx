@@ -91,7 +91,7 @@ export function PopularCarsSection() {
             initial={{ opacity: 0, x: i % 2 === 0 ? -50 : 50 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: i * 0.15 }}
-            className="bg-white border-[#e4e4e4] shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] p-4 rounded-lg flex-shrink-0 
+            className="bg-white border-neutral-160 shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] p-4 rounded-lg flex-shrink-0 
               transition-transform duration-300 hover:scale-[1.02]"
           >
             {/* Favorite button */}

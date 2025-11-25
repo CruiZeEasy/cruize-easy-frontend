@@ -38,7 +38,7 @@ export function CarCard({
   };
 
   return (
-    <div className="bg-white border border-[#e4e4e4] lg:border-none shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] lg:shadow-none p-4 rounded-lg flex-shrink-0">
+    <div className="bg-white border border-neutral-160 lg:border-none shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] lg:shadow-none p-4 rounded-lg flex-shrink-0">
       {/* Favorite Button */}
       <span className="flex justify-end">
         <button

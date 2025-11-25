@@ -1,3 +1,5 @@
+"use client";
+
 import { Notifications } from "@/components/dashboard/Notifications";
 import { ListingsOverview } from "@/components/dashboard/ListingsOverview";
 import { TopBrands } from "@/components/dashboard/TopBrands";
@@ -5,8 +7,11 @@ import { WalletSection } from "@/components/dashboard/WalletSection";
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
+import { useState } from "react";
+import { FilterModal } from "@/components/shared/FilterModal";
 
 export default function UserDashboard() {
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
   return (
     <>
       <div className="pb-28 lg:pb-0 min-w-0">
@@ -38,14 +43,17 @@ export default function UserDashboard() {
                 <span className="text-black-transparent">Location</span>
               </button>
               <div className="flex space-x-2">
-                <div className="bg-primary-dark flex items-center justify-center rounded-[6px] px-2.5 md:px-2 cursor-pointer">
+                <button
+                  className="bg-primary-dark flex items-center justify-center rounded-[6px] px-2.5 md:px-2 cursor-pointer"
+                  onClick={() => setIsFilterOpen(true)}
+                >
                   <Image
                     src="/images/icons/filter-search-light.svg"
                     alt="Filter Search"
                     width={24}
                     height={24}
                   />
-                </div>
+                </button>
 
                 <FormInput
                   id="search"
@@ -89,6 +97,11 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+
+      <FilterModal
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+      />
     </>
   );
 }

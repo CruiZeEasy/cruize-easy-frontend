@@ -37,7 +37,7 @@ import { defaultWorkingHours } from "@/data/workingHours";
 
 export default function HostAddCarPage() {
   const queryClient = useQueryClient();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(5);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isMovingForward, setIsMovingForward] = useState(false);
