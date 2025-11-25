@@ -175,7 +175,6 @@ export default function HostProfilePage() {
         </div>
       </div>
 
-      {/* p-4 */}
       <div className="md:px-12 md:py-4 mt-8 md:mt-10">
         <section className="flex flex-col xl:flex-row space-x-4 p-4 md:p-0">
           <div className="flex items-start xl:bg-white font-gilroy-medium xl:px-4 xl:py-8 space-x-4 rounded-[20px]">

@@ -7,6 +7,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { UserRoles } from "@/constants/enums";
 
 const PAGE_CONFIG = {
+  // Host Configs
   [PATHS.HOST.BOOKINGS]: {
     title: "Booking",
     showBadge: false,
@@ -21,6 +22,12 @@ const PAGE_CONFIG = {
   },
   [PATHS.HOST.PROFILE]: {
     title: "Host Profile",
+    showBadge: false,
+  },
+
+  // User Configs
+  [PATHS.USER.LISTINGS]: {
+    title: "Listings",
     showBadge: false,
   },
 } as const;

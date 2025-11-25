@@ -79,7 +79,7 @@ export const userSidebarLinks: SidebarLink[] = [
   {
     id: 3,
     label: "Listings",
-    href: "#",
+    href: PATHS.USER.LISTINGS,
     icon: "line-chart-light",
   },
   {

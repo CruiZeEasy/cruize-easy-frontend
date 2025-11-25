@@ -1,8 +1,8 @@
 "use client";
 import { cars } from "@/data/carData";
-import { CarCard } from "../ui/CarCard";
+import { CarCard } from "@/components/ui/CarCard";
 
-export function OtherListings() {
+export function ListingsForYou() {
   const handleRent = (id: number) => {
     console.log("Rent car:", id);
     // Add your rent logic here
@@ -14,12 +14,12 @@ export function OtherListings() {
   };
 
   return (
-    <section className="hidden lg:block">
-      <h2 className="font-gilroy-bold sticky top-0 bg-neutral-100 z-10 py-2">
-        Other Listings
+    <section className="mt-6">
+      <h2 className="font-gilroy-bold sticky top-0 z-10 py-2">
+        Listings For You
       </h2>
 
-      <div className="grid grid-cols-2 gap-4 mt-2">
+      <div className="grid sm:grid-cols-2 gap-4 mt-2">
         {cars.map((car) => (
           <CarCard
             key={car.id}

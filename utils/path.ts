@@ -18,6 +18,7 @@ export const PATHS = {
 
   USER: {
     HOME: "/dashboard",
+    LISTINGS: "/dashboard/listings",
     // TRIPS: "/dashboard/trips",
     // PAYMENTS: "/dashboard/payments",
     // PROFILE: "/dashboard/profile",

@@ -7,6 +7,8 @@ import { useEffect } from "react";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { UserRoles } from "@/constants/enums";
+import { useFilterModal } from "@/stores/FilterModal";
+import { FilterModal } from "@/components/shared/FilterModal";
 
 export default function UserLayout({
   children,
@@ -15,6 +17,7 @@ export default function UserLayout({
 }) {
   const { data: user, isLoading } = useCurrentUser();
   const { navigate, isNavigating } = usePageTransition();
+  const { isOpen, close } = useFilterModal();
 
   const isUser = user?.roles?.includes(UserRoles.USER);
 
@@ -41,6 +44,8 @@ export default function UserLayout({
       <main className="flex-1 md:overflow-y-auto min-w-0">
         <div className="max-w-[1440px] w-full mx-auto h-full">{children}</div>
       </main>
+
+      <FilterModal isOpen={isOpen} onClose={close} />
     </div>
   );
 }

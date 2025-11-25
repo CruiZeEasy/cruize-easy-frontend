@@ -20,49 +20,6 @@ export const vehicle: CarProps = {
   capacity: "4 Persons",
 };
 
-// export const cars: CarProps[] = [
-//   {
-//     id: 1,
-//     src: "1",
-//     title: "GLE AMG 63S",
-//     price: "456k/",
-//     rating: 4.5,
-//     fuel: "90L",
-//     transmission: "Manual",
-//     capacity: "4 Persons",
-//   },
-//   {
-//     id: 2,
-//     src: "2",
-//     title: "GLE AMG 63S",
-//     price: "456k/",
-//     rating: 4.5,
-//     fuel: "90L",
-//     transmission: "Manual",
-//     capacity: "4 Persons",
-//   },
-//   {
-//     id: 3,
-//     src: "3",
-//     title: "GLE AMG 63S",
-//     price: "456k/",
-//     rating: 4.5,
-//     fuel: "90L",
-//     transmission: "Manual",
-//     capacity: "4 Persons",
-//   },
-//   {
-//     id: 4,
-//     src: "4",
-//     title: "GLE AMG 63S",
-//     price: "456k/",
-//     rating: 4.5,
-//     fuel: "90L",
-//     transmission: "Manual",
-//     capacity: "4 Persons",
-//   },
-// ];
-
 export const cars: CarProps[] = [
   {
     id: 1,

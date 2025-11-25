@@ -3,60 +3,7 @@ import Image from "next/image";
 import { Button } from "../ui/Buttons";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
-interface CarProps {
-  id: number;
-  src: string;
-  title: string;
-  price: string;
-  rating: number;
-  fuel: string;
-  transmission: string;
-  capacity: string;
-}
-
-const cars: CarProps[] = [
-  {
-    id: 1,
-    src: "1",
-    title: "GLE AMG 63S",
-    price: "456k/",
-    rating: 4.5,
-    fuel: "90L",
-    transmission: "Manual",
-    capacity: "4 Persons",
-  },
-  {
-    id: 2,
-    src: "2",
-    title: "GLE AMG 63S",
-    price: "456k/",
-    rating: 4.5,
-    fuel: "90L",
-    transmission: "Manual",
-    capacity: "4 Persons",
-  },
-  {
-    id: 3,
-    src: "3",
-    title: "GLE AMG 63S",
-    price: "456k/",
-    rating: 4.5,
-    fuel: "90L",
-    transmission: "Manual",
-    capacity: "4 Persons",
-  },
-  {
-    id: 4,
-    src: "4",
-    title: "GLE AMG 63S",
-    price: "456k/",
-    rating: 4.5,
-    fuel: "90L",
-    transmission: "Manual",
-    capacity: "4 Persons",
-  },
-];
+import { cars } from "@/data/carData";
 
 export function PopularCarsSection() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });

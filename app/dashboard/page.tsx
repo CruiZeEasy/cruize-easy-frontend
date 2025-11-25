@@ -7,11 +7,10 @@ import { WalletSection } from "@/components/dashboard/WalletSection";
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
-import { useState } from "react";
-import { FilterModal } from "@/components/shared/FilterModal";
+import { useFilterModal } from "@/stores/FilterModal";
 
 export default function UserDashboard() {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const { open } = useFilterModal();
   return (
     <>
       <div className="pb-28 lg:pb-0 min-w-0">
@@ -28,12 +27,12 @@ export default function UserDashboard() {
 
         <div className="p-4 md:p-0 md:px-12 min-w-0">
           <section className="lg:sticky lg:top-0 z-10 md:pt-6 md:pb-4 hidden md:flex items-center justify-between bg-neutral-100">
-            <h1 className="font-gilroy-bold text-4xl md:text-5xl hidden md:block">
+            <h1 className="font-gilroy-bold text-4xl md:text-5xl block">
               Welcome
             </h1>
 
-            <div className="lg:flex hidden flex-col md:flex-row md:items-center w-full md:w-auto space-y-4 md:space-y-0 ">
-              <button className="font-gilroy-medium flex items-center space-x-2 cursor-pointer mr-10">
+            <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto space-y-4 md:space-y-0 ">
+              <button className="font-gilroy-medium flex items-center space-x-2 cursor-pointer mr-10 hidden">
                 <Image
                   src="/images/icons/location.svg"
                   alt="Location"
@@ -44,8 +43,8 @@ export default function UserDashboard() {
               </button>
               <div className="flex space-x-2">
                 <button
-                  className="bg-primary-dark flex items-center justify-center rounded-[6px] px-2.5 md:px-2 cursor-pointer"
-                  onClick={() => setIsFilterOpen(true)}
+                  className="bg-primary-dark flex items-center justify-center rounded-[6px] px-2.5 md:px-2 cursor-pointer flex-shrink-0"
+                  onClick={open}
                 >
                   <Image
                     src="/images/icons/filter-search-light.svg"
@@ -65,7 +64,8 @@ export default function UserDashboard() {
             </div>
           </section>
 
-          <section className="flex md:hidden  items-center space-x-4 mt-10 md:mt-0">
+          {/* Mobile Greeting */}
+          <section className="flex md:hidden items-center space-x-4 mt-10 md:mt-0">
             <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
               <Image
                 src={"/images/me.jpg"}
@@ -97,11 +97,6 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
-
-      <FilterModal
-        isOpen={isFilterOpen}
-        onClose={() => setIsFilterOpen(false)}
-      />
     </>
   );
 }
