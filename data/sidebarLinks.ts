@@ -30,12 +30,6 @@ export const hostSidebarLinks: SidebarLink[] = [
   //   icon: "wallet-light",
   //   // showOnMobile: true,
   // },
-  // {
-  //   id: 3,
-  //   label: "Listings",
-  //   href: "#",
-  //   icon: "line-chart-light",
-  // },
   {
     id: 3,
     label: "Bookings",
@@ -85,11 +79,17 @@ export const userSidebarLinks: SidebarLink[] = [
   {
     id: 4,
     label: "Bookings",
-    href: "#",
+    href: PATHS.USER.BOOKINGS,
     icon: "bookings-light",
   },
   {
     id: 5,
+    label: "Notification",
+    href: PATHS.USER.NOTIFICATION,
+    icon: "message-notif-light",
+  },
+  {
+    id: 6,
     label: "Settings",
     href: "#",
     icon: "settings-light",

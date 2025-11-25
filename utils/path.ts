@@ -18,10 +18,11 @@ export const PATHS = {
 
   USER: {
     HOME: "/dashboard",
+    BOOKINGS: "/dashboard/bookings",
+    BOOKING_OVERVIEW: (id: number) => `/dashboard/listings/${id}/book`,
+    BOOKING_DETAILS: (id: number) => `/dashboard/listings/${id}/book/details`,
     LISTINGS: "/dashboard/listings",
-    // TRIPS: "/dashboard/trips",
-    // PAYMENTS: "/dashboard/payments",
-    // PROFILE: "/dashboard/profile",
+    NOTIFICATION: "/dashboard/notification",
   },
 
   HOST: {

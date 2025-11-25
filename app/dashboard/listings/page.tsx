@@ -5,7 +5,7 @@ import { FormInput } from "@/components/ui/FormInput";
 import { useFilterModal } from "@/stores/FilterModal";
 import Image from "next/image";
 
-export default function ListingsPage() {
+export default function CarListingsPage() {
   const { open } = useFilterModal();
   return (
     <div className="pb-28">
@@ -36,7 +36,7 @@ export default function ListingsPage() {
         </div>
       </div>
 
-      <div className="p-4 md:p-0 md:px-12 min-w-0">
+      <div className="mt-10 px-4 md:p-0 md:px-12 min-w-0">
         <ListingsForYou />
       </div>
     </div>

@@ -2,7 +2,7 @@ import { HostHeader } from "@/components/host/HostHeader";
 import { NotificationSection } from "@/components/shared/NotificationSection";
 import { notifications } from "@/data/notifications";
 
-export default function HostNotificationPage() {
+export default function UserNotificationPage() {
   return (
     <div className="pb-28 max-w-3xl mx-auto bg-white ">
       <div className="sticky top-0 z-10 bg-white md:border-b md:border-b-neutral-275 shadow-sm md:shadow-none md:pt-2 md:px-10">

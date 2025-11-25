@@ -10,7 +10,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function HostBookingsPage() {
+export default function UserBookingsPage() {
   const [selectedStatus, setSelectedStatus] =
     useState<BookingStatus>("upcoming");
 

@@ -1,4 +1,4 @@
-import { type Booking } from "@/components/host/bookings/BookingCard";
+import { type Booking } from "@/components/shared/BookingCard";
 
 export const mockBookings: Booking[] = [
   {
