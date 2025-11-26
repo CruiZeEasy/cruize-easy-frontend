@@ -2,6 +2,7 @@
 
 import { getOptimizedImage } from "@/utils/cloudinary";
 import { capitalize } from "@/utils/formatters/capitalize";
+import clsx from "clsx";
 import Image from "next/image";
 
 interface HostCarCardProps {
@@ -12,6 +13,7 @@ interface HostCarCardProps {
   fuelCapacity?: string;
   transmission: string;
   seats: number;
+  variant: "host" | "user";
   onDelete?: (id: number) => void;
   onClick?: (id: number) => void;
 }
@@ -24,6 +26,7 @@ export function HostCarCard({
   fuelCapacity = "90L",
   transmission,
   seats,
+  variant = "host",
   onDelete,
   onClick,
 }: HostCarCardProps) {
@@ -47,8 +50,18 @@ export function HostCarCard({
     >
       <div className="absolute inset-0 bg-black/50 z-10" />
 
-      <div className="relative z-20 flex flex-col justify-between h-full">
-        <div className="flex items-center justify-between">
+      <div
+        className={clsx(
+          "relative z-20 flex flex-col justify-between h-full",
+          variant === "user" && "justify-end"
+        )}
+      >
+        <div
+          className={clsx(
+            "flex items-center justify-between",
+            variant === "user" && "hidden"
+          )}
+        >
           <div />
           {onDelete && (
             <button
