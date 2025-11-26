@@ -323,7 +323,7 @@ export default function BookingDetailsPage() {
                         )}
                       />
 
-                      <span className="w-12 text-center text-sm font-gilroy-medium text-neutral-450">
+                      <span className="hidden md:inline-block w-12 text-center text-sm font-gilroy-medium text-neutral-450">
                         From
                       </span>
 
@@ -363,7 +363,7 @@ export default function BookingDetailsPage() {
                         )}
                       />
 
-                      <span className="w-12 text-center text-sm font-gilroy-medium text-neutral-450">
+                      <span className="hidden md:inline-block w-12 text-center text-sm font-gilroy-medium text-neutral-450">
                         To
                       </span>
 
