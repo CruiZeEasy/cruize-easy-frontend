@@ -13,7 +13,7 @@ interface HostCarCardProps {
   fuelCapacity?: string;
   transmission: string;
   seats: number;
-  variant: "host" | "user";
+  variant?: "host" | "user";
   onDelete?: (id: number) => void;
   onClick?: (id: number) => void;
 }
