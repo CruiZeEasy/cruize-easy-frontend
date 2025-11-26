@@ -11,8 +11,9 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function UserBookingsPage() {
-  const [selectedStatus, setSelectedStatus] =
-    useState<BookingStatus>("upcoming");
+  const [selectedStatus, setSelectedStatus] = useState<"ongoing" | "completed">(
+    "ongoing"
+  );
 
   // Filter bookings based on selected status
   const filteredBookings = mockBookings.filter(
@@ -40,23 +41,17 @@ export default function UserBookingsPage() {
   };
 
   const emptyStateConfig = {
-    upcoming: {
-      message:
-        "You currently don't have any upcoming bookings. Get started by adding your first car",
-      buttonText: "Add Car",
-      buttonAction: () => console.log("Navigate to add car"),
-    },
     ongoing: {
       message:
         "You don't have any ongoing bookings at the moment. Check back here when a customer picks up their rental.",
       buttonText: "View Upcoming",
-      buttonAction: () => setSelectedStatus("upcoming"),
+      buttonAction: () => setSelectedStatus("ongoing"),
     },
     completed: {
       message:
         "You haven't completed any bookings yet. Once you complete your first rental, it will appear here.",
       buttonText: "View Upcoming",
-      buttonAction: () => setSelectedStatus("upcoming"),
+      buttonAction: () => setSelectedStatus("ongoing"),
     },
   } as const;
 
@@ -73,14 +68,9 @@ export default function UserBookingsPage() {
           <HostHeader />
 
           <section className="mt-4">
-            <div className="grid grid-cols-3 border-b border-b-neutral-275">
+            <div className="grid grid-cols-2 border-b border-b-neutral-275">
               {(
                 [
-                  {
-                    status: "upcoming",
-                    label: "Upcoming",
-                    indicatorClass: "bg-yellow-500",
-                  },
                   {
                     status: "ongoing",
                     label: "Ongoing",
@@ -124,6 +114,7 @@ export default function UserBookingsPage() {
                   onDecline={handleDecline}
                   onFindCar={handleFindCar}
                   onMessage={handleMessage}
+                  variant="user"
                 />
               </div>
             ))}

@@ -23,6 +23,8 @@ export const PATHS = {
     BOOKING_DETAILS: (id: number) => `/dashboard/listings/${id}/book/details`,
     LISTINGS: "/dashboard/listings",
     NOTIFICATION: "/dashboard/notification",
+
+    HOST_PROFILE: (hostId: number) => `/dashboard/hosts/${hostId}`,
   },
 
   HOST: {

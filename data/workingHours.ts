@@ -7,7 +7,7 @@ export const defaultWorkingHours = [
   },
   {
     day: "Tuesday",
-    isActive: false,
+    isActive: true,
     startTime: "09:00 AM",
     endTime: "09:00 PM",
   },
@@ -31,7 +31,7 @@ export const defaultWorkingHours = [
   },
   {
     day: "Saturday",
-    isActive: false,
+    isActive: true,
     startTime: "09:00 AM",
     endTime: "09:00 PM",
   },

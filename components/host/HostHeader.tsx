@@ -99,6 +99,8 @@ import { MobileSidebar } from "../shared/MobileSidebar";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { UserRoles } from "@/constants/enums";
 
+type PageConfig = (typeof PAGE_CONFIG)[keyof typeof PAGE_CONFIG];
+
 const PAGE_CONFIG = {
   // Host Configs
   [PATHS.HOST.BOOKINGS]: {
@@ -132,14 +134,15 @@ const PAGE_CONFIG = {
     title: "Booking",
     showBadge: false,
   },
-  // This should come AFTER the more specific pattern
+  ["/dashboard/hosts/"]: {
+    title: "Host Profile",
+    showBadge: false,
+  },
   [PATHS.USER.LISTINGS]: {
     title: "Listings",
     showBadge: false,
   },
 } as const;
-
-type PageConfig = (typeof PAGE_CONFIG)[keyof typeof PAGE_CONFIG];
 
 interface HostHeaderProps {
   notificationCount?: number;
@@ -174,14 +177,10 @@ export function HostHeader({ notificationCount = 3 }: HostHeaderProps) {
   const showBadge = currentPage?.showBadge || false;
   const showNotificationBadge = showBadge && notificationCount > 0;
 
-  const isHostProfilePage = pathname === PATHS.HOST.PROFILE;
-  const isListingsPage = pathname.startsWith(PATHS.USER.LISTINGS);
-  const hideBackButton = isHostProfilePage || isListingsPage;
-
   return (
     <div className="flex items-center justify-between">
-      <BackButton variant="mobile" showOnDesktop={!hideBackButton} />
-      {hideBackButton && <div className="hidden md:block" />}
+      <BackButton variant="mobile" />
+      <div className="hidden md:block" />
 
       <span className="font-modulus-semibold md:text-[20px]">{pageTitle}</span>
 

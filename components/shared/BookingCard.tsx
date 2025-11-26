@@ -17,17 +17,21 @@ export interface Booking {
 
 interface BookingCardProps {
   booking: Booking;
+  variant?: "host" | "user";
   onAccept?: (bookingId: string) => void;
   onDecline?: (bookingId: string) => void;
   onFindCar?: (bookingId: string) => void;
+  onEndTrip?: (bookingId: string) => void;
   onMessage?: (bookingId: string) => void;
 }
 
 export function BookingCard({
   booking,
+  variant = "host",
   onAccept,
   onDecline,
   onFindCar,
+  onEndTrip,
   onMessage,
 }: BookingCardProps) {
   return (
@@ -113,15 +117,27 @@ export function BookingCard({
               </Button>
             </>
           ) : booking.status === "ongoing" ? (
-            <Button
-              variant="dark-primary"
-              fontFamily="gilroy-bold"
-              shadow="shadow-none"
-              className="py-3 px-5 text-xs flex-1 max-w-[120px]"
-              onClick={() => onFindCar?.(booking.id)}
-            >
-              Find Car
-            </Button>
+            variant === "host" ? (
+              <Button
+                variant="dark-primary"
+                fontFamily="gilroy-bold"
+                shadow="shadow-none"
+                className="py-3 px-5 text-xs flex-1 max-w-[120px]"
+                onClick={() => onFindCar?.(booking.id)}
+              >
+                Find Car
+              </Button>
+            ) : (
+              <Button
+                variant="dark-primary"
+                fontFamily="gilroy-bold"
+                shadow="shadow-none"
+                className="py-3 px-5 text-xs flex-1 max-w-[120px]"
+                onClick={() => onEndTrip?.(booking.id)}
+              >
+                End Trip
+              </Button>
+            )
           ) : (
             <span className="font-gilroy-bold text-green text-xs">
               Completed
@@ -213,15 +229,27 @@ export function BookingCard({
                 </Button>
               </>
             ) : booking.status === "ongoing" ? (
-              <Button
-                variant="dark-primary"
-                fontFamily="gilroy-bold"
-                shadow="shadow-none"
-                className="py-3 px-6 text-xs"
-                onClick={() => onFindCar?.(booking.id)}
-              >
-                Find Car
-              </Button>
+              variant === "host" ? (
+                <Button
+                  variant="dark-primary"
+                  fontFamily="gilroy-bold"
+                  shadow="shadow-none"
+                  className="py-3 px-5 text-xs flex-1 max-w-[120px]"
+                  onClick={() => onFindCar?.(booking.id)}
+                >
+                  Find Car
+                </Button>
+              ) : (
+                <Button
+                  variant="dark-primary"
+                  fontFamily="gilroy-bold"
+                  shadow="shadow-none"
+                  className="py-3 px-5 text-xs flex-1 max-w-[120px]"
+                  onClick={() => onEndTrip?.(booking.id)}
+                >
+                  End Trip
+                </Button>
+              )
             ) : (
               <span className="font-gilroy-bold text-green py-2">
                 Completed

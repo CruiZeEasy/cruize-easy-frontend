@@ -30,12 +30,14 @@ xl:	1280px	Large desktops
   --color-neutral-200: #cbd2e0;
   --color-neutral-250: #d9d9d9;
   --color-neutral-260: #d4d4d4;
+  --color-neutral-262: #cfcfcf;
   --color-neutral-270: #d3d3d3;
   --color-neutral-275: #dadada;
   --color-neutral-300: #d8d8d8;
   --color-neutral-350: #bababa;
   --color-neutral-400: #9ca3af;
   --color-neutral-425: #828282;
+  --color-neutral-430: #827f7f;
   --color-neutral-450: #6e6b6b;
   --color-neutral-460: #949494;
   --color-neutral-475: #858585;
@@ -43,16 +45,20 @@ xl:	1280px	Large desktops
   --color-neutral-550: #6c6f72;
   --color-neutral-600: #4b5563;
   --color-neutral-700: #3b3b3b;
+  --color-neutral-720: #2a2828;
   --color-neutral-725: #303030;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
   --color-neutral-950: #191d31;
+  --color-neutral-975: #070707;
 
   --color-neutral-75-transparent: #f0f0f073;
 
   --color-orange-bright: #ff7e0c;
 
   --color-primary: #ff3a3a;
+  --color-primary-blush: #ffb5b5;
+
   --color-primary-dark: #ff3535;
 
   --color-primary-light: #fb5c5c;
@@ -66,6 +72,7 @@ xl:	1280px	Large desktops
 
   --color-red: #ff0000;
   --color-red-accent: #f20000;
+  --color-red-bright: #ff0f0f;
 
   --color-royal-blue: #2367ce;
 
