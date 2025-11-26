@@ -122,7 +122,7 @@ export function DatePicker({
   return (
     <div className="flex-1">
       <div className="bg-neutral-60 flex items-center justify-between border-[1.62px] border-neutral-460/15 transition-all duration-200 hover:border-primary-dark rounded-lg px-2 sm:px-4 py-2 cursor-pointer">
-        <input
+        {/* <input
           type="date"
           value={value}
           min={minDate}
@@ -130,7 +130,29 @@ export function DatePicker({
           onBlur={handleBlur}
           className="flex-1 outline-none cursor-pointer font-gilroy-medium bg-transparent [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden"
           onClick={(e) => e.currentTarget.showPicker?.()}
-        />
+        /> */}
+
+        <div className="relative flex-1">
+          <input
+            type="date"
+            value={value}
+            min={minDate}
+            onChange={(e) => onChange(e.target.value)}
+            onBlur={handleBlur}
+            className="relative z-10 w-full outline-none cursor-pointer font-gilroy-medium bg-transparent 
+              [&::-webkit-calendar-picker-indicator]:hidden 
+              [&::-webkit-inner-spin-button]:hidden 
+              [&::-webkit-clear-button]:hidden"
+            onClick={(e) => e.currentTarget.showPicker?.()}
+          />
+
+          {/* Fake placeholder (shows only when value is empty) */}
+          {!value && (
+            <span className="absolute md:hidden left-0 top-0 h-full flex items-center text-neutral-400 pointer-events-none text-sm">
+              Select date
+            </span>
+          )}
+        </div>
         <Image
           src="/images/icons/calendar.svg"
           alt="Calendar Icon"
