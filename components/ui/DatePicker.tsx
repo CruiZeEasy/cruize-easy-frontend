@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { isDateAvailable } from "@/utils/availability";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface DatePickerProps {
   value: string;
@@ -59,9 +60,23 @@ export function DatePicker({
           height={24}
         />
       </div>
-      {error && (
+      {/* {error && (
         <p className="text-xs text-red-500 mt-1 font-gilroy-medium">{error}</p>
-      )}
+      )} */}
+
+      {/* Error message */}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -2 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -2 }}
+            className="text-sm font-source-sans text-red"
+          >
+            {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

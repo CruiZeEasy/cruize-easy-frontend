@@ -238,7 +238,6 @@ export default function BookingDetailsPage() {
 
   const onSubmit = (data: BookingFormData) => {
     console.log("Booking data:", data);
-    // Add your booking API call here
   };
 
   return (
@@ -252,10 +251,10 @@ export default function BookingDetailsPage() {
 
         <div className="px-4 lg:px-12 lg:py-4 mt-8 lg:mt-10">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <section className="grid grid-cols-2 gap-x-8">
+            <section className="grid lg:grid-cols-2 gap-x-8">
               {/* Left Column */}
               <div className="space-y-6">
-                <div className="space-y-4 bg-white p-4 rounded-[20px]">
+                <div className="space-y-4 bg-white md:p-4 rounded-[20px]">
                   <div className="relative w-full h-[278px]">
                     <Image
                       src={`/images/cars/1.webp`}
@@ -268,7 +267,7 @@ export default function BookingDetailsPage() {
                   <span className="font-gilroy-bold">GLE AMG 63S</span>
                 </div>
 
-                <div className="grid grid-cols-2 gap-x-4 bg-white p-4 rounded-[20px]">
+                <div className="lg:grid hidden grid-cols-2 gap-x-4 bg-white lg:p-4 rounded-[20px]">
                   <div className="relative w-full h-[247px]">
                     <Image
                       src={`/images/cars/2.webp`}
@@ -291,7 +290,7 @@ export default function BookingDetailsPage() {
               </div>
 
               {/* Right Column */}
-              <div className="bg-white rounded-[20px] p-4 flex flex-col justify-between">
+              <div className="bg-white rounded-[20px] md:p-4 flex flex-col justify-between">
                 <Controller
                   name="rentType"
                   control={control}
@@ -303,7 +302,7 @@ export default function BookingDetailsPage() {
                   )}
                 />
 
-                <div className="space-y-6">
+                <div className="space-y-6 mt-6 lg:mt-0">
                   {/* Pickup Date and Time */}
                   <div>
                     <span className="font-gilroy-medium text-sm">
