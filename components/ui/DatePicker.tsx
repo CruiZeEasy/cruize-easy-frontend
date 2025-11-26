@@ -33,6 +33,7 @@
 //     // Check if date is available
 //     if (!isDateAvailable(date, workingHours)) {
 //       alert("This date is not available. Please select another date.");
+//       onChange(""); // Clear the invalid date
 //       return;
 //     }
 
@@ -49,13 +50,15 @@
 //           value={value}
 //           min={minDate}
 //           onChange={(e) => handleDateChange(e.target.value)}
-//           className="flex-1 outline-none cursor-pointer font-gilroy-medium"
+//           className="flex-1 outline-none cursor-pointer font-gilroy-medium bg-transparent [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden"
+//           onClick={(e) => e.currentTarget.showPicker?.()}
 //         />
 //         <Image
 //           src="/images/icons/calendar.svg"
 //           alt="Calendar Icon"
 //           width={24}
 //           height={24}
+//           className="pointer-events-none"
 //         />
 //       </div>
 
@@ -66,7 +69,7 @@
 //             initial={{ opacity: 0, y: -2 }}
 //             animate={{ opacity: 1, y: 0 }}
 //             exit={{ opacity: 0, y: -2 }}
-//             className="text-sm font-source-sans text-red"
+//             className="text-sm font-source-sans text-red mt-1"
 //           >
 //             {error}
 //           </motion.div>
@@ -102,16 +105,14 @@ export function DatePicker({
   minDate,
   error,
 }: DatePickerProps) {
-  const handleDateChange = (date: string) => {
-    if (!date) {
-      onChange("");
-      return;
-    }
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const date = e.target.value;
 
-    // Check if date is available
+    if (!date) return;
+
     if (!isDateAvailable(date, workingHours)) {
+      onChange(""); // or set an error state upstream
       alert("This date is not available. Please select another date.");
-      onChange(""); // Clear the invalid date
       return;
     }
 
@@ -120,14 +121,13 @@ export function DatePicker({
 
   return (
     <div className="flex-1">
-      <div
-        className={`bg-neutral-60 flex items-center justify-between border-[1.62px] border-neutral-460/15 transition-all duration-200 hover:border-primary-dark rounded-lg px-2 sm:px-4 py-2 cursor-pointer`}
-      >
+      <div className="bg-neutral-60 flex items-center justify-between border-[1.62px] border-neutral-460/15 transition-all duration-200 hover:border-primary-dark rounded-lg px-2 sm:px-4 py-2 cursor-pointer">
         <input
           type="date"
           value={value}
           min={minDate}
-          onChange={(e) => handleDateChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={handleBlur}
           className="flex-1 outline-none cursor-pointer font-gilroy-medium bg-transparent [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden"
           onClick={(e) => e.currentTarget.showPicker?.()}
         />
@@ -140,7 +140,6 @@ export function DatePicker({
         />
       </div>
 
-      {/* Error message */}
       <AnimatePresence>
         {error && (
           <motion.div
