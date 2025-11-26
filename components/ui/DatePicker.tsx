@@ -31,10 +31,10 @@ export function DatePicker({
     }
 
     // Check if date is available
-    if (!isDateAvailable(date, workingHours)) {
-      alert("This date is not available. Please select another date.");
-      return;
-    }
+    // if (!isDateAvailable(date, workingHours)) {
+    //   alert("This date is not available. Please select another date.");
+    //   return;
+    // }
 
     onChange(date);
   };
@@ -60,9 +60,6 @@ export function DatePicker({
           height={24}
         />
       </div>
-      {/* {error && (
-        <p className="text-xs text-red-500 mt-1 font-gilroy-medium">{error}</p>
-      )} */}
 
       {/* Error message */}
       <AnimatePresence>
