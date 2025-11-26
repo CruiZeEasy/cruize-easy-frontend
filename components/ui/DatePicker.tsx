@@ -148,7 +148,7 @@ export function DatePicker({
 
           {/* Fake placeholder (shows only when value is empty) */}
           {!value && (
-            <span className="absolute md:hidden left-0 top-0 h-full flex items-center text-neutral-400 pointer-events-none text-sm">
+            <span className="md:hidden absolute font-gilroy-medium left-0 top-0 h-full flex items-center  pointer-events-none">
               Select date
             </span>
           )}
