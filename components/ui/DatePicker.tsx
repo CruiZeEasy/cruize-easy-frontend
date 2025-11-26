@@ -42,9 +42,7 @@ export function DatePicker({
   return (
     <div className="flex-1">
       <div
-        className={`bg-neutral-60 flex items-center justify-between border-[1.1px] ${
-          error ? "border-red-500" : "border-neutral-150"
-        } transition-all duration-200 hover:border-primary-dark rounded-lg px-4 py-3 cursor-pointer`}
+        className={`bg-neutral-60 flex items-center justify-between border-[1.62px] border-neutral-460/15 transition-all duration-200 hover:border-primary-dark rounded-lg px-2 sm:px-4 py-2 cursor-pointer`}
       >
         <input
           type="date"
@@ -58,7 +56,6 @@ export function DatePicker({
           alt="Calendar Icon"
           width={24}
           height={24}
-          className="md:hidden"
         />
       </div>
 
