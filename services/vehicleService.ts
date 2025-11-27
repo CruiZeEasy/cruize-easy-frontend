@@ -14,3 +14,9 @@ export async function getHostVehicles() {
     method: "GET",
   });
 }
+
+export async function getAvailableVehicles() {
+  return apiClient<Vehicle[]>(API_ROUTES.VEHICLES.AVAILABLE_VEHICLES, {
+    method: "GET",
+  });
+}

@@ -165,7 +165,7 @@ export function BookingCard({
                 {booking.customerName}
               </span>
               <span className="font-gilroy-medium text-black/45 text-base">
-                Booked your {booking.carName}
+                Booked {variant === "host" ? "your" : "a"} {booking.carName}
               </span>
             </div>
 

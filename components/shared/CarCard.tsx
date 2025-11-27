@@ -62,7 +62,7 @@ export function CarCard({
 
       {/* Car Image */}
       <div className="flex justify-center mb-2">
-        <div className="relative w-[300px] h-[193px]">
+        <div className="relative w-full max-w-[300px] h-[193px]">
           <Image
             src={`/images/cars/${src}.webp`}
             fill

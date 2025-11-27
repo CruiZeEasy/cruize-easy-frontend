@@ -11,10 +11,10 @@ export function TopBrands() {
   return (
     <section className="mt-4 md:mt-6">
       <h2 className="font-gilroy-bold text-sm md:hidden">Top Brands</h2>
-      <div className="rounded-[20px] mt-2 md:mt-0 md:p-4 md:bg-white">
+      <div className="rounded-[20px] md:p-4 md:bg-white">
         <h2 className="font-gilroy-bold hidden md:block">Top Brands</h2>
 
-        <div className="mt-4 flex gap-x-4 overflow-x-auto">
+        <div className="mt-2  flex gap-x-4 overflow-x-auto">
           {brands.map((brand) => (
             <button
               key={brand.name}

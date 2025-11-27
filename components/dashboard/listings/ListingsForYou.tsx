@@ -1,8 +1,16 @@
 "use client";
 import { cars } from "@/data/carData";
 import { CarCard } from "@/components/shared/CarCard";
+import { useAvailableVehicles } from "@/hooks/useAvailableVehicles";
+import { Vehicle } from "@/types/vehicle";
 
-export function ListingsForYou() {
+export function ListingsForYou({
+  vehicles,
+  isLoading,
+}: {
+  vehicles: Vehicle[];
+  isLoading: boolean;
+}) {
   const handleRent = (id: number) => {
     console.log("Rent car:", id);
     // Add your rent logic here

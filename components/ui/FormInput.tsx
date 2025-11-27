@@ -113,7 +113,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
             onBlur={() => setFocused(false)}
             className={clsx(
               "p-4 border border-primary-dark/25 placeholder:text-neutral-425",
-              "outline-none rounded-[20px] font-gilroy-medium w-full md:w-64",
+              "outline-none rounded-[20px] font-gilroy-medium",
               "transition-all duration-200 ease-in-out focus:border-primary-dark",
               className
             )}

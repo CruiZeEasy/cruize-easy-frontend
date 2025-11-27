@@ -8,8 +8,12 @@ import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 import { useFilterModal } from "@/stores/FilterModal";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { getOptimizedImage } from "@/utils/cloudinary";
+import { formatName } from "@/utils/formatters";
 
 export default function UserDashboard() {
+  const { data: user, isLoading } = useCurrentUser();
   const { open } = useFilterModal();
   return (
     <>
@@ -59,6 +63,7 @@ export default function UserDashboard() {
                   label=""
                   placeholder="Search here"
                   variant="search"
+                  className="md:w-64"
                 />
               </div>
             </div>
@@ -68,7 +73,7 @@ export default function UserDashboard() {
           <section className="flex md:hidden items-center space-x-4 mt-10 md:mt-0">
             <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
               <Image
-                src={"/images/me.jpg"}
+                src={getOptimizedImage(user?.profileImageUrl!, 10)}
                 alt="Profile Image"
                 fill
                 className="object-cover"
@@ -78,7 +83,9 @@ export default function UserDashboard() {
 
             <div className="space-y-1">
               <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
-              <span className="font-gilroy-medium">Tunde Adebayo</span>
+              <span className="font-gilroy-medium">
+                {formatName(user?.fullName!)}
+              </span>
             </div>
           </section>
 
