@@ -201,7 +201,6 @@
 //   );
 // }
 
-
 "use client";
 
 import Image from "next/image";
@@ -265,7 +264,7 @@ export function Gallery({ images }: GalleryProps) {
       <div>
         <h2 className="font-gilroy-bold text-sm">Gallery</h2>
 
-        <div className="grid grid-cols-4 gap-3 bg-white p-4 rounded-[20px] mt-2">
+        <div className="grid grid-cols-4 gap-3 bg-white lg:p-4 rounded-[20px] mt-2">
           {images.slice(0, 4).map((image, index) => (
             <button
               key={index}
