@@ -7,7 +7,6 @@ export const fundWalletSchema = z.object({
     .max(5000000, "Amount cannot exceed ₦5,000,000") as z.ZodNumber,
 
   paymentMethod: z.enum(["PAYSTACK"], {
-    // required_error: "Please select a payment method",
     message: "Please select a payment method",
   }),
 });
