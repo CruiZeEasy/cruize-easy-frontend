@@ -22,7 +22,13 @@ export const API_ROUTES = {
   VEHICLES: {
     CREATE: "/api/v1/vehicles",
     ME: "/api/v1/vehicles/host/me", // get vehicles of current host
-    AVAILABLE_VEHICLES: " /api/v1/vehicles/available",
+    AVAILABLE_VEHICLES: "/api/v1/vehicles/available",
+  },
+
+  WALLET: {
+    CREATE: "/api/v1/wallets/create/initiate",
+    VERIFY_OTP: "/api/v1/wallets/create/verify",
+    RESEND_OTP: "/api/v1/wallets/create/resend-otp",
   },
 
   CLOUDINARY: {

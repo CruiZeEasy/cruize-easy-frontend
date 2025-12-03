@@ -35,6 +35,10 @@ export const PATHS = {
     ADD_CAR: "/host/add-car",
     // LISTINGS: "/host/listings",
     // EARNINGS: "/host/earnings",
+
+    WALLET: "/host/wallet",
+    CREATE_WALLET: "/host/wallet/create",
+    VERIFY_WALLET_OTP: "/host/wallet/verify-otp",
   },
 
   ADMIN: {

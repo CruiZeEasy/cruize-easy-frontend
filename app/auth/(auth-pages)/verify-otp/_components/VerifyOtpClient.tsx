@@ -238,9 +238,12 @@ export function VerifyOtpClient() {
           className="w-full space-y-6"
         >
           <OTPInput
-            onChange={setOtp}
+            onChange={(val) => {
+              setOtp(val);
+              if (toast) setToast(null);
+            }}
             error={toast?.type === "error" ? toast.message : undefined}
-            disabled={verifyLoading}
+            disabled={verifyLoading || resendLoading}
             onComplete={(code) => {
               if (!verifyLoading) handleSubmit(code);
             }}
@@ -260,7 +263,7 @@ export function VerifyOtpClient() {
             Verify
           </Button>
 
-          <p className="font-gilroy-medium text-sm md:text-center text-neutral-550">
+          <p className="font-gilroy-medium text-sm text-center text-neutral-550">
             Didn't see your email?{" "}
             <button
               type="button"

@@ -15,7 +15,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   showPasswordRules?: boolean;
   showPasswordRulesBelow?: boolean;
   watchValue?: string;
-  variant?: "default" | "phone" | "search";
+  variant?: "default" | "phone" | "search" | "pin";
   placeholderVariant?: "light" | "dark";
 }
 
@@ -97,9 +97,36 @@ export const FormInput = React.forwardRef<HTMLInputElement, InputProps>(
           {label}
         </label>
 
-        {/* Default input, search input or phone input */}
+        {/* Default input, search input or Pin Input  or phone input */}
 
-        {variant === "search" ? (
+        {variant === "pin" ? (
+          <div className="flex flex-col space-y-2 w-full">
+            <input
+              ref={(el) => {
+                if (typeof ref === "function") ref(el);
+                else if (ref)
+                  (ref as React.RefObject<HTMLInputElement | null>).current =
+                    el;
+                inputRef.current = el;
+              }}
+              id={id}
+              type="tel"
+              inputMode="numeric"
+              maxLength={5}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement;
+                target.value = target.value.replace(/\D/g, "").slice(0, 5);
+              }}
+              className={clsx(
+                "border border-neutral-200 p-4 bg-white text-black w-full",
+                "transition-all duration-200 ease-in-out focus:border-primary-dark outline-none",
+                "rounded-lg font-gilroy-medium placeholder:text-neutral-425",
+                className
+              )}
+              {...props}
+            />
+          </div>
+        ) : variant === "search" ? (
           <input
             ref={(el) => {
               if (typeof ref === "function") ref(el);

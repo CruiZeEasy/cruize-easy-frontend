@@ -95,6 +95,7 @@ export default function HostHomePage() {
                     fontFamily="gilroy-medium"
                     shadow="shadow-none"
                     className="py-3 md:px-6 text-xs"
+                    onClick={() => navigate(PATHS.HOST.CREATE_WALLET)}
                   >
                     Create Wallet
                   </Button>

@@ -10,6 +10,9 @@ interface FormCheckboxProps
   label: string;
   labelFontFamily?: "gilroy-medium" | "gilroy-bold";
   error?: string;
+  labelVariant?: "light" | "dark";
+  linkText?: string;
+  linkHref?: string;
 }
 
 export const FormCheckbox = React.forwardRef<
@@ -23,6 +26,9 @@ export const FormCheckbox = React.forwardRef<
       labelFontFamily = "gilroy-medium",
       error,
       className,
+      labelVariant = "dark",
+      linkText,
+      linkHref,
       ...props
     },
     ref
@@ -38,7 +44,7 @@ export const FormCheckbox = React.forwardRef<
             id={id}
             type="checkbox"
             className={clsx(
-              "appearance-none w-5 h-5 border border-neutral-300 rounded-md transition-all",
+              "appearance-none w-5 h-5 border border-neutral-300 rounded-md transition-all flex-shrink-0",
               "checked:bg-primary-dark checked:border-primary-dark checked:after:content-['✓'] checked:after:text-white checked:after:text-sm checked:after:flex checked:after:items-center checked:after:justify-center",
               "focus:ring-2 focus:ring-primary-dark focus:ring-offset-1",
               className
@@ -48,12 +54,24 @@ export const FormCheckbox = React.forwardRef<
 
           <span
             className={clsx(
-              "text-sm text-neutral-700",
+              "text-sm",
               labelFontFamily === "gilroy-medium" && "font-gilroy-medium",
-              labelFontFamily === "gilroy-bold" && "font-gilroy-bold"
+              labelFontFamily === "gilroy-bold" && "font-gilroy-bold",
+              labelVariant === "light" && "text-neutral-550",
+              labelVariant === "dark" && "text-neutral-700"
             )}
           >
             {label}
+
+            {linkText && linkHref && (
+              <a
+                href={linkHref}
+                className="text-royal-blue hover:underline transition-all cursor-pointer ml-1"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {linkText}
+              </a>
+            )}
           </span>
         </label>
 
