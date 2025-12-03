@@ -133,8 +133,6 @@ export default function WalletFundPage() {
           </div>
         )}
       </div>
-
-      {/* <PageTransitionSpinner isVisible={isNavigating} /> */}
     </>
   );
 }

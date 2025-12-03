@@ -29,7 +29,10 @@ export function WalletSection() {
               <span className="font-source-sans font-bold text-[2.5rem]">
                 ₦
               </span>
-              0.00
+              {user?.walletBalance?.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
 
             <div className="flex justify-end items-center mt-1">

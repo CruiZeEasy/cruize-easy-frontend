@@ -15,6 +15,7 @@ export interface User {
   emailNotificationsEnabled?: boolean;
 
   walletStatus: "ACTIVE" | null;
+  walletBalance: number;
 }
 
 export interface UpdateUserProfilePayload {
