@@ -7,3 +7,8 @@ export interface CreateWalletPayload {
 export interface VerifyWalletPayload {
   otp: string;
 }
+
+export interface FundWalletPayload {
+  amount: number;
+  paymentMethod: string;
+}

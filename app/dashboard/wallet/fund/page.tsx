@@ -3,17 +3,15 @@
 import { HostHeader } from "@/components/host/HostHeader";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
-import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { PaymentMethod } from "@/components/ui/PaymentMethod";
 import { Toast } from "@/components/ui/Toast";
 import { fadeUp } from "@/config/animation";
-import { usePageTransition } from "@/hooks/usePageTransition";
 import {
   FundWalletFormData,
   fundWalletSchema,
 } from "@/schemas/wallet/fundWalletSchema";
+import { fundWallet } from "@/services/walletService";
 import { formatNumber } from "@/utils/formatters";
-import { PATHS } from "@/utils/path";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -21,8 +19,6 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function WalletFundPage() {
-  const { navigate, isNavigating } = usePageTransition();
-
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -30,7 +26,6 @@ export default function WalletFundPage() {
 
   const {
     control,
-    register,
     handleSubmit,
     formState: { errors },
   } = useForm<FundWalletFormData>({
@@ -42,14 +37,13 @@ export default function WalletFundPage() {
 
   const fundWalletMutationn = useMutation({
     mutationFn: async (data: FundWalletFormData) => {
-      // return createWallet(data);s
-
-      return data;
+      return fundWallet(data);
     },
 
-    onSuccess: (data) => {
-      console.log(data);
-      // navigate(PATHS.USER.VERIFY_WALLET_OTP);
+    onSuccess: (response) => {
+      if (response?.message) {
+        window.location.href = response.message; // Redirect to Paystack checkout
+      }
     },
 
     onError: (err: any) => {
@@ -100,6 +94,7 @@ export default function WalletFundPage() {
                     field.onChange(raw);
                   }}
                   error={errors.amount?.message}
+                  disabled={fundWalletMutationn.isPending}
                 />
               )}
             />
@@ -139,7 +134,7 @@ export default function WalletFundPage() {
         )}
       </div>
 
-      <PageTransitionSpinner isVisible={isNavigating} />
+      {/* <PageTransitionSpinner isVisible={isNavigating} /> */}
     </>
   );
 }

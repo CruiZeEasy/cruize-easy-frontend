@@ -29,6 +29,8 @@ export const API_ROUTES = {
     CREATE: "/api/v1/wallets/create/initiate",
     VERIFY_OTP: "/api/v1/wallets/create/verify",
     RESEND_OTP: "/api/v1/wallets/create/resend-otp",
+
+    FUND_WALLET: "/api/v1/wallets/fund",
   },
 
   CLOUDINARY: {
