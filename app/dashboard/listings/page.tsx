@@ -10,8 +10,6 @@ export default function CarListingsPage() {
   const { open } = useFilterModal();
   const { data: vehicles, isLoading: vehiclesLoading } = useAvailableVehicles();
 
-  console.log(vehicles);
-
   return (
     <div className="pb-28">
       <div className="sticky top-0 z-40 bg-white md:pt-2">

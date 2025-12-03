@@ -13,7 +13,7 @@ import { getOptimizedImage } from "@/utils/cloudinary";
 import { formatName } from "@/utils/formatters";
 
 export default function UserDashboard() {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user } = useCurrentUser();
   const { open } = useFilterModal();
   return (
     <>

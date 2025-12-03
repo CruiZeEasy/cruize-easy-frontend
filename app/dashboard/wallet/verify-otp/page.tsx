@@ -14,7 +14,7 @@ import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { WalletSuccess } from "@/components/shared/WalletSuccess";
 
-export default function HostWalletVerifyOtpPage() {
+export default function UserWalletVerifyOtpPage() {
   const { data: user } = useCurrentUser();
   const queryClient = useQueryClient();
   const [showSpinner, setShowSpinner] = useState(false);
@@ -47,7 +47,7 @@ export default function HostWalletVerifyOtpPage() {
     onSuccess: () => {
       setShowSpinner(true);
 
-      queryClient.invalidateQueries({ queryKey: ["hostProfile"] });
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
       setTimeout(() => {
         setShowSpinner(false);
@@ -84,7 +84,7 @@ export default function HostWalletVerifyOtpPage() {
     },
   });
 
-  if (success) return <WalletSuccess type="host" />;
+  if (success) return <WalletSuccess type="user" />;
 
   return (
     <>

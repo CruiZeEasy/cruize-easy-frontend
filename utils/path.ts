@@ -25,6 +25,10 @@ export const PATHS = {
     NOTIFICATION: "/dashboard/notification",
 
     HOST_PROFILE: (hostId: number) => `/dashboard/hosts/${hostId}`,
+
+    WALLET: "/dashboard/wallet",
+    CREATE_WALLET: "/dashboard/wallet/create",
+    VERIFY_WALLET_OTP: "/dashboard/wallet/verify-otp",
   },
 
   HOST: {

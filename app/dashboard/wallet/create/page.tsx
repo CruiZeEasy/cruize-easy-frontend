@@ -7,7 +7,7 @@ import { FormInput } from "@/components/ui/FormInput";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Toast } from "@/components/ui/Toast";
 import { fadeUp } from "@/config/animation";
-import { useHostProfile } from "@/hooks/useHostProfile";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import {
   CreateWalletFormData,
@@ -21,8 +21,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function CreateHostWalletPage() {
-  const { data: host, isLoading: hostLoading } = useHostProfile();
+export default function UserCreateHostWalletPage() {
+  const { data: user } = useCurrentUser();
 
   const { navigate, isNavigating } = usePageTransition();
 
@@ -40,10 +40,10 @@ export default function CreateHostWalletPage() {
   });
 
   useEffect(() => {
-    if (!hostLoading && host?.walletStatus === "ACTIVE") {
-      navigate(PATHS.HOST.HOME);
+    if (user?.walletStatus === "ACTIVE") {
+      navigate(PATHS.USER.HOME);
     }
-  }, [host, hostLoading]);
+  }, [user]);
 
   const createWalletMutation = useMutation({
     mutationFn: async (data: CreateWalletFormData) => {
@@ -51,7 +51,7 @@ export default function CreateHostWalletPage() {
     },
 
     onSuccess: () => {
-      navigate(PATHS.HOST.VERIFY_WALLET_OTP);
+      navigate(PATHS.USER.VERIFY_WALLET_OTP);
     },
 
     onError: (err: any) => {

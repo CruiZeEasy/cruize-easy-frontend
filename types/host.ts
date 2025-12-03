@@ -4,4 +4,5 @@ export interface Host {
   totalBookings: number;
   totalReviews: number;
   averageRating: number;
+  walletStatus: "ACTIVE" | null;
 }

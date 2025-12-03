@@ -18,6 +18,8 @@ export default function HostHomePage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
 
+  const isWalletActive = host?.walletStatus === "ACTIVE";
+
   return (
     <>
       <div className="pb-28">
@@ -90,15 +92,27 @@ export default function HostHomePage() {
                   <span className="font-gilroy-medium text-xs text-black-transparent invisible md:visible">
                     Total Earnings this month
                   </span>
-                  <Button
-                    variant="dark-primary"
-                    fontFamily="gilroy-medium"
-                    shadow="shadow-none"
-                    className="py-3 md:px-6 text-xs"
-                    onClick={() => navigate(PATHS.HOST.CREATE_WALLET)}
-                  >
-                    Create Wallet
-                  </Button>
+                  {isWalletActive ? (
+                    <Button
+                      variant="dark-primary"
+                      fontFamily="gilroy-medium"
+                      shadow="shadow-none"
+                      className="py-3 md:px-6 text-xs"
+                      onClick={() => window.alert("View wallet clicked on")}
+                    >
+                      View Wallet
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="dark-primary"
+                      fontFamily="gilroy-medium"
+                      shadow="shadow-none"
+                      className="py-3 md:px-6 text-xs"
+                      onClick={() => navigate(PATHS.HOST.CREATE_WALLET)}
+                    >
+                      Create Wallet
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

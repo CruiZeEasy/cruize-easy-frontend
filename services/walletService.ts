@@ -17,7 +17,7 @@ export async function verifyWallet(data: VerifyWalletPayload) {
 }
 
 export async function resendWalletOtp() {
-  return apiClient(API_ROUTES.WALLET.VERIFY_OTP, {
+  return apiClient(API_ROUTES.WALLET.RESEND_OTP, {
     method: "POST",
   });
 }

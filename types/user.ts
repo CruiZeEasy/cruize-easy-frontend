@@ -13,6 +13,8 @@ export interface User {
   profileCompleted?: boolean;
   allowLocation?: boolean;
   emailNotificationsEnabled?: boolean;
+
+  walletStatus: "ACTIVE" | null;
 }
 
 export interface UpdateUserProfilePayload {
