@@ -11,7 +11,7 @@ export interface PaymentOption {
 }
 
 interface PaymentMethodProps {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
   error?: string;
   options?: PaymentOption[];

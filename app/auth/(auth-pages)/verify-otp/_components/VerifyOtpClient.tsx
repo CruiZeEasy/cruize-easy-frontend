@@ -224,7 +224,7 @@ export function VerifyOtpClient() {
             Verify OTP
           </h1>
 
-          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]">
+          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-104">
             We&apos;ve sent an email to <strong>{email}</strong>, please enter
             the code below.
           </p>

@@ -111,7 +111,7 @@ export default function ForgotPasswordPage() {
             Forgot Password
           </h1>
 
-          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-[26rem]">
+          <p className="font-gilroy-medium text-sm text-neutral-550 md:w-104">
             Enter the email address registered with your account. We&apos;ll
             send you a one-time code to reset your password.
           </p>

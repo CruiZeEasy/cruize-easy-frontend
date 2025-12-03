@@ -62,7 +62,7 @@ export default function WalletFundPage() {
 
   return (
     <>
-      <div className="pb-28 max-w-3xl mx-auto bg-white min-h-[100dvh]">
+      <div className="pb-28 max-w-3xl mx-auto bg-white min-h-dvh">
         <div className="sticky top-0 z-10 bg-white md:border-b md:border-b-neutral-275 shadow-sm md:shadow-none md:pt-2 md:px-10">
           <div className=" px-4 py-4 md:px-0 ">
             <HostHeader />
