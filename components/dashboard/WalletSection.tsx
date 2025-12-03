@@ -39,7 +39,7 @@ export function WalletSection() {
                   fontFamily="gilroy-medium"
                   shadow="shadow-none"
                   className="py-3 md:px-6 text-xs"
-                  onClick={() => window.alert("Fund wallet clicked on")}
+                  onClick={() => navigate(PATHS.USER.FUND_WALLET)}
                 >
                   Fund Wallet
                 </Button>

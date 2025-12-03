@@ -1,0 +1,94 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { PATHS } from "@/utils/path";
+import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
+
+export function WalletFailed({ type }: { type: "user" | "host" }) {
+  const { navigate, isNavigating } = usePageTransition();
+  const goHome = type === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate(goHome);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate, goHome]);
+
+  return (
+    <>
+      <div className="flex flex-col items-center justify-center min-h-[100dvh] font-gilroy-bold text-4xl sm:text-5xl text-black/55 space-y-6">
+        {/* Ripple circles */}
+        <div className="relative flex items-center justify-center size-60">
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.15 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="absolute w-full h-full bg-red-accent rounded-full"
+          />
+
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 0.75, opacity: 0.25 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+            className="absolute w-full h-full bg-red-accent rounded-full"
+          />
+
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 0.5, opacity: 0.35 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="absolute w-full h-full bg-red-accent rounded-full"
+          />
+
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5, ease: "backOut", delay: 0.3 }}
+            className="absolute size-16 bg-red-accent rounded-full z-10"
+          />
+
+          {/* X icon */}
+          <motion.svg
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.5 }}
+            className="absolute z-20 w-8 h-8 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </motion.svg>
+        </div>
+
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+        >
+          Failed
+        </motion.span>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+          className="text-sm font-gilroy-medium text-neutral-475"
+        >
+          Redirecting...
+        </motion.p>
+      </div>
+
+      <PageTransitionSpinner isVisible={isNavigating} />
+    </>
+  );
+}

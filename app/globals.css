@@ -20,6 +20,7 @@ xl:	1280px	Large desktops
   --color-green-accent: #2cb629;
   --color-green-bright: #28db24;
 
+  --color-neutral-25: #f2f2f2;
   --color-neutral-50: #f8f8f8;
   --color-neutral-60: #fafbfc;
   --color-neutral-75: #f3f3f3;
@@ -42,6 +43,7 @@ xl:	1280px	Large desktops
   --color-neutral-450: #6e6b6b;
   --color-neutral-460: #949494;
   --color-neutral-475: #858585;
+  --color-neutral-480: #837f7f;
   --color-neutral-500: #6b7280;
   --color-neutral-550: #6c6f72;
   --color-neutral-600: #4b5563;

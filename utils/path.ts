@@ -29,6 +29,10 @@ export const PATHS = {
     WALLET: "/dashboard/wallet",
     CREATE_WALLET: "/dashboard/wallet/create",
     VERIFY_WALLET_OTP: "/dashboard/wallet/verify-otp",
+
+    FUND_WALLET: "/dashboard/wallet/fund",
+    FUND_WALLET_SUCCESS: "/dashboard/wallet/fund/success",
+    FUND_WALLET_FAILED: "/dashboard/wallet/fund/success",
   },
 
   HOST: {
@@ -47,9 +51,5 @@ export const PATHS = {
 
   ADMIN: {
     HOME: "/admin",
-    // USERS: "/admin/users",
-    // VEHICLES: "/admin/vehicles",
-    // REPORTS: "/admin/reports",
-    // SETTINGS: "/admin/settings",
   },
 };

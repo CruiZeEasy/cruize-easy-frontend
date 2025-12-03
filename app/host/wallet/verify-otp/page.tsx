@@ -13,12 +13,17 @@ import { motion } from "framer-motion";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { WalletSuccess } from "@/components/shared/WalletSuccess";
+import { PATHS } from "@/utils/path";
+import { usePageTransition } from "@/hooks/usePageTransition";
 
 export default function HostWalletVerifyOtpPage() {
   const { data: user } = useCurrentUser();
   const queryClient = useQueryClient();
+
+  const { navigate, isNavigating } = usePageTransition();
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
+
   const [otp, setOtp] = useState("");
   const [toast, setToast] = useState<{
     message: string;
@@ -26,6 +31,12 @@ export default function HostWalletVerifyOtpPage() {
   } | null>(null);
 
   const [cooldown, setCooldown] = useState(0);
+
+  useEffect(() => {
+    if (user?.walletStatus === "ACTIVE") {
+      navigate(PATHS.HOST.HOME);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (cooldown === 0) return;
@@ -190,7 +201,7 @@ export default function HostWalletVerifyOtpPage() {
         )}
       </div>
 
-      <PageTransitionSpinner isVisible={showSpinner} />
+      <PageTransitionSpinner isVisible={showSpinner || isNavigating} />
     </>
   );
 }
