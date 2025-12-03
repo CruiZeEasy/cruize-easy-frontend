@@ -8,6 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { REQUEST_COOLDOWN } from "@/config/cooldown";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { motion } from "framer-motion";
+import { fadeUp } from "@/config/animation";
 
 export default function HostWalletVerifyOtpPage() {
   const queryClient = useQueryClient();
@@ -84,7 +86,13 @@ export default function HostWalletVerifyOtpPage() {
           </div>
         </div>
 
-        <section className="p-4 md:px-10 mt-10 bg-white font-gilroy-medium text-center">
+        <motion.section
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="p-4 md:px-10 mt-10 bg-white font-gilroy-medium text-center"
+        >
           <p className="text-sm text-neutral-550 md:w-[26rem] mx-auto">
             We&apos;ve sent an email to <strong>{user?.email}</strong>, please
             enter the code below.
@@ -164,7 +172,7 @@ export default function HostWalletVerifyOtpPage() {
               </button>
             </p>
           </form>
-        </section>
+        </motion.section>
 
         {toast && (
           <div className="flex justify-center">
