@@ -8,6 +8,12 @@ export async function getCurrentUser() {
   });
 }
 
+export async function getUserProfile() {
+  return apiClient(API_ROUTES.USER.USER_PROFILE, {
+    method: "GET",
+  });
+}
+
 export async function updateUserProfile(data: UpdateUserProfilePayload) {
   return apiClient(API_ROUTES.USER.ME, {
     method: "PATCH",

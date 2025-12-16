@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Buttons";
 import { FormInput } from "@/components/ui/FormInput";
@@ -50,6 +50,7 @@ export default function ForgotPasswordPage() {
           message: "OTP has been sent to your email!",
           type: "success",
         });
+
         reset();
 
         setTimeout(() => {

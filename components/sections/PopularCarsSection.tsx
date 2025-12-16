@@ -55,14 +55,13 @@ export function PopularCarsSection() {
             </span>
 
             {/* Car image */}
-            <div className="flex justify-center mb-2">
+            <div className="flex mx-auto relative h-[193px] w-[300px] justify-center mb-2">
               <Image
                 src={`/images/cars/${car.src}.webp`}
-                width={300}
-                height={193}
+                fill
                 alt={`${car.title} car`}
                 quality={75}
-                sizes="(max-width: 640px) 300px, (max-width: 1024px) 400px, 500px"
+                className="object-cover"
               />
             </div>
 

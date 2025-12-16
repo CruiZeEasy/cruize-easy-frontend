@@ -3,12 +3,16 @@ import { Button } from "../ui/Buttons";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { PATHS } from "@/utils/path";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 export function WalletSection() {
   const { data: user } = useCurrentUser();
+  const { data: userProfile, isLoading: userPorifleLoading } = useUserProfile();
   const { navigate, isNavigating } = usePageTransition();
 
   const isWalletActive = user?.walletStatus === "ACTIVE";
+
+  console.log(userProfile);
   return (
     <>
       <section>
@@ -29,7 +33,7 @@ export function WalletSection() {
               <span className="font-source-sans font-bold text-[2.5rem]">
                 ₦
               </span>
-              {user?.walletBalance?.toLocaleString("en-US", {
+              {(user?.walletBalance ?? 0).toLocaleString("en-US", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
