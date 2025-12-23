@@ -38,7 +38,7 @@ import { LocationPicker } from "@/components/shared/LocationPicker";
 
 export default function HostAddCarPage() {
   const queryClient = useQueryClient();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
   const [isMovingForward, setIsMovingForward] = useState(false);
