@@ -206,7 +206,7 @@ export default function HostProfilePage() {
             </div>
           </div>
 
-          <div className="bg-neutral-150 h-[1px] w-full mt-4 xl:hidden" />
+          <div className="bg-neutral-150 h-px w-full mt-4 xl:hidden" />
 
           <div className="mt-4 xl:mt-0 grid grid-cols-2 lg:grid-cols-4 gap-4 flex-1 items-center bg-white rounded-[20px] p-4">
             {activityCards.map((card) => {

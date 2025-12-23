@@ -36,7 +36,7 @@ export default function UserDashboard() {
             </h1>
 
             <div className="flex flex-col md:flex-row md:items-center w-full md:w-auto space-y-4 md:space-y-0 ">
-              <button className="font-gilroy-medium flex items-center space-x-2 cursor-pointer mr-10 hidden">
+              <button className="font-gilroy-medium items-center space-x-2 cursor-pointer mr-10 hidden">
                 <Image
                   src="/images/icons/location.svg"
                   alt="Location"
@@ -47,7 +47,7 @@ export default function UserDashboard() {
               </button>
               <div className="flex space-x-2">
                 <button
-                  className="bg-primary-dark flex items-center justify-center rounded-[6px] px-2.5 md:px-2 cursor-pointer flex-shrink-0"
+                  className="bg-primary-dark flex items-center justify-center rounded-md px-2.5 md:px-2 cursor-pointer shrink-0"
                   onClick={open}
                 >
                   <Image
@@ -89,7 +89,7 @@ export default function UserDashboard() {
             </div>
           </section>
 
-          <div className="bg-neutral-150 h-[1px] w-full mt-4 md:hidden" />
+          <div className="bg-neutral-150 h-px w-full mt-4 md:hidden" />
 
           <div className="mt-4 md:mt-6 lg:grid lg:grid-cols-5 gap-x-8 md:h-[calc(100vh-200px)]">
             <div className="md:col-span-2 min-w-0 md:overflow-y-auto md:pr-4">

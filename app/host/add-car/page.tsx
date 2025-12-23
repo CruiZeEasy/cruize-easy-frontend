@@ -34,6 +34,7 @@ import {
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { DaySchedule } from "@/components/host/add-car/DaySchedule";
 import { defaultWorkingHours } from "@/data/workingHours";
+import { LocationPicker } from "@/components/shared/LocationPicker";
 
 export default function HostAddCarPage() {
   const queryClient = useQueryClient();
@@ -57,21 +58,27 @@ export default function HostAddCarPage() {
       carImages: [],
       confirmPhotos: false,
       workingHours: defaultWorkingHours,
+      pickupAddress: "",
+      pickupCity: "",
+      pickupState: "",
+      pickupCountry: "",
+      pickupPostalCode: "",
+      pickupLatitude: 0,
+      pickupLongitude: 0,
+      pickupNotes: "",
     },
   });
 
-  // Smooth scroll to top of form container
   const scrollToTop = () => {
     if (formContainerRef.current) {
       const topPosition = formContainerRef.current.offsetTop;
       window.scrollTo({
-        top: topPosition - 120, // Small offset for better visual
+        top: topPosition - 120,
         behavior: "smooth",
       });
     }
   };
 
-  // Get fields to validate for each step
   const getStepFields = (step: number) => {
     switch (step) {
       case 1:
@@ -87,30 +94,25 @@ export default function HostAddCarPage() {
           "seats",
         ] as const;
       case 4:
-        return ["carImages", "confirmPhotos"] as const;
+        return ["pickupAddress", "pickupLatitude", "pickupLongitude"] as const;
       case 5:
+        return ["carImages", "confirmPhotos"] as const;
+      case 6:
         return ["workingHours"] as const;
       default:
         return [];
     }
   };
 
-  // Focus first invalid field with cross-browser compatibility
   const focusFirstInvalidField = () => {
     const errors = form.formState.errors;
     const firstErrorField = Object.keys(errors)[0];
 
     if (!firstErrorField) return;
 
-    // Try multiple selection strategies for maximum compatibility
     const strategies = [
-      // Strategy 1: Direct ID match
       () => document.getElementById(firstErrorField),
-
-      // Strategy 2: Name attribute match
       () => document.querySelector(`[name="${firstErrorField}"]`),
-
-      // Strategy 3: Look for focusable elements within a container with matching ID
       () => {
         const container = document.getElementById(firstErrorField);
         if (container) {
@@ -120,8 +122,6 @@ export default function HostAddCarPage() {
         }
         return null;
       },
-
-      // Strategy 4: Look for any focusable element with data-field attribute
       () =>
         document.querySelector<HTMLElement>(
           `[data-field="${firstErrorField}"]`
@@ -129,14 +129,11 @@ export default function HostAddCarPage() {
     ];
 
     for (const strategy of strategies) {
-      // const element = strategy();
       const element = strategy() as HTMLElement | null;
       if (element && typeof element.focus === "function") {
-        // Use setTimeout to ensure DOM has updated and element is visible
         setTimeout(() => {
           try {
             element.focus({ preventScroll: false });
-            // For mobile devices, also try to scroll element into view
             if (element.scrollIntoView) {
               element.scrollIntoView({
                 behavior: "smooth",
@@ -144,7 +141,6 @@ export default function HostAddCarPage() {
               });
             }
           } catch (e) {
-            // Silently fail if focus is not possible
             console.warn(`Could not focus element: ${firstErrorField}`);
           }
         }, 100);
@@ -153,13 +149,11 @@ export default function HostAddCarPage() {
     }
   };
 
-  // Handle Enter key press
   const handleKeyDown = async (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      // On step 5, submit the form
-      if (currentStep === 5) {
+      if (currentStep === 6) {
         const isValid = await form.trigger(["workingHours"]);
         if (isValid) {
           form.handleSubmit((data) => addCarMutation.mutate(data))();
@@ -169,7 +163,6 @@ export default function HostAddCarPage() {
         return;
       }
 
-      // On steps 1-4, validate and advance
       const fieldsToValidate = getStepFields(currentStep);
       const isValid = await form.trigger(fieldsToValidate);
 
@@ -182,7 +175,6 @@ export default function HostAddCarPage() {
     }
   };
 
-  // Handle Next button click
   const handleNext = async () => {
     const fieldsToValidate = getStepFields(currentStep);
     const isValid = await form.trigger(fieldsToValidate);
@@ -190,13 +182,11 @@ export default function HostAddCarPage() {
     if (isValid) {
       setIsMovingForward(true);
       setCurrentStep((prev) => prev + 1);
-      // scrollToTop();
     } else {
       focusFirstInvalidField();
     }
   };
 
-  // Handle Previous button click
   const handleBack = async () => {
     if (currentStep > 1) {
       setIsMovingForward(false);
@@ -261,6 +251,27 @@ export default function HostAddCarPage() {
         documents,
 
         workingHours: data.workingHours,
+
+        // NEW: Pickup location
+        pickupLocation: {
+          address: normalizeString(data.pickupAddress),
+          city: normalizeString(data.pickupCity),
+          state: normalizeString(data.pickupState),
+          country: normalizeString(data.pickupCountry),
+          postalCode: normalizeString(data.pickupPostalCode || ""),
+          coordinates: {
+            x: data.pickupLongitude,
+            y: data.pickupLatitude,
+            type: "Point" as const,
+            coordinates: [data.pickupLongitude, data.pickupLatitude] as [
+              number,
+              number
+            ],
+          },
+          notes: normalizeString(data.pickupNotes || ""),
+          latitude: data.pickupLatitude,
+          longitude: data.pickupLongitude,
+        },
       };
 
       return createVehicle(payload);
@@ -486,7 +497,7 @@ export default function HostAddCarPage() {
                   }
                   onChange={(e) => {
                     const raw = e.target.value.replace(/,/g, "");
-                    field.onChange(raw); // store clean number in form state
+                    field.onChange(raw);
                   }}
                   error={form.formState.errors.rentPrice?.message}
                 />
@@ -585,6 +596,79 @@ export default function HostAddCarPage() {
       key: "step-4",
       content: (
         <>
+          <span className="font-gilroy-bold text-lg md:text-xl">
+            Pickup Location
+          </span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mt-6">
+            <div className="md:col-span-2">
+              <LocationPicker
+                label="Where can renters pick up this vehicle?"
+                labelFontFamily="gilroy-medium"
+                placeholder="Start typing address (e.g., Lekki Phase 1, Lagos)"
+                // placeholderVariant="light"
+                value={
+                  form.watch("pickupLatitude") !== 0
+                    ? {
+                        address: form.watch("pickupAddress"),
+                        latitude: form.watch("pickupLatitude"),
+                        longitude: form.watch("pickupLongitude"),
+                      }
+                    : undefined
+                }
+                notes={form.watch("pickupNotes")}
+                onNotesChange={(notes) => form.setValue("pickupNotes", notes)}
+                onLocationSelect={(location) => {
+                  form.setValue("pickupAddress", location.address);
+                  form.setValue("pickupCity", location.city);
+                  form.setValue("pickupState", location.state);
+                  form.setValue("pickupCountry", location.country);
+                  form.setValue("pickupPostalCode", location.postalCode);
+                  form.setValue("pickupLatitude", location.latitude);
+                  form.setValue("pickupLongitude", location.longitude);
+                  form.trigger([
+                    "pickupAddress",
+                    "pickupLatitude",
+                    "pickupLongitude",
+                  ]);
+                }}
+                error={
+                  form.formState.errors.pickupAddress?.message ||
+                  form.formState.errors.pickupLatitude?.message
+                }
+              />
+            </div>
+
+            <div className="md:col-span-2 flex gap-4">
+              <Button
+                type="button"
+                onClick={handleBack}
+                variant="step-back"
+                fontFamily="inter"
+                fullWidth
+                shadow="shadow-none"
+              >
+                Previous
+              </Button>
+              <Button
+                type="button"
+                onClick={handleNext}
+                variant="dark-primary"
+                fontFamily="inter"
+                fullWidth
+                shadow="shadow-none"
+              >
+                Next
+              </Button>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      key: "step-5",
+      content: (
+        <>
           <div className="mt-6 font-gilroy-medium">
             <div className="text-neutral-550 space-y-6">
               <span className="text-sm md:text-base">
@@ -667,7 +751,7 @@ export default function HostAddCarPage() {
       ),
     },
     {
-      key: "step-5",
+      key: "step-6",
       content: (
         <>
           <span className="font-gilroy-bold text-lg md:text-xl">
@@ -678,35 +762,40 @@ export default function HostAddCarPage() {
             <Controller
               name="workingHours"
               control={form.control}
-              render={({ field }) => (
-                <>
-                  {field.value.map((schedule, index) => (
-                    <DaySchedule
-                      key={schedule.day}
-                      day={schedule.day}
-                      isActive={schedule.isActive}
-                      startTime={schedule.startTime}
-                      endTime={schedule.endTime}
-                      onToggle={() => {
-                        const updated = [...field.value];
-                        updated[index].isActive = !updated[index].isActive;
-                        field.onChange(updated);
-                      }}
-                      onStartTimeChange={(time) => {
-                        const updated = [...field.value];
-                        updated[index].startTime = time;
-                        field.onChange(updated);
-                      }}
-                      onEndTimeChange={(time) => {
-                        const updated = [...field.value];
-                        updated[index].endTime = time;
-                        field.onChange(updated);
-                      }}
-                      disabled={addCarMutation.isPending}
-                    />
-                  ))}
-                </>
-              )}
+              defaultValue={defaultWorkingHours}
+              render={({ field }) => {
+                const value = field.value ?? defaultWorkingHours;
+
+                return (
+                  <>
+                    {value.map((schedule, index) => (
+                      <DaySchedule
+                        key={schedule.day}
+                        day={schedule.day}
+                        isActive={schedule.isActive}
+                        startTime={schedule.startTime}
+                        endTime={schedule.endTime}
+                        onToggle={() => {
+                          const updated = [...value];
+                          updated[index].isActive = !updated[index].isActive;
+                          field.onChange(updated);
+                        }}
+                        onStartTimeChange={(time) => {
+                          const updated = [...value];
+                          updated[index].startTime = time;
+                          field.onChange(updated);
+                        }}
+                        onEndTimeChange={(time) => {
+                          const updated = [...value];
+                          updated[index].endTime = time;
+                          field.onChange(updated);
+                        }}
+                        disabled={addCarMutation.isPending}
+                      />
+                    ))}
+                  </>
+                );
+              }}
             />
 
             <div className="flex flex-col justify-end">
@@ -774,14 +863,14 @@ export default function HostAddCarPage() {
               Add Car
             </span>
             <span className="font-gilroy-medium text-primary-soft text-sm md:text-base">
-              Step {currentStep}/5
+              Step {currentStep}/6
             </span>
           </div>
 
           <div
             className={clsx(
               "flex items-center justify-center",
-              currentStep === 4 ? "hidden" : "block"
+              currentStep === 5 ? "hidden" : "block"
             )}
           >
             <div className="relative size-[150px]">
@@ -791,6 +880,7 @@ export default function HostAddCarPage() {
                 fill
                 preload
                 quality={100}
+                sizes="150px"
                 className="object-contain"
               />
             </div>

@@ -24,6 +24,7 @@ export const API_ROUTES = {
     CREATE: "/api/v1/vehicles",
     ME: "/api/v1/vehicles/host/me", // get vehicles of current host
     AVAILABLE_VEHICLES: "/api/v1/vehicles/available",
+    VEHICLE_DETAILS: (id: string) => `/api/v1/vehicles/${id}`,
   },
 
   WALLET: {

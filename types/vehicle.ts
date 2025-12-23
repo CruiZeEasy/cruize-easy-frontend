@@ -22,6 +22,23 @@ interface VehicleWorkingHoursPayload {
   endTime: string;
 }
 
+export interface VehicleLocationPayload {
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+  notes?: string;
+  coordinates: {
+    x: number; // longitude
+    y: number; // latitude
+    type: "Point";
+    coordinates: [number, number]; // [longitude, latitude]
+  };
+  latitude: number;
+  longitude: number;
+}
+
 type VehicleStatus =
   | "DRAFT"
   | "AVAILABLE"
@@ -33,6 +50,7 @@ type VehicleStatus =
 export interface Vehicle {
   id: number;
   hostId: string;
+  hostName: string;
   name: string;
   brand: string;
   description: string;
@@ -46,11 +64,15 @@ export interface Vehicle {
 
   transmission: TransmissionType;
 
+  fuelType: "PETROL"; // new field
+
   seats: number;
 
   images: VehicleImagePayload[];
 
   fuelPrice: number;
+
+  primaryImageUrl: string; // new field
 
   status: VehicleStatus;
   instantBooking: boolean;
@@ -61,6 +83,8 @@ export interface Vehicle {
   documents: VehicleDocumentPayload[];
 
   workingHours: VehicleWorkingHoursPayload[];
+
+  pickupLocation?: VehicleLocationPayload;
 
   averageRating: number;
   totalReviews: number;
@@ -87,4 +111,45 @@ export interface CreateVehiclePayload {
   documents: VehicleDocumentPayload[];
 
   workingHours: VehicleWorkingHoursPayload[];
+
+  pickupLocation: VehicleLocationPayload;
+}
+
+export interface VehicleDetailsResponse {
+  success: boolean;
+  id: string;
+  hostId: string;
+  hostName: string;
+  hostProfileImage: string;
+  name: string;
+  brand: string;
+  description: string;
+  color: string;
+  licensePlate: string;
+  vin: string;
+  rentType: RentType;
+  isTinted: boolean;
+  pricePerDay: number;
+  pricePerHour: number;
+  transmission: TransmissionType;
+  fuelType: "PETROL";
+  seats: number;
+  images: VehicleImagePayload[];
+  confirmPhoto: boolean;
+  fuelPrice: number;
+  primaryImageUrl: string;
+  status: VehicleStatus;
+  instantBooking: boolean;
+  minimumRentalDays: number;
+  maximumRentalDays: number;
+  documents: VehicleDocumentPayload[];
+  workingHours: VehicleWorkingHoursPayload[];
+  averageRating: number;
+  totalReviews: number;
+  totalBookings: number;
+  viewCount: number;
+  pickupLocation?: VehicleLocationPayload;
+  createdAt: string;
+  updatedAt: string;
+  lastBookedAt?: string;
 }

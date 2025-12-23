@@ -86,7 +86,7 @@ export function HostCarCard({
           <div className="mt-4 flex items-center space-x-4 text-sm">
             {/* Fuel */}
             <div className="flex items-center space-x-2">
-              <div className="bg-white/20 p-2 rounded-md flex-shrink-0">
+              <div className="bg-white/20 p-2 rounded-md shrink-0">
                 <Image
                   src="/images/icons/gas-station-light.svg"
                   alt="Fuel"
@@ -99,7 +99,7 @@ export function HostCarCard({
 
             {/* Transmission */}
             <div className="flex items-center space-x-2">
-              <div className="bg-white/20 p-2 rounded-md flex-shrink-0">
+              <div className="bg-white/20 p-2 rounded-md shrink-0">
                 <Image
                   src="/images/icons/steering-wheel-light.svg"
                   alt="Transmission"
@@ -112,7 +112,7 @@ export function HostCarCard({
 
             {/* Capacity */}
             <div className="flex items-center space-x-2">
-              <div className="bg-white/20 p-2 rounded-md flex-shrink-0">
+              <div className="bg-white/20 p-2 rounded-md shrink-0">
                 <Image
                   src="/images/icons/user-profile-2-light.svg"
                   alt="Capacity"

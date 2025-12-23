@@ -1,6 +1,8 @@
 "use client";
+
 import Image from "next/image";
 import { Button } from "../ui/Buttons";
+import { formatName } from "@/utils/formatters";
 
 export interface CarCardProps {
   id: number;
@@ -13,6 +15,7 @@ export interface CarCardProps {
   capacity: string;
   onRentClick?: (id: number) => void;
   onFavoriteClick?: (id: number) => void;
+  isExternalImage?: boolean;
   isFavorite?: boolean;
 }
 
@@ -37,8 +40,13 @@ export function CarCard({
     onFavoriteClick?.(id);
   };
 
+  // Check if src is a full URL (from API) or local path
+  const isExternalImage =
+    src.startsWith("http://") || src.startsWith("https://");
+  const imageSrc = isExternalImage ? src : `/images/cars/${src}.webp`;
+
   return (
-    <div className="bg-white border border-neutral-160 lg:border-none shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] lg:shadow-none p-4 rounded-lg flex-shrink-0">
+    <div className="bg-white border border-neutral-160 lg:border-none shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] lg:shadow-none p-4 rounded-lg shrink-0">
       {/* Favorite Button */}
       <span className="flex justify-end">
         <button
@@ -62,13 +70,19 @@ export function CarCard({
 
       {/* Car Image */}
       <div className="flex justify-center mb-2">
-        <div className="relative w-full max-w-[300px] h-[193px]">
+        <div className="relative w-full max-w-[300px] h-[193px] bg-neutral-100 rounded overflow-hidden">
           <Image
-            src={`/images/cars/${src}.webp`}
+            src={imageSrc}
             fill
             alt={`${title} car`}
             quality={100}
             className="object-cover object-center"
+            unoptimized={isExternalImage} // Don't optimize external images
+            onError={(e) => {
+              // Fallback to placeholder if image fails to load
+              const target = e.target as HTMLImageElement;
+              target.src = "/images/cars/default.webp";
+            }}
           />
         </div>
       </div>
@@ -77,10 +91,12 @@ export function CarCard({
       <div className="pb-2 text-sm">
         {/* Title and Rating */}
         <div className="flex items-center justify-between w-full min-w-0 mb-4">
-          <span className="font-gilroy-bold truncate flex-1">{title}</span>
-          <div className="flex items-center space-x-2 flex-shrink-0 ml-2">
+          <span className="font-gilroy-bold truncate flex-1">
+            {formatName(title)}
+          </span>
+          <div className="flex items-center space-x-2 shrink-0 ml-2">
             <span className="font-gilroy-medium text-neutral-450">
-              {rating}
+              {rating > 0 ? rating.toFixed(1) : "New"}
             </span>
             <Image
               src="/images/icons/star-1.svg"
@@ -99,7 +115,7 @@ export function CarCard({
               alt="Fuel"
               width={20}
               height={20}
-              className="flex-shrink-0"
+              className="shrink-0"
             />
             <span className="font-gilroy-medium text-neutral-450 truncate">
               {fuel}
@@ -111,7 +127,7 @@ export function CarCard({
               alt="Transmission"
               width={20}
               height={20}
-              className="flex-shrink-0"
+              className="shrink-0"
             />
             <span className="font-gilroy-medium text-neutral-450 truncate">
               {transmission}
@@ -123,7 +139,7 @@ export function CarCard({
               alt="Capacity"
               width={20}
               height={20}
-              className="flex-shrink-0"
+              className="shrink-0"
             />
             <span className="font-gilroy-medium text-neutral-450 truncate">
               {capacity}
@@ -132,7 +148,7 @@ export function CarCard({
         </div>
 
         {/* Divider */}
-        <div className="h-[1px] mt-4 bg-neutral-270" />
+        <div className="h-px mt-4 bg-neutral-270" />
 
         {/* Price and Button */}
         <div className="flex items-center justify-between mt-4 gap-4 min-w-0">
@@ -146,7 +162,7 @@ export function CarCard({
             variant="primary"
             fontFamily="gilroy-medium"
             onClick={handleRentClick}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
             Rent Now
           </Button>

@@ -391,7 +391,7 @@ export default function BookingDetailsPage() {
                       shadow="shadow-none"
                       fullWidth
                     >
-                      Book Now
+                      Proceed to Checkout
                     </Button>
                   </div>
                 </div>
