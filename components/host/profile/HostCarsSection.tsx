@@ -6,12 +6,12 @@ import Image from "next/image";
 export function HostCarsSection() {
   const { data: vehicles, isLoading } = useHostVehicles();
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     console.log("Delete car:", id);
     // Add your delete logic here
   };
 
-  const handleCardClick = (id: number) => {
+  const handleCardClick = (id: string) => {
     console.log("View car details:", id);
     // Add your navigation logic here
   };
