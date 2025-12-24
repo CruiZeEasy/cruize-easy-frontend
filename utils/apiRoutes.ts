@@ -16,6 +16,10 @@ export const API_ROUTES = {
     UPLOAD_PROFILE_IMAGE: "/api/v1/users/me/profile-image",
   },
 
+  BOOKINGS: {
+    CREATE: "/api/v1/bookings",
+  },
+
   HOST: {
     ME: "/api/v1/host-profiles/me", // get current host profile
   },
