@@ -16,11 +16,11 @@ export function ListingsForYou({
   vehicles,
   isLoading,
 }: ListingsForYouProps) {
-  const handleRent = (id: number) => {
+  const handleRent = (id: string) => {
     navigate(PATHS.USER.BOOKING_OVERVIEW(id));
   };
 
-  const handleFavorite = (id: number) => {
+  const handleFavorite = (id: string) => {
     console.log("Toggle favorite:", id);
     // Add your favorite logic here
   };
