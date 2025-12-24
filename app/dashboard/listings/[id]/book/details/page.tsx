@@ -55,6 +55,25 @@ const bookingSchema = z
   })
   .refine(
     (data) => {
+      // Only validate if pickup date and time are present
+      if (!data.pickupDate || !data.pickupTime) {
+        return true; // Let the individual field validations handle empty fields
+      }
+
+      // Ensure pickup is not in the past
+      const pickup = new Date(
+        combineDateAndTime(data.pickupDate, data.pickupTime)
+      );
+      const now = new Date();
+      return pickup > now;
+    },
+    {
+      message: "Pickup date and time cannot be in the past",
+      path: ["pickupDate"],
+    }
+  )
+  .refine(
+    (data) => {
       // Only validate if all required fields are present
       if (
         !data.pickupDate ||
@@ -79,7 +98,6 @@ const bookingSchema = z
       path: ["returnDate"],
     }
   );
-
 type BookingFormData = z.infer<typeof bookingSchema>;
 
 // Mock data - replace with useVehicleDetails
@@ -158,11 +176,7 @@ export default function BookingDetailsPage() {
 
   const pickupDate = watch("pickupDate");
   const dropoffSameAsPickup = watch("dropoffSameAsPickup");
-
-  // Get today's date at midnight (local timezone) to prevent past dates
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayString = today.toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
   const onSubmit = (data: BookingFormData) => {
     // Prepare the payload for the backend
@@ -324,7 +338,7 @@ export default function BookingDetailsPage() {
                           value={field.value}
                           onChange={field.onChange}
                           workingHours={workingHours}
-                          minDate={todayString}
+                          minDate={today}
                           error={errors.pickupDate?.message}
                         />
                       )}
@@ -364,7 +378,7 @@ export default function BookingDetailsPage() {
                           value={field.value}
                           onChange={field.onChange}
                           workingHours={workingHours}
-                          minDate={pickupDate || todayString}
+                          minDate={pickupDate || today}
                           error={errors.returnDate?.message}
                         />
                       )}
