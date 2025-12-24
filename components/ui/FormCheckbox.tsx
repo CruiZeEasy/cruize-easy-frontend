@@ -37,14 +37,14 @@ export const FormCheckbox = React.forwardRef<
       <div className="flex flex-col space-y-1">
         <label
           htmlFor={id}
-          className="flex items-center space-x-3 cursor-pointer select-none"
+          className="flex items-start space-x-3 cursor-pointer select-none"
         >
           <input
             ref={ref}
             id={id}
             type="checkbox"
             className={clsx(
-              "appearance-none w-5 h-5 border border-neutral-300 rounded-md transition-all flex-shrink-0",
+              "appearance-none w-5 h-5 border border-neutral-300 rounded-md transition-all shrink-0",
               "checked:bg-primary-dark checked:border-primary-dark checked:after:content-['✓'] checked:after:text-white checked:after:text-sm checked:after:flex checked:after:items-center checked:after:justify-center",
               "focus:ring-2 focus:ring-primary-dark focus:ring-offset-1",
               className

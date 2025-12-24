@@ -48,7 +48,7 @@ type VehicleStatus =
   | "PENDING_APPROVAL";
 
 export interface Vehicle {
-  id: number;
+  id: string;
   hostId: string;
   hostName: string;
   name: string;

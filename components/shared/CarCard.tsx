@@ -5,7 +5,7 @@ import { Button } from "../ui/Buttons";
 import { formatName } from "@/utils/formatters";
 
 export interface CarCardProps {
-  id: number;
+  id: string;
   src: string;
   title: string;
   price: string;
@@ -13,8 +13,8 @@ export interface CarCardProps {
   fuel: string;
   transmission: string;
   capacity: string;
-  onRentClick?: (id: number) => void;
-  onFavoriteClick?: (id: number) => void;
+  onRentClick?: (id: string) => void;
+  onFavoriteClick?: (id: string) => void;
   isExternalImage?: boolean;
   isFavorite?: boolean;
 }

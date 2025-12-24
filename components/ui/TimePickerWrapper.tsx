@@ -4,7 +4,7 @@ import { TimePicker } from "@/components/ui/TimePicker";
 import { getAvailableTimeRange, isTimeInRange } from "@/utils/availability";
 
 interface TimePickerWrapperProps {
-  value: string;
+  value?: string;
   onChange: (time: string) => void;
   selectedDate: string;
   workingHours: Array<{
@@ -17,7 +17,7 @@ interface TimePickerWrapperProps {
 }
 
 export function TimePickerWrapper({
-  value,
+  value = "",
   onChange,
   selectedDate,
   workingHours,

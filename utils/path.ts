@@ -19,8 +19,8 @@ export const PATHS = {
   USER: {
     HOME: "/dashboard",
     BOOKINGS: "/dashboard/bookings",
-    BOOKING_OVERVIEW: (id: number) => `/dashboard/listings/${id}/book`,
-    BOOKING_DETAILS: (id: number) => `/dashboard/listings/${id}/book/details`,
+    BOOKING_OVERVIEW: (id: string) => `/dashboard/listings/${id}/book`,
+    BOOKING_DETAILS: (id: string) => `/dashboard/listings/${id}/book/details`,
     LISTINGS: "/dashboard/listings",
     NOTIFICATION: "/dashboard/notification",
 

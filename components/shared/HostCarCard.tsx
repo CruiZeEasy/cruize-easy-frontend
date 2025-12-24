@@ -6,16 +6,16 @@ import clsx from "clsx";
 import Image from "next/image";
 
 interface HostCarCardProps {
-  id: number;
+  id: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   location?: string;
   fuelCapacity?: string;
   transmission: string;
   seats: number;
   variant?: "host" | "user";
-  onDelete?: (id: number) => void;
-  onClick?: (id: number) => void;
+  onDelete?: (id: string) => void;
+  onClick?: (id: string) => void;
 }
 
 export function HostCarCard({
@@ -30,14 +30,17 @@ export function HostCarCard({
   onDelete,
   onClick,
 }: HostCarCardProps) {
-  const optimizedImage = getOptimizedImage(imageUrl, 70);
+  const isExternalImage =
+    imageUrl?.startsWith("http://") || imageUrl?.startsWith("https://");
+  const imageSrc = isExternalImage
+    ? getOptimizedImage(imageUrl!, 70)
+    : "/images/cars/default.webp";
 
   const handleDelete = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click when deleting
+    e.stopPropagation();
     onDelete?.(id);
   };
 
-  //   Coming Soon
   const handleClick = () => {
     onClick?.(id);
   };
@@ -46,7 +49,7 @@ export function HostCarCard({
     <div
       //   onClick={handleClick}
       className="relative h-[302px] sm:h-[377px] rounded-[20px] overflow-hidden bg-cover bg-center p-4"
-      style={{ backgroundImage: `url(${optimizedImage})` }}
+      style={{ backgroundImage: `url(${imageSrc})` }}
     >
       <div className="absolute inset-0 bg-black/50 z-10" />
 
@@ -65,7 +68,7 @@ export function HostCarCard({
           <div />
           {onDelete && (
             <button
-              onClick={handleDelete}
+              // onClick={handleDelete}
               className="cursor-pointer hover:scale-110 transition-transform"
               aria-label="Delete car"
             >
@@ -81,7 +84,7 @@ export function HostCarCard({
 
         <div className="font-gilroy-medium text-neutral-260 flex flex-col">
           <span className="text-white text-xl uppercase truncate">{name}</span>
-          <span className="text-sm truncate">{location}</span>
+          <span className="text-sm">{location}</span>
 
           <div className="mt-4 flex items-center space-x-4 text-sm">
             {/* Fuel */}
@@ -121,10 +124,7 @@ export function HostCarCard({
                 />
               </div>
               <span>
-                {seats}{" "}
-                <span className="hidden sm:inline">
-                  Person{seats !== 1 && "s"}
-                </span>
+                {seats} <span className="hidden sm:inline">People</span>
               </span>
             </div>
           </div>

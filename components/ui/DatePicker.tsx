@@ -86,7 +86,7 @@ import { isDateAvailable } from "@/utils/availability";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface DatePickerProps {
-  value: string;
+  value?: string;
   onChange: (date: string) => void;
   workingHours: Array<{
     day: string;
@@ -99,7 +99,7 @@ interface DatePickerProps {
 }
 
 export function DatePicker({
-  value,
+  value = "",
   onChange,
   workingHours,
   minDate,

@@ -19,11 +19,11 @@ export function PopularCar() {
   const { navigate, isNavigating } = usePageTransition();
   const { data: vehicles, isLoading } = usePopularVehicles(5);
 
-  const handleRent = (id: number) => {
+  const handleRent = (id: string) => {
     navigate(PATHS.USER.BOOKING_OVERVIEW(id));
   };
 
-  const handleFavorite = (id: number) => {
+  const handleFavorite = (id: string) => {
     console.log("Toggle favorite:", id);
   };
 
@@ -38,7 +38,7 @@ export function PopularCar() {
     return (
       <>
         <section>
-          <h2 className="font-gilroy-bold text-sm xl:hidden">Popular Car</h2>
+          <h2 className="font-gilroy-bold block lg:hidden">Popular Cars</h2>
           <PopularCarDesktopSkeleton />
           <PopularCarMobileSkeleton />
         </section>
@@ -50,7 +50,7 @@ export function PopularCar() {
   if (!vehicles || vehicles.length === 0) {
     return (
       <section>
-        <h2 className="font-gilroy-bold text-sm xl:hidden">Popular Car</h2>
+        <h2 className="font-gilroy-bold text-sm lg:hidden">Popular Car</h2>
         <div className="rounded-[20px] p-8 bg-white mt-2 text-center">
           <p className="font-gilroy-medium text-neutral-450">
             No popular vehicles available at the moment
@@ -63,12 +63,12 @@ export function PopularCar() {
   return (
     <>
       <section>
-        <h2 className="font-gilroy-bold text-sm xl:hidden">Popular Car</h2>
+        <h2 className="font-gilroy-bold text-sm lg:hidden">Popular Car</h2>
 
         {/* Desktop Version - Featured Top Vehicle */}
         {topVehicleData && (
           <div className="rounded-[20px] p-4 bg-white hidden lg:block mt-2 xl:mt-0">
-            <h2 className="font-gilroy-bold hidden xl:block">Popular Cars</h2>
+            <h2 className="font-gilroy-bold hidden lg:block">Popular Car</h2>
 
             <div className="mt-4 grid xl:grid-cols-2 gap-x-4 items-center">
               <span className="flex justify-end xl:hidden mb-4">

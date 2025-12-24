@@ -4,11 +4,14 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface RentTypeToggleProps {
-  value: "self-drive" | "driver";
+  value?: "self-drive" | "driver";
   onChange: (value: "self-drive" | "driver") => void;
 }
 
-export function RentTypeToggle({ value, onChange }: RentTypeToggleProps) {
+export function RentTypeToggle({
+  value = "self-drive",
+  onChange,
+}: RentTypeToggleProps) {
   return (
     <div className="text-sm">
       <span className="font-gilroy-medium ">Rent Type</span>

@@ -5,6 +5,8 @@ import { useEffect, useState, useRef } from "react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { getOptimizedImage } from "@/utils/cloudinary";
 
 interface GalleryProps {
   images: string[];
@@ -69,7 +71,7 @@ export function Gallery({ images }: GalleryProps) {
               className="relative aspect-square rounded-[10px] overflow-hidden cursor-pointer transition-all hover:scale-105"
             >
               <Image
-                src={image}
+                src={getOptimizedImage(image, 70)}
                 alt={`Gallery image ${index + 1}`}
                 fill
                 className="object-cover"
@@ -97,7 +99,7 @@ export function Gallery({ images }: GalleryProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/95 z-[9999] flex items-center justify-center"
+                className="fixed inset-0 bg-black/95 z-9999 flex items-center justify-center"
                 onClick={closeLightbox}
                 onKeyDown={handleKeyDown}
                 tabIndex={0}
@@ -108,18 +110,14 @@ export function Gallery({ images }: GalleryProps) {
                     e.stopPropagation();
                     closeLightbox();
                   }}
-                  className="absolute top-4 right-4 z-[10000] p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+                  className="absolute top-4 right-4 z-10000 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+                  aria-label="Close"
                 >
-                  <Image
-                    src="/images/icons/close-light.svg"
-                    alt="Close"
-                    width={24}
-                    height={24}
-                  />
+                  <X className="w-6 h-6 text-white" />
                 </button>
 
                 {/* Counter */}
-                <div className="absolute top-4 left-4 text-white bg-black/50 px-4 py-2 rounded-full font-gilroy-medium text-sm z-[10000]">
+                <div className="absolute top-4 left-4 text-white bg-black/50 px-4 py-2 rounded-full font-gilroy-medium text-sm z-10000">
                   {selectedImage + 1} / {images.length}
                 </div>
 
@@ -130,14 +128,10 @@ export function Gallery({ images }: GalleryProps) {
                       e.stopPropagation();
                       prevImage();
                     }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 z-[10000] p-3 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 z-10000 p-3 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer transition-colors"
+                    aria-label="Previous"
                   >
-                    <Image
-                      src="/images/icons/chevron-left-light.svg"
-                      alt="Prev"
-                      width={24}
-                      height={24}
-                    />
+                    <ChevronLeft className="w-6 h-6 text-white" />
                   </button>
                 )}
 
@@ -168,19 +162,15 @@ export function Gallery({ images }: GalleryProps) {
                       e.stopPropagation();
                       nextImage();
                     }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 z-[10000] p-3 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 z-10000 p-3 rounded-full bg-white/10 hover:bg-white/20 cursor-pointer transition-colors"
+                    aria-label="Next"
                   >
-                    <Image
-                      src="/images/icons/chevron-right-light.svg"
-                      alt="Next"
-                      width={24}
-                      height={24}
-                    />
+                    <ChevronRight className="w-6 h-6 text-white" />
                   </button>
                 )}
 
                 {/* Thumbnails */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-[10000] flex gap-2 max-w-full overflow-x-auto px-4 py-2 bg-black/50 rounded-[10px] scroll-smooth">
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10000 flex gap-2 max-w-full overflow-x-auto px-4 py-2 bg-black/50 rounded-[10px] scroll-smooth">
                   {images.map((image, index) => (
                     <button
                       key={index}
@@ -192,7 +182,7 @@ export function Gallery({ images }: GalleryProps) {
                         setSelectedImage(index);
                       }}
                       className={clsx(
-                        "relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 transition-all cursor-pointer",
+                        "relative w-16 h-16 rounded-lg overflow-hidden shrink-0 transition-all cursor-pointer",
                         selectedImage === index
                           ? "ring-2 ring-white scale-110"
                           : "opacity-60 hover:opacity-100"

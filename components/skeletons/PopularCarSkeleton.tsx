@@ -1,9 +1,9 @@
 export function PopularCarDesktopSkeleton() {
   return (
-    <div className="rounded-[20px] p-4 bg-white hidden lg:block animate-pulse">
-      <div className="h-6 bg-neutral-300 rounded w-32 mb-4" />
-
-      <div className="grid xl:grid-cols-2 gap-x-4 items-center">
+    <div className="rounded-[20px] p-4 bg-white hidden lg:block">
+      {/* <div className="h-6 bg-neutral-300 rounded w-32 mb-4" /> */}
+      <h2 className="font-gilroy-bold hidden lg:block">Popular Car</h2>
+      <div className="grid xl:grid-cols-2 gap-x-4 items-center animate-pulse">
         <span className="flex justify-end xl:hidden mb-4">
           <div className="w-6 h-6 bg-neutral-300 rounded" />
         </span>

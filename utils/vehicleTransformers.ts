@@ -1,5 +1,6 @@
-import { Vehicle } from "@/types/vehicle";
 import { CarCardProps } from "@/components/shared/CarCard";
+import { formatNGN } from "./formatters/formatNGN";
+import { Vehicle } from "@/types/vehicle";
 
 export function transformVehicleForDisplay(vehicle: Vehicle): CarCardProps {
   const primaryImage =
@@ -7,11 +8,7 @@ export function transformVehicleForDisplay(vehicle: Vehicle): CarCardProps {
     vehicle.images?.[0]?.url ||
     vehicle.primaryImageUrl;
 
-  const formattedPrice = new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-  }).format(vehicle.pricePerDay);
+  const formattedPrice = formatNGN(vehicle.pricePerDay);
 
   const isExternalImage =
     primaryImage?.startsWith("http://") || primaryImage?.startsWith("https://");

@@ -9,7 +9,6 @@ import { useAvailableVehicles } from "@/hooks/useAvailableVehicles";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { useFilterModal } from "@/stores/FilterModal";
 import Image from "next/image";
-import { useParams } from "next/navigation";
 
 export default function CarListingsPage() {
   const { open } = useFilterModal();
