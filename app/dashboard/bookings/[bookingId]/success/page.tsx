@@ -4,19 +4,18 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { PATHS } from "@/utils/path";
-import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
+import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
-export function WalletSuccess({ type }: { type: "user" | "host" }) {
+export default function BookingSuccessPage() {
   const { navigate, isNavigating } = usePageTransition();
-  const goHome = type === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate(goHome);
-    }, 2000);
+      navigate(PATHS.USER.BOOKINGS);
+    }, 2500);
 
     return () => clearTimeout(timer);
-  }, [navigate, goHome]);
+  }, [navigate]);
 
   return (
     <>
@@ -70,13 +69,22 @@ export function WalletSuccess({ type }: { type: "user" | "host" }) {
           </motion.svg>
         </div>
 
-        <motion.span
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
+          className="text-center"
         >
-          Successful
-        </motion.span>
+          <span className="block">Booking Confirmed!</span>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            className="text-base font-gilroy-medium text-neutral-475 mt-4"
+          >
+            Your booking has been successfully confirmed
+          </motion.p>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0 }}
@@ -84,7 +92,7 @@ export function WalletSuccess({ type }: { type: "user" | "host" }) {
           transition={{ duration: 0.5, delay: 1 }}
           className="text-sm font-gilroy-medium text-neutral-475"
         >
-          Redirecting...
+          Redirecting to your bookings...
         </motion.p>
       </div>
 

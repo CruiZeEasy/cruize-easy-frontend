@@ -51,8 +51,9 @@ export function PopularCar() {
     return (
       <section>
         <h2 className="font-gilroy-bold text-sm lg:hidden">Popular Car</h2>
-        <div className="rounded-[20px] p-8 bg-white mt-2 text-center">
-          <p className="font-gilroy-medium text-neutral-450">
+        <div className="rounded-[20px] p-4 bg-white mt-2">
+          <h2 className="font-gilroy-bold hidden lg:block">Popular Car</h2>
+          <p className="font-gilroy-medium text-neutral-450 text-center mt-4">
             No popular vehicles available at the moment
           </p>
         </div>
