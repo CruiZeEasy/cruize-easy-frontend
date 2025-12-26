@@ -116,7 +116,7 @@ export function PaymentPinModal({
               {/* Actions */}
               <div className="flex gap-3">
                 <Button
-                  variant="outline"
+                  variant="step-back"
                   fontFamily="gilroy-medium"
                   fullWidth
                   shadow="shadow-none"

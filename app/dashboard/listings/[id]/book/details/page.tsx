@@ -22,6 +22,7 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { PATHS } from "@/utils/path";
 import { formatName } from "@/utils/formatters";
 import { Toast } from "@/components/ui/Toast";
+import { BookingDetailsSkeleton } from "@/components/skeletons/BookingDetailsSkeleton";
 
 // Utility function to combine date and time into ISO format
 const combineDateAndTime = (date: string, time: string): string => {
@@ -32,10 +33,10 @@ const combineDateAndTime = (date: string, time: string): string => {
   if (meridiem === "PM" && hours !== 12) hour24 += 12;
   if (meridiem === "AM" && hours === 12) hour24 = 0;
 
-  const dateTime = new Date(date);
-  dateTime.setHours(hour24, minutes, 0, 0);
-
-  return dateTime.toISOString();
+  return `${date}T${String(hour24).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}:00`;
 };
 
 const bookingSchema = z
@@ -159,24 +160,10 @@ export default function BookingDetailsPage() {
   const dropoffSameAsPickup = watch("dropoffSameAsPickup");
   const today = new Date().toISOString().split("T")[0];
 
-  // const bookingMutation = useMutation({
-  //   mutationFn: createBooking,
-  //   onSuccess: (response) => {
-  //     console.log("Booking created successfully:", response);
-  //     // Navigate to success page or booking confirmation
-  //     // navigate(PATHS.USER.BOOKING_CONFIRMATION(response.id));
-  //   },
-  //   onError: (err: any) => {
-  //     console.error("Booking error:", err);
-  //     // Show error toast
-  //   },
-  // });
-
   const bookingMutation = useMutation({
     mutationFn: createBooking,
     onSuccess: (response) => {
       console.log("Booking created successfully:", response);
-      // Navigate to checkout page with the booking number
       navigate(PATHS.USER.BOOKING_CHECKOUT(response.data.bookingNumber));
     },
     onError: (err: any) => {
@@ -253,28 +240,7 @@ export default function BookingDetailsPage() {
 
   // Loading state
   if (isLoading) {
-    return (
-      <>
-        <div className="pb-28">
-          <div className="sticky top-0 z-40 bg-white lg:pt-2 lg:mx-12 md:border-b md:border-b-neutral-275 shadow-sm md:shadow-none">
-            <div className="px-4 py-4 lg:px-0">
-              <HostHeader />
-            </div>
-          </div>
-
-          <div className="px-4 lg:px-12 lg:py-4 mt-8 lg:mt-10">
-            <div className="grid lg:grid-cols-2 gap-x-8 animate-pulse">
-              <div className="space-y-6">
-                <div className="h-[278px] bg-neutral-300 rounded-[20px]" />
-                <div className="h-32 bg-neutral-300 rounded-[20px]" />
-                <div className="h-40 bg-neutral-300 rounded-[20px]" />
-              </div>
-              <div className="h-96 bg-neutral-300 rounded-[20px] mt-6 lg:mt-0" />
-            </div>
-          </div>
-        </div>
-      </>
-    );
+    return <BookingDetailsSkeleton />;
   }
 
   // Error state

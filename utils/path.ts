@@ -20,8 +20,10 @@ export const PATHS = {
     HOME: "/dashboard",
 
     BOOKINGS: "/dashboard/bookings",
-    BOOKING_OVERVIEW: (id: string) => `/dashboard/listings/${id}/book`,
-    BOOKING_DETAILS: (id: string) => `/dashboard/listings/${id}/book/details`,
+    BOOKING_OVERVIEW: (bookingId: string) =>
+      `/dashboard/listings/${bookingId}/book`,
+    BOOKING_DETAILS: (bookingId: string) =>
+      `/dashboard/listings/${bookingId}/book/details`,
     BOOKING_CHECKOUT: (bookingId: string) =>
       `/dashboard/bookings/${bookingId}/checkout`,
     BOOKING_SUCCESS: (bookingId: string) =>
@@ -47,8 +49,6 @@ export const PATHS = {
     NOTIFICATION: "/host/notification",
     BOOKINGS: "/host/bookings",
     ADD_CAR: "/host/add-car",
-    // LISTINGS: "/host/listings",
-    // EARNINGS: "/host/earnings",
 
     WALLET: "/host/wallet",
     CREATE_WALLET: "/host/wallet/create",

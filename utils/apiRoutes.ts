@@ -18,6 +18,8 @@ export const API_ROUTES = {
 
   BOOKINGS: {
     CREATE: "/api/v1/bookings",
+    GET_BOOKING_DETAILS: (id: string) => `/api/v1/bookings/${id}`,
+    CONFIRM_PAYMENT: (id: string) => `/api/v1/bookings/${id}/confirm-payment`,
   },
 
   HOST: {

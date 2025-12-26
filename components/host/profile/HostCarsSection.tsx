@@ -1,5 +1,5 @@
 import { HostCarCard } from "@/components/shared/HostCarCard";
-import { HostCarCardSkeleton } from "@/components/ui/skeletons/HostCarCardSkeleton";
+import { HostCarCardSkeleton } from "@/components/skeletons/HostCarCardSkeleton";
 import { useHostVehicles } from "@/hooks/useHostVehicles";
 import Image from "next/image";
 

@@ -11,7 +11,7 @@ import {
 } from "@/services/bookingService";
 import { formatNGN } from "@/utils/formatters/formatNGN";
 import { PATHS } from "@/utils/path";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { MapPin, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
@@ -19,8 +19,10 @@ import { useState } from "react";
 
 import { format } from "date-fns";
 import { PaymentPinModal } from "@/components/dashboard/bookings/PaymentPinModal";
+import { BookingCheckoutSkeleton } from "@/components/skeletons/BookingCheckoutSkeleton";
 
 export default function BookingCheckoutPage() {
+  const queryClient = useQueryClient();
   const params = useParams();
   const bookingId = params.bookingId as string;
   const { navigate, isNavigating } = usePageTransition();
@@ -41,8 +43,6 @@ export default function BookingCheckoutPage() {
     enabled: !!bookingId,
   });
 
-  console.log(booking);
-
   const paymentMutation = useMutation({
     mutationFn: (pin: string) =>
       confirmBookingPayment(booking?.data.id!, {
@@ -51,7 +51,8 @@ export default function BookingCheckoutPage() {
       }),
     onSuccess: () => {
       setIsPinModalOpen(false);
-      navigate(`/dashboard/bookings/${bookingId}/success`);
+      queryClient.invalidateQueries();
+      navigate(PATHS.USER.BOOKING_SUCCESS(bookingId));
     },
     onError: (err: any) => {
       setToast({
@@ -64,24 +65,7 @@ export default function BookingCheckoutPage() {
 
   // Loading state
   if (isLoading) {
-    return (
-      <>
-        <div className="pb-28">
-          <div className="sticky top-0 z-40 bg-white lg:pt-2 lg:mx-12 md:border-b md:border-b-neutral-275 shadow-sm md:shadow-none">
-            <div className="px-4 py-4 lg:px-0">
-              <HostHeader />
-            </div>
-          </div>
-
-          <div className="px-4 lg:px-12 lg:py-4 mt-8 lg:mt-10">
-            <div className="max-w-4xl mx-auto space-y-6 animate-pulse">
-              <div className="h-64 bg-neutral-300 rounded-[20px]" />
-              <div className="h-96 bg-neutral-300 rounded-[20px]" />
-            </div>
-          </div>
-        </div>
-      </>
-    );
+    return <BookingCheckoutSkeleton />;
   }
 
   // Error state
