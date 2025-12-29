@@ -1,6 +1,7 @@
 import { HostCarCard } from "@/components/shared/HostCarCard";
 import { HostCarCardSkeleton } from "@/components/skeletons/HostCarCardSkeleton";
 import { useHostVehicles } from "@/hooks/useHostVehicles";
+import { transformVehicleForDisplay } from "@/utils/vehicleTransformers";
 import Image from "next/image";
 
 export function HostCarsSection() {
@@ -30,18 +31,19 @@ export function HostCarsSection() {
     <div className="md:px-10">
       {vehicles && vehicles.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
-          {vehicles.map((vehicle) => (
-            <HostCarCard
-              key={vehicle.id}
-              id={vehicle.id}
-              name={vehicle.name}
-              imageUrl={vehicle.images[0].url}
-              transmission={vehicle.transmission}
-              seats={vehicle.seats}
-              onDelete={handleDelete}
-              onClick={handleCardClick}
-            />
-          ))}
+          {vehicles.map((vehicle) => {
+            const vehicleData = transformVehicleForDisplay(vehicle);
+
+            console.log(vehicleData);
+            return (
+              <HostCarCard
+                key={vehicle.id}
+                {...vehicleData}
+                onDelete={handleDelete}
+                onClick={handleCardClick}
+              />
+            );
+          })}
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center">

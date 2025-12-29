@@ -1,4 +1,3 @@
-// components/booking/PaymentPinModal.tsx
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -59,7 +58,7 @@ export function PaymentPinModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
           />
 
           {/* Modal */}
@@ -76,7 +75,7 @@ export function PaymentPinModal({
                 <button
                   onClick={handleClose}
                   disabled={isLoading}
-                  className="text-neutral-450 hover:text-black transition-colors disabled:opacity-50"
+                  className="text-neutral-450 hover:text-black transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>

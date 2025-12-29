@@ -5,19 +5,31 @@ import {
   type BookingStatus,
 } from "@/components/shared/BookingCard";
 import { Button } from "@/components/ui/Buttons";
-import { mockBookings } from "@/data/hostBookings";
 import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
+import { useMyBookings } from "@/hooks/useMyBookings";
+import { getApiStatus, getUIStatus } from "@/utils/bookingHelpers";
+import { Spinner } from "@/components/ui/Spinner";
 
 export default function HostBookingsPage() {
   const [selectedStatus, setSelectedStatus] =
     useState<BookingStatus>("upcoming");
 
+  // Fetch bookings from API
+  const { data, isLoading, isError, error } = useMyBookings({
+    status: getApiStatus(selectedStatus),
+    page: 0,
+    size: 20,
+    sortBy: "createdAt",
+    sortDirection: "DESC",
+  });
+
   // Filter bookings based on selected status
-  const filteredBookings = mockBookings.filter(
-    (booking) => booking.status === selectedStatus
-  );
+  const filteredBookings =
+    data?.data.bookings.filter(
+      (booking) => getUIStatus(booking.status) === selectedStatus
+    ) || [];
 
   const handleAccept = (bookingId: string) => {
     console.log("Accept booking:", bookingId);
@@ -61,7 +73,6 @@ export default function HostBookingsPage() {
   } as const;
 
   return (
-    // pb-28
     <div
       className={clsx(
         "max-w-3xl mx-auto bg-white min-h-screen",
@@ -101,7 +112,7 @@ export default function HostBookingsPage() {
                   <span>{label}</span>
                   <div
                     className={clsx(
-                      " absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
+                      "absolute bottom-0 left-0 w-full h-[5px] rounded-tr-[240px] rounded-tl-[240px] transition-opacity",
                       indicatorClass,
                       selectedStatus === status ? "opacity-100" : "opacity-0"
                     )}
@@ -113,8 +124,34 @@ export default function HostBookingsPage() {
         </div>
       </div>
 
-      <section className="p-4 md:px-10  flex items-center justify-center">
-        {filteredBookings.length > 0 ? (
+      <section className="p-4 md:px-10 flex items-center justify-center">
+        {isLoading ? (
+          <div className="min-h-[calc(100vh-300px)] md:min-h-[calc(100vh-200px)] flex flex-col justify-center items-center">
+            <Spinner />
+            <p className="font-gilroy-medium text-sm text-neutral-475 mt-4">
+              Loading bookings...
+            </p>
+          </div>
+        ) : isError ? (
+          <div className="min-h-[calc(100vh-300px)] md:min-h-[calc(100vh-200px)] flex flex-col justify-center items-center">
+            <div className="relative w-[150px] h-[200px]">
+              <Image
+                src="/images/robots/sad-robot.webp"
+                alt="Sad robot"
+                fill
+                priority
+                quality={100}
+                className="object-contain"
+              />
+            </div>
+            <p className="font-gilroy-medium text-sm text-center max-w-100 px-4 text-neutral-475 mt-3">
+              Failed to load bookings. Please try again.
+            </p>
+            <p className="font-gilroy-regular text-xs text-center max-w-100 px-4 text-red-500 mt-2">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </p>
+          </div>
+        ) : filteredBookings.length > 0 ? (
           <div className="w-full">
             {filteredBookings.map((booking) => (
               <div key={booking.id} className="mt-6">
@@ -124,6 +161,7 @@ export default function HostBookingsPage() {
                   onDecline={handleDecline}
                   onFindCar={handleFindCar}
                   onMessage={handleMessage}
+                  variant="host"
                 />
               </div>
             ))}
@@ -141,7 +179,7 @@ export default function HostBookingsPage() {
               />
             </div>
 
-            <p className="font-gilroy-medium text-sm text-center max-w-100 px-4 text-neutral-475 mt-3 ">
+            <p className="font-gilroy-medium text-sm text-center max-w-100 px-4 text-neutral-475 mt-3">
               {emptyStateConfig[selectedStatus].message}
             </p>
 

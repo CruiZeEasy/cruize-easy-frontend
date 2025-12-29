@@ -16,7 +16,7 @@ export function Success() {
         animate="visible"
         variants={fadeIn}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="flex flex-col items-center justify-center bg-white min-h-[100dvh] px-4"
+        className="flex flex-col items-center justify-center bg-white min-h-dvh px-4"
       >
         {/* Image */}
         <div className="mb-10">

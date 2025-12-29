@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Button } from "../ui/Buttons";
 import { formatName } from "@/utils/formatters";
+import { getOptimizedImage } from "@/utils/cloudinary";
 
 export interface CarCardProps {
   id: string;
@@ -43,7 +44,9 @@ export function CarCard({
   // Check if src is a full URL (from API) or local path
   const isExternalImage =
     src.startsWith("http://") || src.startsWith("https://");
-  const imageSrc = isExternalImage ? src : `/images/cars/${src}.webp`;
+  const imageSrc = isExternalImage
+    ? getOptimizedImage(src, 70)
+    : `/images/cars/${src}.webp`;
 
   return (
     <div className="bg-white border border-neutral-160 lg:border-none shadow-[0_10px_48.8px_0_rgba(0,0,0,0.18)] lg:shadow-none p-4 rounded-lg shrink-0">

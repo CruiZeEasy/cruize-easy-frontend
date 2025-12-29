@@ -14,7 +14,7 @@ export function CarDisplaySection() {
           initial={{ x: -50, opacity: 0 }}
           animate={inView ? { x: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-[30px] sm:w-[60px] h-[160px] sm:h-[282px] z-0 bg-gradient-to-b from-[#223766] to-[#111827] to-50%"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-[30px] sm:w-[60px] h-40 sm:h-[282px] z-0 bg-linear-to-b from-[#223766] to-neutral-900 to-50%"
         />
 
         {/* Car */}
@@ -53,7 +53,7 @@ export function CarDisplaySection() {
               alt="Background Shape Left"
               width={450}
               height={50}
-              className="hidden sm:block absolute left-3 sm:left-9 -bottom-[6.5px] sm:-bottom-2 w-[240px] sm:w-[450px] h-auto"
+              className="hidden sm:block absolute left-3 sm:left-9 -bottom-[6.5px] sm:-bottom-2 w-60 sm:w-[450px] h-auto"
             />
           </motion.div>
         </motion.div>
@@ -71,7 +71,7 @@ export function CarDisplaySection() {
           initial={{ x: 50, opacity: 0 }}
           animate={inView ? { x: 0, opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="absolute right-0 w-24 sm:w-48 lg:w-72 h-full z-0 bg-gradient-to-b from-[#223766] to-[#111827] to-50%"
+          className="absolute right-0 w-24 sm:w-48 lg:w-72 h-full z-0 bg-linear-to-b from-[#223766] to-neutral-900 to-50%"
         />
       </div>
     </section>

@@ -20,6 +20,8 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { PaymentPinModal } from "@/components/dashboard/bookings/PaymentPinModal";
 import { BookingCheckoutSkeleton } from "@/components/skeletons/BookingCheckoutSkeleton";
+import { formatName } from "@/utils/formatters";
+import { getOptimizedImage } from "@/utils/cloudinary";
 
 export default function BookingCheckoutPage() {
   const queryClient = useQueryClient();
@@ -42,6 +44,8 @@ export default function BookingCheckoutPage() {
     queryFn: () => getBookingDetails(bookingId),
     enabled: !!bookingId,
   });
+
+  const primaryImage = booking?.data.images.find((img) => img.order === 0)?.url;
 
   const paymentMutation = useMutation({
     mutationFn: (pin: string) =>
@@ -147,7 +151,10 @@ export default function BookingCheckoutPage() {
               <div className="flex gap-4">
                 <div className="relative w-32 h-24 shrink-0">
                   <Image
-                    src={booking.data.vehicleImage || "/images/cars/1.webp"}
+                    src={
+                      getOptimizedImage(primaryImage!, 70) ||
+                      "/images/cars/1.webp"
+                    }
                     fill
                     alt={booking.data.vehicleName}
                     className="object-cover rounded-lg"
@@ -155,7 +162,9 @@ export default function BookingCheckoutPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="font-gilroy-bold text-lg">
-                    {booking.data.vehicleName}
+                    {formatName(
+                      `${booking.data.vehicleBrand} ${booking.data.vehicleName}`
+                    )}
                   </h3>
                   <p className="font-gilroy-medium text-neutral-475 text-sm mt-1">
                     {formatNGN(booking.data.pricePerDay)}/day

@@ -46,11 +46,6 @@ export default function PublicHostProfilePage() {
 
   const workingHours = defaultWorkingHours; // temp
 
-  // const workingHours = vehicleId
-  //   ? host?.vehicles.find((v) => v.id === vehicleId)?.workingHours ||
-  //     defaultWorkingHours
-  //   : defaultWorkingHours;
-
   useEffect(() => {
     setSelectedStatus(isCars ? "cars" : "about");
   }, [isCars]);

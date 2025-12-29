@@ -7,12 +7,12 @@ import Image from "next/image";
 
 interface HostCarCardProps {
   id: string;
-  name: string;
-  imageUrl?: string;
+  src: string;
+  title: string;
   location?: string;
-  fuelCapacity?: string;
+  fuel: string;
   transmission: string;
-  seats: number;
+  capacity: string;
   variant?: "host" | "user";
   onDelete?: (id: string) => void;
   onClick?: (id: string) => void;
@@ -20,20 +20,20 @@ interface HostCarCardProps {
 
 export function HostCarCard({
   id,
-  name,
-  imageUrl,
+  src,
+  title,
   location = "Jl. Sultan Iskandar Muda, Jakarta selatan",
-  fuelCapacity = "90L",
+  fuel,
   transmission,
-  seats,
+  capacity,
   variant = "host",
   onDelete,
   onClick,
 }: HostCarCardProps) {
   const isExternalImage =
-    imageUrl?.startsWith("http://") || imageUrl?.startsWith("https://");
+    src?.startsWith("http://") || src?.startsWith("https://");
   const imageSrc = isExternalImage
-    ? getOptimizedImage(imageUrl!, 70)
+    ? getOptimizedImage(src!, 70)
     : "/images/cars/default.webp";
 
   const handleDelete = (e: React.MouseEvent) => {
@@ -83,7 +83,7 @@ export function HostCarCard({
         </div>
 
         <div className="font-gilroy-medium text-neutral-260 flex flex-col">
-          <span className="text-white text-xl uppercase truncate">{name}</span>
+          <span className="text-white text-xl uppercase truncate">{title}</span>
           <span className="text-sm">{location}</span>
 
           <div className="mt-4 flex items-center space-x-4 text-sm">
@@ -97,7 +97,7 @@ export function HostCarCard({
                   height={20}
                 />
               </div>
-              <span>{fuelCapacity}</span>
+              <span>{fuel}</span>
             </div>
 
             {/* Transmission */}
@@ -123,9 +123,7 @@ export function HostCarCard({
                   height={20}
                 />
               </div>
-              <span>
-                {seats} <span className="hidden sm:inline">People</span>
-              </span>
+              <span>{capacity}</span>
             </div>
           </div>
         </div>

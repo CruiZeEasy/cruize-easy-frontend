@@ -8,7 +8,7 @@ interface VehicleDocumentPayload {
   uploadedAt: string;
 }
 
-interface VehicleImagePayload {
+export interface VehicleImagePayload {
   url: string;
   publicId: string;
   order: number;

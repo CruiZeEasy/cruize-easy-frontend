@@ -1,43 +1,20 @@
+import { VehicleImagePayload, VehicleLocationPayload } from "@/types/vehicle";
 import { apiClient } from "@/utils/apiClient";
 import { API_ROUTES } from "@/utils/apiRoutes";
+import {
+  BookingStatus,
+  MyBookingsQueryParams,
+  MyBookingsResponse,
+  PaymentStatus,
+} from "@/types/booking";
 
 export interface CreateBookingPayload {
   vehicleId: string;
   startDateTime: string;
   endDateTime: string;
-  dropOffLocation: {
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    postalCode: string;
-    coordinates: {
-      x: number;
-      y: number;
-      type: "Point";
-      coordinates: [number, number];
-    };
-    notes?: string;
-    latitude: number;
-    longitude: number;
-  } | null;
+  dropOffLocation: VehicleLocationPayload | null;
   deliveryRequested: boolean;
   idempotencyKey: string;
-}
-
-export interface LocationDetails {
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode: string;
-  coordinates: {
-    latitude: number;
-    longitude: number;
-  };
-  notes: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface BookingResponse {
@@ -48,13 +25,14 @@ export interface BookingResponse {
     bookingNumber: string;
     vehicleId: string;
     vehicleName: string;
-    vehicleImage: string;
+    vehicleBrand: string;
+    images: VehicleImagePayload[];
     startDateTime: string;
     endDateTime: string;
     totalDays: number;
     totalHours: number;
-    pickupLocation: LocationDetails;
-    dropOffLocation: LocationDetails;
+    pickupLocation: VehicleLocationPayload;
+    dropOffLocation: VehicleLocationPayload;
     deliveryRequested: boolean;
     pricePerDay: number;
     subtotal: number;
@@ -64,21 +42,8 @@ export interface BookingResponse {
     cautionFee: number;
     deliveryFee: number;
     totalAmount: number;
-    status:
-      | "PENDING"
-      | "CONFIRMED"
-      | "ACTIVE"
-      | "COMPLETED"
-      | "CANCELLED"
-      | "REJECTED"
-      | "DISPUTED";
-    paymentStatus:
-      | "PENDING"
-      | "PAID"
-      | "PARTIALLY_REFUNDED"
-      | "REFUNDED"
-      | "FAILED"
-      | "PROCESSING";
+    status: BookingStatus;
+    paymentStatus: PaymentStatus;
     checkoutUrl: string;
     note: string;
     createdAt: string;
@@ -126,4 +91,27 @@ export async function confirmBookingPayment(
       body: JSON.stringify(data),
     }
   );
+}
+
+export async function getMyBookings(params?: MyBookingsQueryParams) {
+  const queryParams = new URLSearchParams();
+
+  if (params?.status) queryParams.append("status", params.status);
+  if (params?.startDate) queryParams.append("startDate", params.startDate);
+  if (params?.endDate) queryParams.append("endDate", params.endDate);
+  if (params?.page !== undefined)
+    queryParams.append("page", params.page.toString());
+  if (params?.size !== undefined)
+    queryParams.append("size", params.size.toString());
+  if (params?.sortBy) queryParams.append("sortBy", params.sortBy);
+  if (params?.sortDirection)
+    queryParams.append("sortDirection", params.sortDirection);
+
+  const url = `${API_ROUTES.BOOKINGS.GET_BOOKINGS}${
+    queryParams.toString() ? `?${queryParams.toString()}` : ""
+  }`;
+
+  return apiClient<MyBookingsResponse>(url, {
+    method: "GET",
+  });
 }
