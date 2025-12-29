@@ -1,7 +1,7 @@
 import { VehicleImagePayload } from "@/types/vehicle";
 
 export type BookingStatus =
-  | "PENDING"
+  | "UPCOMING"
   | "CONFIRMED"
   | "ACTIVE"
   | "COMPLETED"

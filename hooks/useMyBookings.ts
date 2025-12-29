@@ -7,7 +7,7 @@ export function useMyBookings(params?: MyBookingsQueryParams) {
     queryKey: ["myBookings", params],
     queryFn: () => getMyBookings(params),
     retry: 2,
-    staleTime: 2 * 60 * 1000, // 2 minutes
+    staleTime: 30 * 1000, // 2 minutes
     refetchOnWindowFocus: true,
     refetchOnMount: true,
   });

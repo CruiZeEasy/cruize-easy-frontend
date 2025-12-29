@@ -3,8 +3,8 @@ import { BookingData } from "@/types/booking";
 
 export function getUIStatus(apiStatus: BookingData["status"]): BookingStatus {
   switch (apiStatus) {
-    case "PENDING":
-    case "CONFIRMED":
+    case "UPCOMING":
+    // case "CONFIRMED":
       return "upcoming";
     case "ACTIVE":
       return "ongoing";
