@@ -45,7 +45,7 @@ export default function BookingCheckoutPage() {
     enabled: !!bookingId,
   });
 
-  const primaryImage = booking?.data.images.find((img) => img.order === 0)?.url;
+  const primaryImage = booking?.data.images[0].url;
 
   const paymentMutation = useMutation({
     mutationFn: (pin: string) =>

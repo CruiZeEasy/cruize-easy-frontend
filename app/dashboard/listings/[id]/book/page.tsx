@@ -86,13 +86,6 @@ export default function BookingOverviewPage() {
     );
   }
 
-  // Format price
-  // const formattedPrice = new Intl.NumberFormat("en-NG", {
-  //   style: "currency",
-  //   currency: "NGN",
-  //   minimumFractionDigits: 0,
-  // }).format(vehicleDetails.pricePerDay);
-
   // Description logic
   const description = sentenceCase(vehicleDetails.description);
   const descriptionLimit = 150;
@@ -118,15 +111,15 @@ export default function BookingOverviewPage() {
               <HostCarCard
                 key={vehicleDetails.id}
                 id={vehicleDetails.id}
-                name={`${vehicleDetails.brand} ${vehicleDetails.name}`}
-                imageUrl={primaryImage}
+                title={`${vehicleDetails.brand} ${vehicleDetails.name}`}
+                src={primaryImage!}
                 transmission={
                   vehicleDetails.transmission === "AUTOMATIC"
                     ? "Auto"
                     : "Manual"
                 }
-                seats={vehicleDetails.seats}
-                fuelCapacity={vehicleDetails.fuelType || "N/A"}
+                capacity={`${vehicleDetails.seats} People`}
+                fuel={vehicleDetails.fuelType || "N/A"}
                 location={
                   vehicleDetails.pickupLocation
                     ? `${vehicleDetails.pickupLocation.address}, ${vehicleDetails.pickupLocation.city}`
