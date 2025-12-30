@@ -4,7 +4,7 @@ import { BookingData } from "@/types/booking";
 export function getUIStatus(apiStatus: BookingData["status"]): BookingStatus {
   switch (apiStatus) {
     case "UPCOMING":
-    // case "CONFIRMED":
+      // case "CONFIRMED":
       return "upcoming";
     case "ACTIVE":
       return "ongoing";
@@ -21,12 +21,12 @@ export function getApiStatus(
 ): BookingData["status"] | undefined {
   switch (uiStatus) {
     case "upcoming":
-      return undefined; // Fetch all and filter client-side for PENDING & CONFIRMED
+      return "UPCOMING"; // Fetch all and filter client-side for PENDING & CONFIRMED
     case "ongoing":
       return "ACTIVE";
     case "completed":
       return "COMPLETED";
     default:
-      return undefined;
+      return "UPCOMING";
   }
 }
