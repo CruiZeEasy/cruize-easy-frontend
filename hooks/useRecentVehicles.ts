@@ -6,7 +6,7 @@ export function useRecentVehicles(limit: number = 5) {
     queryKey: ["recentVehicles", limit],
     queryFn: () => getRecentVehicles(limit),
     retry: 2,
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
     refetchOnWindowFocus: true,
     refetchOnMount: true,
   });

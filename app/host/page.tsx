@@ -55,7 +55,7 @@ export default function HostHomePage() {
             </div>
           </section>
 
-          <div className="bg-neutral-150 h-[1px] w-full mt-4 md:hidden" />
+          <div className="bg-neutral-150 h-px w-full mt-4 md:hidden" />
 
           {/* My Earnings Section */}
           <section className="mt-4 md:mt-6">
@@ -163,7 +163,7 @@ export default function HostHomePage() {
                   />
                 </div>
 
-                <p className="font-gilroy-medium text-xs text-center w-[15rem] text-neutral-475 mt-2 md:mt-4">
+                <p className="font-gilroy-medium text-xs text-center w-60 text-neutral-475 mt-2 md:mt-4">
                   You currently don&apos;t have any booking history, get started
                   by adding your first car
                 </p>

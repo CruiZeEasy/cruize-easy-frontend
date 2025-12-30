@@ -6,7 +6,7 @@ export function useAvailableVehicles() {
     queryKey: ["availableVehicles"],
     queryFn: () => getAvailableVehicles(),
     retry: 2,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 60 * 1000, // 1 minute
     refetchOnWindowFocus: true,
     refetchOnMount: true,
   });
