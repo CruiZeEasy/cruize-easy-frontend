@@ -181,7 +181,7 @@ export function Footer() {
 
         <section className="col-span-2 text-center border-t border-neutral-800 py-8">
           <p className="text-neutral-500 text-xs space-x-6">
-            <span>© 2025</span> <span>Cruizeeasy. All rights reserved.</span>
+            <span>© {new Date().getFullYear()}</span> <span>Cruizeeasy. All rights reserved.</span>
           </p>
         </section>
       </div>
