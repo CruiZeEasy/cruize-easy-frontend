@@ -6,12 +6,12 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { PATHS } from "@/utils/path";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 
-export default function BookingSuccessPage() {
+export default function KYCSuccessPage() {
   const { navigate, isNavigating } = usePageTransition();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate(PATHS.USER.BOOKINGS);
+      //   navigate(PATHS.USER.BOOKINGS);
     }, 2500);
 
     return () => clearTimeout(timer);
@@ -75,14 +75,15 @@ export default function BookingSuccessPage() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="text-center px-4"
         >
-          <span className="block">Booking Confirmed!</span>
+          <span className="block">Identity Verified!</span>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8 }}
             className="text-base font-gilroy-medium text-neutral-475 mt-4"
           >
-            Your booking has been successfully confirmed
+            Your identity has been successfully verified and your account is now
+            active
           </motion.p>
         </motion.div>
 
@@ -92,7 +93,7 @@ export default function BookingSuccessPage() {
           transition={{ duration: 0.5, delay: 1 }}
           className="text-sm font-gilroy-medium text-neutral-475"
         >
-          Redirecting to your bookings...
+          Redirecting to dashboard...
         </motion.p>
       </div>
 

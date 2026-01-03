@@ -16,6 +16,10 @@ export const PATHS = {
     ALLOW_NOTIFICATIONS: "/onboarding/allow-notifications",
   },
 
+  KYC: {
+    SUCCESS: "/kyc/success",
+  },
+
   USER: {
     HOME: "/dashboard",
     BOOKINGS: "/dashboard/bookings",
