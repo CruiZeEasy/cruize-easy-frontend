@@ -7,6 +7,9 @@
 //   walletStatus: "ACTIVE" | null;
 // }
 
+import { GenderType, UserStatusType } from "@/constants/enums";
+import { Vehicle } from "./vehicle";
+
 export interface Host {
   totalEarnings: number;
   totalVehicles: number;
@@ -21,18 +24,22 @@ export interface PublicHostProfile {
   userId: string;
   fullName: string;
   email: string;
+
   phoneNo: string;
-  gender: "MALE" | "FEMALE" | "OTHER";
+  gender: GenderType;
   dateOfBirth: string | null;
-  status: "PENDING" | "ACTIVE" | "SUSPENDED";
+  status: UserStatusType;
+
   totalEarnings: number;
   totalVehicles: number;
   totalBookings: number;
   totalReviews: number;
   averageRating: number;
+
   profileImageUrl: string | null;
   bankingInfo: any | null;
-  vehicles: any[] | null;
+  vehicles: Vehicle[];
+
   createdAt: string;
   approvedAt: string | null;
   lastActiveAt: string;

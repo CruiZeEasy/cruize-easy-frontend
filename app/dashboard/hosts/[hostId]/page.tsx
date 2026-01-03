@@ -4,7 +4,7 @@ import { PublicHostCarsSection } from "@/components/dashboard/bookings/PublicHos
 import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { HostHeader } from "@/components/host/HostHeader";
 import { activityCards } from "@/data/hostActivityCards";
-import { usePublicHostVehicles } from "@/hooks/usePublicHostProfile";
+import { usePublicHostProfile } from "@/hooks/usePublicHostProfile";
 import { getOptimizedImage } from "@/utils/cloudinary";
 import { formatName } from "@/utils/formatters";
 import Image from "next/image";
@@ -15,7 +15,7 @@ export default function PublicHostProfilePage() {
   const hostId = params?.hostId as string;
 
   const { data: hostProfile, isLoading: profileLoading } =
-    usePublicHostVehicles(hostId);
+    usePublicHostProfile(hostId);
 
   // Show loading state
   if (profileLoading) {

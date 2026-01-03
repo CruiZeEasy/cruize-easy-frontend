@@ -20,4 +20,4 @@ export type GenderType = (typeof GENDER_TYPES)[number];
 export type RentType = (typeof RENT_TYPES)[number];
 export type SeatType = (typeof SEAT_TYPES)[number];
 export type TransmissionType = (typeof TRANSMISSION_TYPES)[number];
-export type UserStatusType = (typeof TRANSMISSION_TYPES)[number];
+export type UserStatusType = (typeof USER_STATUS)[number];
