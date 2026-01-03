@@ -10,6 +10,7 @@ import { Toast } from "@/components/ui/Toast";
 import { activityCards } from "@/data/hostActivityCards";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useHostProfile } from "@/hooks/useHostProfile";
+import { useProfileTabStore } from "@/hooks/useProfileTabStore";
 import {
   EditProfileFormData,
   editProfileSchema,
@@ -30,7 +31,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import Image from "next/image";
-import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
@@ -39,12 +39,16 @@ export default function HostProfilePage() {
   const { data: user } = useCurrentUser();
   const { data: host, isLoading: hostLoading } = useHostProfile();
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const isCars = searchParams.get("tab") === "cars";
+  // Use Zustand store for tab state
+  const { activeTab, setActiveTab } = useProfileTabStore();
   const [selectedStatus, setSelectedStatus] = useState<"about" | "cars">(
-    isCars ? "cars" : "about"
+    activeTab
   );
+
+  // Sync with store
+  useEffect(() => {
+    setSelectedStatus(activeTab);
+  }, [activeTab]);
 
   const [isEditing, setIsEditing] = useState(false);
   const [toast, setToast] = useState<{
@@ -66,10 +70,6 @@ export default function HostProfilePage() {
       phoneNumber: formatPhoneForInput(user?.phoneNo!),
     },
   });
-
-  useEffect(() => {
-    setSelectedStatus(isCars ? "cars" : "about");
-  }, [isCars]);
 
   // Watch all form fields
   const watchedValues = watch();
@@ -96,12 +96,10 @@ export default function HostProfilePage() {
     );
   }, [watchedValues, user]);
 
+  // Update both local state and store
   const handleTabSwitch = (status: "about" | "cars") => {
-    if (status === "cars") {
-      router.push("?tab=cars", { scroll: false });
-    } else {
-      router.push("/host/profile", { scroll: false });
-    }
+    setSelectedStatus(status);
+    setActiveTab(status);
   };
 
   const handleEditToggle = () => {

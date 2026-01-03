@@ -23,13 +23,6 @@ export const hostSidebarLinks: SidebarLink[] = [
     href: PATHS.HOST.PROFILE,
     icon: "user-profile-light",
   },
-  // {
-  //   id: 2,
-  //   label: "My Earnings",
-  //   href: "#",
-  //   icon: "wallet-light",
-  //   // showOnMobile: true,
-  // },
   {
     id: 3,
     label: "Bookings",
@@ -40,7 +33,7 @@ export const hostSidebarLinks: SidebarLink[] = [
   {
     id: 4,
     label: "My Cars",
-    href: `${PATHS.HOST.PROFILE}?tab=cars`,
+    href: PATHS.HOST.PROFILE,
     icon: "driving-light",
   },
   {

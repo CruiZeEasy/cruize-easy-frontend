@@ -12,12 +12,16 @@ import { useQueryClient } from "@tanstack/react-query";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { PATHS } from "@/utils/path";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
+import { useProfileTabStore } from "@/hooks/useProfileTabStore";
 
 export function MobileSidebar({ role }: { role: "host" | "user" }) {
   const queryClient = useQueryClient();
   const pathname = usePathname();
   const { navigate, isNavigating } = usePageTransition();
   const [expanded, setExpanded] = useState(false);
+
+  // Get both activeTab and setActiveTab from store
+  const { activeTab, setActiveTab } = useProfileTabStore();
 
   const links = role === "host" ? hostSidebarLinks : userSidebarLinks;
   const homePath = role === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
@@ -29,6 +33,16 @@ export function MobileSidebar({ role }: { role: "host" | "user" }) {
     queryClient.clear();
 
     navigate(PATHS.AUTH.LOGIN);
+  };
+
+  // Handle link clicks for profile/cars navigation
+  const handleLinkClick = (link: (typeof links)[0]) => {
+    if (link.label === "My Cars") {
+      setActiveTab("cars");
+    } else if (link.label === "Profile") {
+      setActiveTab("about");
+    }
+    setExpanded(false);
   };
 
   return (
@@ -81,14 +95,23 @@ export function MobileSidebar({ role }: { role: "host" | "user" }) {
               {/* Nav Links */}
               <nav className="flex-1 flex flex-col space-y-4">
                 {links.map((link) => {
-                  const isActive =
-                    pathname === link.href
+                  // Smart active check based on link type
+                  let isActive = pathname === link.href;
+
+                  // Special handling for Profile/My Cars
+                  if (pathname === PATHS.HOST.PROFILE) {
+                    if (link.label === "Profile") {
+                      isActive = activeTab === "about";
+                    } else if (link.label === "My Cars") {
+                      isActive = activeTab === "cars";
+                    }
+                  }
 
                   return (
                     <Link
                       key={link.id}
                       href={link.href}
-                      onClick={() => setExpanded(false)}
+                      onClick={() => handleLinkClick(link)}
                       className={clsx(
                         "relative flex items-center gap-3 py-3 px-4 rounded-md font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all",
                         isActive &&

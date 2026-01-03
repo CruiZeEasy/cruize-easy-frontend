@@ -66,7 +66,7 @@ export function OAuthRedirectClient() {
   }, [accessToken, refreshToken, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[100dvh] text-center bg-white">
+    <div className="flex flex-col items-center justify-center min-h-dvh text-center bg-white">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

@@ -18,7 +18,6 @@ export const PATHS = {
 
   USER: {
     HOME: "/dashboard",
-
     BOOKINGS: "/dashboard/bookings",
     BOOKING_OVERVIEW: (bookingId: string) =>
       `/dashboard/listings/${bookingId}/book`,

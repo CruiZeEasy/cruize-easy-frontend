@@ -184,7 +184,7 @@ export function SignUpClient() {
             shadow="shadow-[0px_-2px_30px_rgba(0,0,0,0.02),_0px_2px_30px_rgba(0,0,0,0.05)]"
             className="hover:bg-neutral-100 transition-colors duration-200"
             onClick={() =>
-              (window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}`)
+              (window.location.href = `${API_BASE_URL}${API_ROUTES.AUTH.GOOGLE}?role=${role}`)
             }
             disabled={loading}
           >

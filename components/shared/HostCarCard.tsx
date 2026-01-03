@@ -14,6 +14,7 @@ interface HostCarCardProps {
   transmission: string;
   capacity: string;
   variant?: "host" | "user";
+  hideDeleteButton?: boolean;
   onDelete?: (id: string) => void;
   onClick?: (id: string) => void;
 }
@@ -27,6 +28,7 @@ export function HostCarCard({
   transmission,
   capacity,
   variant = "host",
+  hideDeleteButton = false,
   onDelete,
   onClick,
 }: HostCarCardProps) {
@@ -66,7 +68,7 @@ export function HostCarCard({
           )}
         >
           <div />
-          {onDelete && (
+          {!hideDeleteButton && onDelete && (
             <button
               // onClick={handleDelete}
               className="cursor-pointer hover:scale-110 transition-transform"

@@ -14,6 +14,7 @@ import { getOptimizedImage } from "@/utils/cloudinary";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { useQueryClient } from "@tanstack/react-query";
+import { useProfileTabStore } from "@/hooks/useProfileTabStore";
 
 export function Sidebar({ role }: { role: "host" | "user" }) {
   const queryClient = useQueryClient();
@@ -21,6 +22,9 @@ export function Sidebar({ role }: { role: "host" | "user" }) {
   const pathname = usePathname();
   const { navigate, isNavigating } = usePageTransition();
   const [expanded, setExpanded] = useState(false);
+
+  // Get the setActiveTab function from store
+  const { activeTab, setActiveTab } = useProfileTabStore();
 
   const links = role === "host" ? hostSidebarLinks : userSidebarLinks;
   const homePath = role === "host" ? PATHS.HOST.HOME : PATHS.USER.HOME;
@@ -34,13 +38,22 @@ export function Sidebar({ role }: { role: "host" | "user" }) {
     navigate(PATHS.AUTH.LOGIN);
   };
 
+  // Handle link clicks for profile/cars navigation
+  const handleLinkClick = (link: (typeof links)[0]) => {
+    if (link.label === "My Cars") {
+      setActiveTab("cars");
+    } else if (link.label === "Profile") {
+      setActiveTab("about");
+    }
+  };
+
   return (
     <>
       <motion.aside
         initial={{ width: 80 }}
         animate={{ width: expanded ? 240 : 80 }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
-        className="h-[100dvh] bg-primary-light border-r-neutral-300 border-r hidden md:flex flex-col py-6 shadow-sm relative text-white"
+        className="h-dvh bg-primary-light border-r-neutral-300 border-r hidden md:flex flex-col py-6 shadow-sm relative text-white"
       >
         {/* Logo */}
         <Link
@@ -80,14 +93,24 @@ export function Sidebar({ role }: { role: "host" | "user" }) {
 
           <nav className="flex-1 flex flex-col space-y-3 overflow-y-auto overflow-x-hidden">
             {links.map((link) => {
-              const isActive = pathname === link.href;
               const isHome =
                 link.href === PATHS.HOST.HOME || link.href === PATHS.USER.HOME;
+              // Smart active check based on link type
+              let isActive = pathname === link.href;
 
+              // Special handling for Profile/My Cars
+              if (pathname === PATHS.HOST.PROFILE) {
+                if (link.label === "Profile") {
+                  isActive = activeTab === "about";
+                } else if (link.label === "My Cars") {
+                  isActive = activeTab === "cars";
+                }
+              }
               return (
                 <Link
                   key={link.id}
                   href={link.href}
+                  onClick={() => handleLinkClick(link)}
                   className={clsx(
                     "relative flex items-center py-3 font-gilroy-semibold text-sm hover:bg-primary-light-transparent transition-all duration-300 ease-in-out",
                     expanded ? "gap-3 pl-4" : "justify-center",

@@ -26,6 +26,10 @@ export const API_ROUTES = {
 
   HOST: {
     ME: "/api/v1/host-profiles/me", // get current host profile
+    GET_HOST_PROFILE_BY_ID: (hostId: string) =>
+      `/api/v1/host-profiles/${hostId}`,
+    GET_HOST_VEHICLES_BY_ID: (hostId: string) =>
+      `/api/v1/host-profiles/${hostId}/vehicles`,
   },
 
   VEHICLES: {
