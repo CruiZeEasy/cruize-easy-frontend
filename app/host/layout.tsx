@@ -7,13 +7,14 @@ import { useEffect } from "react";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Sidebar } from "@/components/shared/Sidebar";
 import { UserRoles } from "@/constants/enums";
+import { useHostProfile } from "@/hooks/useHostProfile";
 
 export default function HostLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
 
   const isHost = user?.roles?.includes(UserRoles.HOST);

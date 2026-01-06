@@ -4,21 +4,82 @@ import { ActivityCard } from "@/components/host/dashboard/ActivityCard";
 import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { Button } from "@/components/ui/Buttons";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
+import { Toast } from "@/components/ui/Toast";
 import { activityCards } from "@/data/hostActivityCards";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useHostProfile } from "@/hooks/useHostProfile";
+import { useInitializeKYC } from "@/hooks/useKyc";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { getOptimizedImage } from "@/utils/cloudinary";
 import { formatName } from "@/utils/formatters";
 import { PATHS } from "@/utils/path";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function HostHomePage() {
-  const { data: user } = useCurrentUser();
   const { data: host, isLoading: hostLoading } = useHostProfile();
   const { navigate, isNavigating } = usePageTransition();
+  const initializeKYC = useInitializeKYC();
+
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const isWalletActive = host?.walletStatus === "ACTIVE";
+  const isKycCompleted = host?.isKyc;
+
+  const handleCreateWallet = () => {
+    // Check if KYC is completed
+    if (!isKycCompleted) {
+      setToast({
+        message: "Please complete KYC verification to create a wallet",
+        type: "error",
+      });
+
+      // Initiate KYC process after showing toast
+      setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+          },
+        });
+      }, 2000);
+
+      return;
+    }
+
+    // If KYC is completed, navigate to create wallet
+    navigate(PATHS.HOST.CREATE_WALLET);
+  };
+
+  const handleAddCar = () => {
+    if (!isKycCompleted) {
+      setToast({
+        message: "Please complete KYC verification to create a wallet",
+        type: "error",
+      });
+
+      // Initiate KYC process after showing toast
+      setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+          },
+        });
+      }, 2000);
+
+      return;
+    }
+
+    // If KYC is completed, navigate to create wallet
+    navigate(PATHS.HOST.ADD_CAR);
+  };
 
   return (
     <>
@@ -39,7 +100,7 @@ export default function HostHomePage() {
           <section className=" flex items-center space-x-4 mt-10 md:mt-0">
             <div className="bg-neutral-250 rounded-full size-20 overflow-hidden md:hidden relative ">
               <Image
-                src={getOptimizedImage(user?.profileImageUrl!, 10)}
+                src={getOptimizedImage(host?.profileImageUrl!, 10)}
                 alt="Profile Image"
                 fill
                 className="object-cover"
@@ -50,7 +111,7 @@ export default function HostHomePage() {
             <div className="space-y-1">
               <h1 className="font-gilroy-bold text-4xl md:text-5xl">Welcome</h1>
               <span className="font-gilroy-medium">
-                {formatName(user?.fullName!)}
+                {formatName(host?.fullName!)}
               </span>
             </div>
           </section>
@@ -108,7 +169,10 @@ export default function HostHomePage() {
                       fontFamily="gilroy-medium"
                       shadow="shadow-none"
                       className="py-3 md:px-6 text-xs"
-                      onClick={() => navigate(PATHS.HOST.CREATE_WALLET)}
+                      onClick={handleCreateWallet}
+                      disabled={initializeKYC.isPending}
+                      loading={initializeKYC.isPending}
+                      loadingText="Initializing..."
                     >
                       Create Wallet
                     </Button>
@@ -175,7 +239,10 @@ export default function HostHomePage() {
                     shadow="shadow-none"
                     className="py-4 md:px-6 text-xs"
                     fullWidth
-                    onClick={() => navigate(PATHS.HOST.ADD_CAR)}
+                    onClick={handleAddCar}
+                    disabled={initializeKYC.isPending}
+                    loading={initializeKYC.isPending}
+                    loadingText="Initializing..."
                   >
                     Add Car
                   </Button>
@@ -185,6 +252,13 @@ export default function HostHomePage() {
           </section>
         </div>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <div className="flex justify-center">
+          <Toast {...toast} onClose={() => setToast(null)} />
+        </div>
+      )}
 
       {/* Page Transition Spinner */}
       <PageTransitionSpinner isVisible={isNavigating} />

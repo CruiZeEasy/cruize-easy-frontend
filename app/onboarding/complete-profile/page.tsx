@@ -36,6 +36,7 @@ export default function CompleteProfilePage() {
   const schema = createCompleteProfileSchema(isHost ? "HOST" : "USER");
 
   const { navigate, isNavigating } = usePageTransition();
+  const [isPending, setIsPending] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -74,6 +75,7 @@ export default function CompleteProfilePage() {
 
       setToast({ message: "Profile completed successfully!", type: "success" });
 
+      setIsPending(true);
       setTimeout(async () => {
         const nextPath = getNextOnboardingPath(data);
         navigate(nextPath);
@@ -115,7 +117,7 @@ export default function CompleteProfilePage() {
           <h1 className="font-modulus-semibold text-[26px] block">
             Complete your Profile
           </h1>
-          <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
+          <p className="font-gilroy-medium text-sm text-neutral-550 max-w-76">
             Don't worry only you can see your personal data, no one else will be
             able to see it.
           </p>
@@ -203,8 +205,8 @@ export default function CompleteProfilePage() {
               fullWidth
               shadow="shadow-none"
               className="p-4 sm:p-[21px] self-end mt-12 sm:mt-0"
-              disabled={completeProfileMutation.isPending}
-              loading={completeProfileMutation.isPending}
+              disabled={completeProfileMutation.isPending || isPending}
+              loading={completeProfileMutation.isPending || isPending}
               loadingText="Setting Up Account..."
             >
               Complete Profile

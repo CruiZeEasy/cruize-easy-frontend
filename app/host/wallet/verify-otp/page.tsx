@@ -8,17 +8,19 @@ import { verifyWallet, resendWalletOtp } from "@/services/walletService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { REQUEST_COOLDOWN } from "@/config/cooldown";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { motion } from "framer-motion";
 import { fadeUp } from "@/config/animation";
 import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { WalletSuccess } from "@/components/shared/WalletSuccess";
 import { PATHS } from "@/utils/path";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { useInitializeKYC } from "@/hooks/useKyc";
+import { useHostProfile } from "@/hooks/useHostProfile";
 
 export default function HostWalletVerifyOtpPage() {
-  const { data: user } = useCurrentUser();
+  const { data: host } = useHostProfile();
   const queryClient = useQueryClient();
+  const initializeKYC = useInitializeKYC();
 
   const { navigate, isNavigating } = usePageTransition();
   const [showSpinner, setShowSpinner] = useState(false);
@@ -33,10 +35,36 @@ export default function HostWalletVerifyOtpPage() {
   const [cooldown, setCooldown] = useState(0);
 
   useEffect(() => {
-    if (user?.walletStatus === "ACTIVE") {
-      navigate(PATHS.HOST.HOME);
+    // Check if wallet is already active
+    if (host?.walletStatus === "ACTIVE") {
+      navigate(PATHS.USER.HOME);
+      return;
     }
-  }, [user]);
+
+    // Check if KYC is completed
+    if (host && !host.isKyc) {
+      setToast({
+        message: "KYC verification required. Redirecting to verification...",
+        type: "error",
+      });
+
+      // Initiate KYC after a delay
+      const timer = setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+            // Navigate away after error
+            setTimeout(() => navigate(PATHS.HOST.HOME), 2000);
+          },
+        });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [host]);
 
   useEffect(() => {
     if (cooldown === 0) return;
@@ -97,9 +125,35 @@ export default function HostWalletVerifyOtpPage() {
 
   if (success) return <WalletSuccess type="host" />;
 
+  if (host && !host.isKyc) {
+    return (
+      <>
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="text-center">
+            <h2 className="font-gilroy-bold text-xl mb-2">
+              KYC Verification Required
+            </h2>
+            <p className="text-neutral-550 mb-4">
+              Please complete your KYC to proceed
+            </p>
+            <div className="animate-pulse">Redirecting...</div>
+          </div>
+        </div>
+
+        {toast && (
+          <div className="flex justify-center">
+            <Toast {...toast} onClose={() => setToast(null)} />
+          </div>
+        )}
+
+        <PageTransitionSpinner isVisible={isNavigating} />
+      </>
+    );
+  }
+
   return (
     <>
-      <div className="pb-28 max-w-3xl mx-auto bg-white min-h-[100dvh]">
+      <div className="pb-28 max-w-3xl mx-auto bg-white min-h-dvh">
         <div className="sticky top-0 z-10 bg-white md:border-b md:border-b-neutral-275 shadow-sm md:shadow-none md:pt-2 md:px-10">
           <div className="px-4 py-4 md:px-0">
             <HostHeader />
@@ -113,8 +167,8 @@ export default function HostWalletVerifyOtpPage() {
           transition={{ duration: 0.25, ease: "easeOut" }}
           className="p-4 md:px-10 mt-10 bg-white font-gilroy-medium text-center"
         >
-          <p className="text-sm text-neutral-550 md:w-[26rem] mx-auto">
-            We&apos;ve sent an email to <strong>{user?.email}</strong>, please
+          <p className="text-sm text-neutral-550 md:w-104 mx-auto">
+            We&apos;ve sent an email to <strong>{host?.email}</strong>, please
             enter the code below.
           </p>
 

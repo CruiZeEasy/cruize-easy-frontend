@@ -8,6 +8,7 @@ import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { Toast } from "@/components/ui/Toast";
 import { fadeUp } from "@/config/animation";
 import { useHostProfile } from "@/hooks/useHostProfile";
+import { useInitializeKYC } from "@/hooks/useKyc";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import {
   CreateWalletFormData,
@@ -23,8 +24,8 @@ import { useForm } from "react-hook-form";
 
 export default function CreateHostWalletPage() {
   const { data: host, isLoading: hostLoading } = useHostProfile();
-
   const { navigate, isNavigating } = usePageTransition();
+  const initializeKYC = useInitializeKYC();
 
   const [toast, setToast] = useState<{
     message: string;
@@ -40,8 +41,34 @@ export default function CreateHostWalletPage() {
   });
 
   useEffect(() => {
+    // Check if wallet is already active
     if (!hostLoading && host?.walletStatus === "ACTIVE") {
       navigate(PATHS.HOST.HOME);
+      return;
+    }
+
+    // Check if KYC is completed
+    if (host && !host.isKyc) {
+      setToast({
+        message: "KYC verification required. Redirecting to verification...",
+        type: "error",
+      });
+
+      // Initiate KYC after a delay
+      const timer = setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+            // Navigate away after error
+            setTimeout(() => navigate(PATHS.HOST.HOME), 2000);
+          },
+        });
+      }, 2000);
+
+      return () => clearTimeout(timer);
     }
   }, [host, hostLoading]);
 
@@ -61,6 +88,32 @@ export default function CreateHostWalletPage() {
       });
     },
   });
+
+  if (host && !host.isKyc) {
+    return (
+      <>
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="text-center">
+            <h2 className="font-gilroy-bold text-xl mb-2">
+              KYC Verification Required
+            </h2>
+            <p className="text-neutral-550 mb-4">
+              Please complete your KYC to proceed
+            </p>
+            <div className="animate-pulse">Redirecting...</div>
+          </div>
+        </div>
+
+        {toast && (
+          <div className="flex justify-center">
+            <Toast {...toast} onClose={() => setToast(null)} />
+          </div>
+        )}
+
+        <PageTransitionSpinner isVisible={isNavigating} />
+      </>
+    );
+  }
 
   return (
     <>
@@ -82,7 +135,7 @@ export default function CreateHostWalletPage() {
             <span className="font-gilroy-bold text-lg md:text-xl">
               Create Your Wallet
             </span>
-            <span className="text-neutral-550 text-sm w-full max-w-[26rem] mt-1">
+            <span className="text-neutral-550 text-sm w-full max-w-104 mt-1">
               This secure wallet is for receiving payment from your vehicle
               rentals
             </span>
@@ -117,7 +170,7 @@ export default function CreateHostWalletPage() {
                 error={errors.confirmPin?.message}
               />
 
-              <span className="text-neutral-550 text-sm w-full max-w-[26rem]">
+              <span className="text-neutral-550 text-sm w-full max-w-104">
                 Choose a secure and memorable PIN for withdrawal
               </span>
             </div>

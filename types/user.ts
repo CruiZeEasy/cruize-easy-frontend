@@ -33,6 +33,7 @@ export interface User {
   gender: GenderType;
   profileImageUrl: string | null;
 
+  isKyc: boolean | null;
   profileCompleted: boolean;
   allowLocation: boolean;
   emailNotificationsEnabled: boolean;

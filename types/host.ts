@@ -1,16 +1,20 @@
-// export interface Host {
-//   totalEarnings: number;
-//   totalVehicles: number;
-//   totalBookings: number;
-//   totalReviews: number;
-//   averageRating: number;
-//   walletStatus: "ACTIVE" | null;
-// }
-
-import { GenderType, UserStatusType } from "@/constants/enums";
+import { GenderType, UserRoles, UserStatusType } from "@/constants/enums";
 import { Vehicle } from "./vehicle";
 
 export interface Host {
+  id: string;
+  userId: string;
+  username: string;
+  fullName: string;
+  email: string;
+  phoneNo: string;
+  gender: GenderType;
+  dateOfBirth: string | null;
+  profileImageUrl: string;
+
+  isKyc: boolean | null;
+
+  roles: UserRoles[];
   totalEarnings: number;
   totalVehicles: number;
   totalBookings: number;

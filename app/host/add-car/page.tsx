@@ -15,7 +15,7 @@ import { normalizeString } from "@/utils/stringUtils";
 import { Success } from "@/components/host/add-car/Success";
 import clsx from "clsx";
 import { Controller, useForm } from "react-hook-form";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Toast } from "@/components/ui/Toast";
@@ -35,9 +35,18 @@ import { PageTransitionSpinner } from "@/components/ui/PageTransitionSpinner";
 import { DaySchedule } from "@/components/host/add-car/DaySchedule";
 import { defaultWorkingHours } from "@/data/workingHours";
 import { LocationPicker } from "@/components/shared/LocationPicker";
+import { useHostProfile } from "@/hooks/useHostProfile";
+import { usePageTransition } from "@/hooks/usePageTransition";
+import { useInitializeKYC } from "@/hooks/useKyc";
+import { PATHS } from "@/utils/path";
 
 export default function HostAddCarPage() {
   const queryClient = useQueryClient();
+  const { data: host, isLoading: hostLoading } = useHostProfile();
+
+  const { navigate, isNavigating } = usePageTransition();
+  const initializeKYC = useInitializeKYC();
+
   const [currentStep, setCurrentStep] = useState(1);
   const [showSpinner, setShowSpinner] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -68,6 +77,38 @@ export default function HostAddCarPage() {
       pickupNotes: "",
     },
   });
+
+  useEffect(() => {
+    // Check if wallet is already active
+    if (!hostLoading && host?.walletStatus === "ACTIVE") {
+      navigate(PATHS.HOST.HOME);
+      return;
+    }
+
+    // Check if KYC is completed
+    if (host && !host.isKyc) {
+      setToast({
+        message: "KYC verification required. Redirecting to verification...",
+        type: "error",
+      });
+
+      // Initiate KYC after a delay
+      const timer = setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+            // Navigate away after error
+            setTimeout(() => navigate(PATHS.HOST.HOME), 2000);
+          },
+        });
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [host, hostLoading]);
 
   const scrollToTop = () => {
     if (formContainerRef.current) {
@@ -846,6 +887,32 @@ export default function HostAddCarPage() {
   ];
 
   if (success) return <Success />;
+
+  if (host && !host.isKyc) {
+    return (
+      <>
+        <div className="min-h-screen flex items-center justify-center bg-white">
+          <div className="text-center">
+            <h2 className="font-gilroy-bold text-xl mb-2">
+              KYC Verification Required
+            </h2>
+            <p className="text-neutral-550 mb-4">
+              Please complete your KYC to proceed
+            </p>
+            <div className="animate-pulse">Redirecting...</div>
+          </div>
+        </div>
+
+        {toast && (
+          <div className="flex justify-center">
+            <Toast {...toast} onClose={() => setToast(null)} />
+          </div>
+        )}
+
+        <PageTransitionSpinner isVisible={isNavigating} />
+      </>
+    );
+  }
 
   return (
     <>

@@ -8,9 +8,9 @@ import { MobileSidebar } from "@/components/shared/MobileSidebar";
 import { FormInput } from "@/components/ui/FormInput";
 import Image from "next/image";
 import { useFilterModal } from "@/stores/FilterModal";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { getOptimizedImage } from "@/utils/cloudinary";
 import { formatName } from "@/utils/formatters";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function UserDashboard() {
   const { data: user } = useCurrentUser();

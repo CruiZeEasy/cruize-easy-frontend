@@ -15,6 +15,7 @@ import { updateUserProfile } from "@/services/userService";
 export default function AllowLocationPage() {
   const queryClient = useQueryClient();
   const { navigate, isNavigating } = usePageTransition();
+  const [isPending, setIsPending] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -26,6 +27,8 @@ export default function AllowLocationPage() {
       queryClient.setQueryData(["currentUser"], data);
 
       setToast({ message: "Location access enabled!", type: "success" });
+
+      setIsPending(true);
 
       setTimeout(() => {
         const nextPath = getNextOnboardingPath(data);
@@ -72,7 +75,7 @@ export default function AllowLocationPage() {
           <h1 className="font-modulus-semibold text-[26px] block">
             What is your location?
           </h1>
-          <p className="font-gilroy-medium text-sm text-neutral-550 max-w-[19rem]">
+          <p className="font-gilroy-medium text-sm text-neutral-550 max-w-76">
             We need to know your location to suggest nearby cars to you.
           </p>
         </motion.div>
@@ -89,8 +92,8 @@ export default function AllowLocationPage() {
             fullWidth
             shadow="shadow-none"
             className="p-4 text-xs sm:max-w-sm"
-            disabled={mutation.isPending}
-            loading={mutation.isPending}
+            disabled={mutation.isPending || isPending}
+            loading={mutation.isPending || isPending}
             loadingText="Requesting Location..."
           >
             Allow Location Access

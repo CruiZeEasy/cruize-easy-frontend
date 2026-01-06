@@ -10,6 +10,10 @@ export const API_ROUTES = {
     GOOGLE: "/oauth2/authorization/google",
   },
 
+  KYC: {
+    INITIALIZE: "/api/v1/kyc/initialize",
+  },
+
   USER: {
     ME: "/api/v1/users/me", // get current logged in user
     USER_PROFILE: "/api/v1/user-profiles/me", // get current user profile

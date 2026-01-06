@@ -2,13 +2,49 @@ import { usePageTransition } from "@/hooks/usePageTransition";
 import { Button } from "../ui/Buttons";
 import { PageTransitionSpinner } from "../ui/PageTransitionSpinner";
 import { PATHS } from "@/utils/path";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { useInitializeKYC } from "@/hooks/useKyc";
+import { useState } from "react";
+import { Toast } from "../ui/Toast";
 
 export function WalletSection() {
-  const { data: user } = useCurrentUser();
+  const { data: user } = useUserProfile();
   const { navigate, isNavigating } = usePageTransition();
+  const initializeKYC = useInitializeKYC();
+  const [toast, setToast] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
   const isWalletActive = user?.walletStatus === "ACTIVE";
+  const isKycCompleted = user?.isKyc;
+
+  const handleCreateWallet = () => {
+    // Check if KYC is completed
+    if (!isKycCompleted) {
+      setToast({
+        message: "Please complete KYC verification to create a wallet",
+        type: "error",
+      });
+
+      // Initiate KYC process after showing toast
+      setTimeout(() => {
+        initializeKYC.mutate(undefined, {
+          onError: (error: any) => {
+            setToast({
+              message: error.message || "Failed to initialize KYC",
+              type: "error",
+            });
+          },
+        });
+      }, 2000);
+
+      return;
+    }
+
+    // If KYC is completed, navigate to create wallet
+    navigate(PATHS.USER.CREATE_WALLET);
+  };
 
   return (
     <>
@@ -53,7 +89,10 @@ export function WalletSection() {
                   fontFamily="gilroy-medium"
                   shadow="shadow-none"
                   className="py-3 md:px-6 text-xs"
-                  onClick={() => navigate(PATHS.USER.CREATE_WALLET)}
+                  onClick={handleCreateWallet}
+                  disabled={initializeKYC.isPending}
+                  loading={initializeKYC.isPending}
+                  loadingText="Initializing..."
                 >
                   Create Wallet
                 </Button>
@@ -62,6 +101,13 @@ export function WalletSection() {
           </div>
         </div>
       </section>
+
+      {/* Toast */}
+      {toast && (
+        <div className="flex justify-center">
+          <Toast {...toast} onClose={() => setToast(null)} />
+        </div>
+      )}
 
       {/* Page Transition Spinner */}
       <PageTransitionSpinner isVisible={isNavigating} />

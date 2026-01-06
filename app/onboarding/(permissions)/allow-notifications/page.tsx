@@ -15,6 +15,7 @@ import { updateUserProfile } from "@/services/userService";
 export default function AllowNotificationPage() {
   const queryClient = useQueryClient();
   const { navigate, isNavigating } = usePageTransition();
+  const [isPending, setIsPending] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -26,6 +27,8 @@ export default function AllowNotificationPage() {
       queryClient.setQueryData(["currentUser"], data);
 
       setToast({ message: "Notification access enabled!", type: "success" });
+
+      setIsPending(true);
 
       setTimeout(async () => {
         const nextPath = getNextOnboardingPath(data);
@@ -93,8 +96,8 @@ export default function AllowNotificationPage() {
             fullWidth
             shadow="shadow-none"
             className="p-4 text-xs sm:max-w-sm"
-            disabled={mutation.isPending}
-            loading={mutation.isPending}
+            disabled={mutation.isPending || isPending}
+            loading={mutation.isPending || isPending}
             loadingText="Requesting Notification Permission..."
           >
             Allow Notification

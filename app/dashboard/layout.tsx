@@ -9,13 +9,14 @@ import { Sidebar } from "@/components/shared/Sidebar";
 import { UserRoles } from "@/constants/enums";
 import { useFilterModal } from "@/stores/FilterModal";
 import { FilterModal } from "@/components/shared/FilterModal";
+import { useUserProfile } from "@/hooks/useUserProfile";
 
 export default function UserLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: user, isLoading } = useCurrentUser();
+  const { data: user, isLoading } = useUserProfile();
   const { navigate, isNavigating } = usePageTransition();
   const { isOpen, close } = useFilterModal();
 
