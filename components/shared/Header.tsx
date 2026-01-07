@@ -41,7 +41,7 @@ export function Header() {
 
             <div className="bg-black/50 absolute inset-0 z-5" />
             <Image
-              src="/images/hero/hero-2.jpeg"
+              src="/images/hero/hero-2.webp"
               alt=""
               fill
               priority
@@ -52,7 +52,7 @@ export function Header() {
             />
 
             <Image
-              src="/images/hero/hero-2.jpeg"
+              src="/images/hero/hero-2.webp"
               alt=""
               fill
               priority
