@@ -1,5 +1,5 @@
 interface CarProps {
-  id: number;
+  id: string;
   src: string;
   title: string;
   price: string;
@@ -10,7 +10,7 @@ interface CarProps {
 }
 
 export const vehicle: CarProps = {
-  id: 1,
+  id: "1",
   src: "1",
   title: "GLE AMG 63S",
   price: "456k/",
@@ -65,7 +65,7 @@ export const vehicle: CarProps = {
 
 export const cars: CarProps[] = [
   {
-    id: 1,
+    id: "1",
     src: "lexus-es350",
     title: "Lexus ES 350",
     price: "200k/",
@@ -75,7 +75,7 @@ export const cars: CarProps[] = [
     capacity: "4 Persons",
   },
   {
-    id: 2,
+    id: "2",
     src: "gle-53",
     title: "Mercedes-AMG GLE 53",
     price: "450k/",
@@ -85,7 +85,7 @@ export const cars: CarProps[] = [
     capacity: "4 Persons",
   },
   {
-    id: 3,
+    id: "3",
     src: "rx-330",
     title: "Lexus RX 330",
     price: "120k/",
@@ -95,7 +95,7 @@ export const cars: CarProps[] = [
     capacity: "4 Persons",
   },
   {
-    id: 4,
+    id: "4",
     src: "hyundai-sonata",
     title: "Hyundai Sonata",
     price: "150k/",
