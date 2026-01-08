@@ -56,7 +56,7 @@ const supportLinks: FooterLinkProps[] = [
   { href: "#", label: "Help Center" },
   { href: "#", label: "FAQ" },
   { href: "#", label: "Contact Us" },
-  { href: "#", label: "Terms of Service" },
+  { href: PATHS.LEGAL.TERMS, label: "Terms of Service" },
   { href: "#", label: "Privacy Policy" },
 ];
 
@@ -170,7 +170,7 @@ export function Footer() {
                 variant="primary"
                 fullWidth
                 rounded="full"
-                className="lg:w-[25rem] p-4"
+                className="lg:w-100 p-4"
                 onClick={() => navigate(PATHS.AUTH.SIGNUP)}
               >
                 Sign Up Now
@@ -181,7 +181,8 @@ export function Footer() {
 
         <section className="col-span-2 text-center border-t border-neutral-800 py-8">
           <p className="text-neutral-500 text-xs space-x-6">
-            <span>© {new Date().getFullYear()}</span> <span>Cruizeeasy. All rights reserved.</span>
+            <span>© {new Date().getFullYear()}</span>{" "}
+            <span>Cruizeeasy. All rights reserved.</span>
           </p>
         </section>
       </div>

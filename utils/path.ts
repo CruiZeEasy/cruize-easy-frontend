@@ -61,4 +61,8 @@ export const PATHS = {
   ADMIN: {
     HOME: "/admin",
   },
+
+  LEGAL: {
+    TERMS: "/legal/terms",
+  },
 };
