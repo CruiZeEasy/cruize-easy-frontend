@@ -139,7 +139,7 @@ export function CampaignRegistrationModal({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-white rounded-[20px] shadow-xl z-50 max-h-[90vh] flex flex-col overflow-hidden"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-white rounded-[20px] shadow-xl z-50 max-h-[90dvh] flex flex-col overflow-hidden"
             >
               {/* Header */}
               <div className="shrink-0 flex items-center justify-between p-6 border-b border-neutral-150">
@@ -255,7 +255,11 @@ export function CampaignRegistrationModal({
       </AnimatePresence>
 
       {/* Toast */}
-      {toast && <Toast {...toast} onClose={() => setToast(null)} />}
+      {toast && (
+        <div className="flex justify-center">
+          <Toast {...toast} onClose={() => setToast(null)} />
+        </div>
+      )}
     </>
   );
 }
