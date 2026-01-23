@@ -10,6 +10,11 @@ export const API_ROUTES = {
     GOOGLE: "/oauth2/authorization/google",
   },
 
+  CAMPAIGN: {
+    REGISTER: "/api/v1/campaign/register",
+    STATUS: "/api/v1/campaign/status",
+  },
+
   KYC: {
     INITIALIZE: "/api/v1/kyc/initialize",
   },
