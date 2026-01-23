@@ -379,8 +379,8 @@ function StepTwo({
               checked={field.value}
               onChange={(e) => field.onChange(e.target.checked)}
               error={errors.agreedToTerms?.message}
-              linkText="View Terms"
-              linkHref="/terms"
+              // linkText="View Terms"
+              // linkHref="/terms"
             />
           )}
         />
