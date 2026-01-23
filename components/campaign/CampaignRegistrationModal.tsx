@@ -139,10 +139,10 @@ export function CampaignRegistrationModal({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-white rounded-[20px] shadow-xl z-50 max-h-[90vh] overflow-hidden"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg bg-white rounded-[20px] shadow-xl z-50 max-h-[90vh] flex flex-col overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-neutral-150">
+              <div className="shrink-0 flex items-center justify-between p-6 border-b border-neutral-150">
                 <div>
                   <span className="font-modulus-semibold text-lg md:text-xl">
                     {registrationSuccess
@@ -159,7 +159,7 @@ export function CampaignRegistrationModal({
 
               {/* Progress Bar */}
               {!registrationSuccess && (
-                <div className="px-6 pt-4">
+                <div className="shrink-0 px-6 pt-4">
                   <div className="flex gap-2">
                     {[1, 2].map((s) => (
                       <div
@@ -175,7 +175,7 @@ export function CampaignRegistrationModal({
               )}
 
               {/* Content */}
-              <div className="p-6 max-h-[60vh] overflow-y-auto">
+              <div className="flex-1 min-h-0 p-6 overflow-y-auto">
                 {registrationSuccess ? (
                   <SuccessView
                     campaignLink={campaignLink}
@@ -207,7 +207,7 @@ export function CampaignRegistrationModal({
 
               {/* Footer Buttons */}
               {!registrationSuccess && (
-                <div className="flex flex-col gap-3 p-6 border-t border-neutral-150">
+                <div className="shrink-0 flex flex-col gap-3 p-6  border-t border-neutral-150">
                   {step === 1 ? (
                     <Button
                       type="button"
@@ -254,7 +254,7 @@ export function CampaignRegistrationModal({
         )}
       </AnimatePresence>
 
-      {/* Toast - Rendered directly, no wrapper needed */}
+      {/* Toast */}
       {toast && <Toast {...toast} onClose={() => setToast(null)} />}
     </>
   );
